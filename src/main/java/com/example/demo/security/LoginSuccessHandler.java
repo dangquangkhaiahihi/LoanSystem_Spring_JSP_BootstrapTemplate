@@ -30,16 +30,7 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
         String redirectURL = request.getContextPath();
 
         HttpSession session = request.getSession();
-
-        for (GrantedAuthority grantedAuthority : authorities) {
-            if (grantedAuthority.getAuthority().equals("ADMIN")) {
-                redirectURL = "/adminhome";
-            } else if (grantedAuthority.getAuthority().equals("STAFF")) {
-                redirectURL = "/staffmenu";
-            } else if (grantedAuthority.getAuthority().equals("CUSTOMER")) {
-                redirectURL = "/customermenu";
-            }
-        }
+        redirectURL = "/home";
 
         session.setAttribute("user", userRepo.findByUsername(userDetails.getUsername()));
 

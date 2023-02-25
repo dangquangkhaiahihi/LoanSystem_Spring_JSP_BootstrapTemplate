@@ -45,22 +45,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
-//        .authorizeRequests()
-//        .antMatchers("/login","/changepassword","/home","/home1","/h2-console").permitAll()
-//        .anyRequest().authenticated()
-//        .and()
-//        .formLogin()
-//        .loginPage("/login")
-//        	.successHandler(successHandler)
-//        	.usernameParameter("username")
-//        	.passwordParameter("password")
-//        	.permitAll()
-//        .and()
-//        .logout().invalidateHttpSession(true)
-//        .clearAuthentication(true)
-//        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-//        .logoutSuccessUrl("/home").permitAll()
-//        .and()
+        .authorizeRequests()
+        .antMatchers("/login","/change-password").permitAll()
+        .anyRequest().authenticated()
+        .and()
+        .formLogin()
+        .loginPage("/login")
+        	.successHandler(successHandler)
+        	.usernameParameter("username")
+        	.passwordParameter("password")
+        	.permitAll()
+        .and()
+        .logout().invalidateHttpSession(true)
+        .clearAuthentication(true)
+        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+        .logoutSuccessUrl("/login").permitAll()
+        .and()
         .rememberMe();
         httpSecurity.csrf().disable();
         httpSecurity.headers().frameOptions().sameOrigin();

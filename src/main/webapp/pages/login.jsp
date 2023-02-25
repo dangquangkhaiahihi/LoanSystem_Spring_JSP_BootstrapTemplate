@@ -1,5 +1,7 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8" %>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -14,7 +16,7 @@
 
     <!-- Custom fonts for this template-->
     <link
-            href="vendor/fontawesome-free/css/all.min.css"
+            href="../vendor/fontawesome-free/css/all.min.css"
             rel="stylesheet"
             type="text/css"
     />
@@ -24,7 +26,7 @@
     />
 
     <!-- Custom styles for this template-->
-    <link href="css/sb-admin-2.min.css" rel="stylesheet"/>
+    <link href="../css/sb-admin-2.min.css" rel="stylesheet"/>
 </head>
 
 <body class="bg-gradient-primary">
@@ -40,16 +42,17 @@
                         <div class="col-lg-6">
                             <div class="p-5">
                                 <div class="text-center">
-                                    <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
+                                    <h1 class="h4 text-gray-900 mb-4">Xin chào!</h1>
                                 </div>
-                                <form class="user">
+                                <form class="user" action = "/login" method = 'POST'>
                                     <div class="form-group">
                                         <input
-                                                type="email"
+                                                type="text"
                                                 class="form-control form-control-user"
                                                 id="exampleInputEmail"
                                                 aria-describedby="emailHelp"
-                                                placeholder="Enter Email Address..."
+                                                placeholder="Tên Đăng nhập"
+                                                name="username"
                                         />
                                     </div>
                                     <div class="form-group">
@@ -57,7 +60,8 @@
                                                 type="password"
                                                 class="form-control form-control-user"
                                                 id="exampleInputPassword"
-                                                placeholder="Password"
+                                                placeholder="Mật khẩu"
+                                                name = "password"
                                         />
                                     </div>
                                     <div class="form-group">
@@ -72,22 +76,22 @@
                                             >
                                         </div>
                                     </div>
-                                    <a
-                                            href="index.html"
+                                    <button
+                                            type="submit"
                                             class="btn btn-primary btn-user btn-block"
                                     >
-                                        Login
-                                    </a>
+                                        Đăng nhập
+                                    </button>
                                 </form>
                                 <hr/>
                                 <div class="text-center">
                                     <a class="small" href="forgot-password.html"
-                                    >Forgot Password? </a
+                                    >Quên mật khẩu? </a
                                     >
                                 </div>
                                 <div class="text-center">
                                     <a class="small" href="register.html"
-                                    >Create an Account!</a
+                                    >Tạo tài khoản!</a
                                     >
                                 </div>
                             </div>
@@ -100,13 +104,13 @@
 </div>
 
 <!-- Bootstrap core JavaScript-->
-<script src="vendor/jquery/jquery.min.js"></script>
-<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../vendor/jquery/jquery.min.js"></script>
+<script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 <!-- Core plugin JavaScript-->
-<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+<script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
 
 <!-- Custom scripts for all pages-->
-<script src="js/sb-admin-2.min.js"></script>
+<script src="../js/sb-admin-2.min.js"></script>
 </body>
 </html>
