@@ -34,7 +34,7 @@ public class LoanSystemApplication implements CommandLineRunner {
 		userEntity.setCccdNum("001200013959");
 
 		userEntity.setUsername("user00");
-		userEntity.setPassword(passwordEncoder123().encode("12345"));
+		userEntity.setPassword(passwordEncoder123().encode("1"));
 		userRepository.save(userEntity);
 	}
 

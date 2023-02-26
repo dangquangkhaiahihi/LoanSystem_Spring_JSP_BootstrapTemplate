@@ -10,7 +10,7 @@
         <i class="fa fa-bars"></i>
     </button>
 
-    <a href="#" class="btn btn-primary btn-icon-split btn-lg">
+    <a href="#" class="btn btn-primary btn-icon-split btn-lg" data-toggle="modal" data-target="#addBalance">
         <span class="icon text-white-50">
             <i class="fas fa-donate text-white"></i>
         </span>
@@ -149,3 +149,6 @@
 
 <%-- Import Logout Modal--%>
 <%@ include file="../modal/logout-modal.jsp" %>
+
+<%-- Import Add Balance Modal--%>
+<%@ include file="../modal/add-balance-modal.jsp" %>

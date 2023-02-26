@@ -54,4 +54,9 @@ public class StringUtils {
 	public boolean checkNumberInputWithLenght (String input, int length) {
 		return (isPositiveInteger(input) && input.length() == length);
 	}
+
+	public static boolean containsOnlyNumbers(String str) {
+		return str.matches("[0-9]+");
+	}
+
 }

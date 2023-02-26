@@ -67,4 +67,27 @@ public class UserServiceImpl implements UserService {
         userEntity.setPassword(passwordEncoderUserService().encode(changePassDto.getNewPass()));
         userRepository.save(userEntity);
     }
+
+    @Override
+    public UserDto addBalance(String addBalance) throws Exception {
+        if(StringUtils.isEmpty(addBalance)){
+            throw new Exception("Không được bỏ trống các trường bắt buộc.");
+        }
+        addBalance = addBalance.trim();
+        if(!StringUtils.containsOnlyNumbers(addBalance)){
+            throw new Exception("Nạp tiền cần điền số");
+        }
+
+        try{
+            Float addBalanceF = Float.parseFloat(addBalance);
+            UserEntity userEntity = userRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+            userEntity.setBalance(userEntity.getBalance() + addBalanceF);
+            userRepository.save(userEntity);
+            UserDto userDto = new UserDto();
+            BeanUtils.copyProperties(userEntity,userDto);
+            return userDto;
+        }catch (Exception ex){
+            throw new Exception("Nạp tiền lỗi, thử lại sau.");
+        }
+    }
 }

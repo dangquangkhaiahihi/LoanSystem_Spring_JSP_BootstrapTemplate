@@ -9,4 +9,6 @@ public interface UserService {
     UserDto updateProfile(UserDto userDto) throws Exception;
 
     void changePass(ChangePassDto changePassDto) throws Exception;
+
+    UserDto addBalance(String addBalance) throws Exception;
 }
