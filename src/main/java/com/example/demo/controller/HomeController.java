@@ -3,11 +3,15 @@ package com.example.demo.controller;
 import com.example.demo.model.UserDto;
 import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 @Controller
@@ -33,8 +37,14 @@ public class HomeController {
 	}
 	
 	@RequestMapping("/logout")
-	public ModelAndView logOutPage() {
+	public ModelAndView logOutPage(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView mv = new ModelAndView();
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (auth != null) {
+			SecurityContextHolder.clearContext();
+			new SecurityContextLogoutHandler().logout(request, response, auth);
+			request.getSession(false).invalidate();
+		}
 		mv.setViewName("login");
 		return mv;
 	}

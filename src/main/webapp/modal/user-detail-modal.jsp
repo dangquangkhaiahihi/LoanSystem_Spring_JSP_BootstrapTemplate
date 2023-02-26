@@ -1,7 +1,6 @@
 <%@ page import="com.example.demo.model.UserDto" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
-<%@ page errorPage="error-modal.jsp" %>
 <!-- User Detail Modal -->
 <div class="modal fade" id="userDetail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
      aria-hidden="true">
@@ -61,7 +60,6 @@
                             </div>
                         </div>
                     </div>
-                ${SPRING_SECURITY_LAST_EXCEPTION.message}
             </div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Đóng</button>
