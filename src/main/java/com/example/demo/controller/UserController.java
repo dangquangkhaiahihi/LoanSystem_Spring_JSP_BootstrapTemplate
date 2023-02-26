@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.common.Constant;
 import com.example.demo.model.ChangePassDto;
 import com.example.demo.model.UserDto;
 import com.example.demo.service.UserService;
@@ -31,6 +32,12 @@ public class UserController {
             session.setAttribute("user-info", userDto1);
         } catch (Exception ex) {
             String goBackUrl = request.getHeader("referer");
+            for(String url : Constant.cantRedirectUrls){
+                if(goBackUrl.contains(url)){
+                    goBackUrl="/home";
+                    break;
+                }
+            }
             mv.addObject("errorMessage", ex.getMessage());
             mv.addObject("goBackUrl", goBackUrl);
             mv.setViewName("error");
@@ -47,6 +54,12 @@ public class UserController {
             userService.changePass(changePassDto);
         } catch (Exception ex) {
             String goBackUrl = request.getHeader("referer");
+            for(String url : Constant.cantRedirectUrls){
+                if(goBackUrl.contains(url)){
+                    goBackUrl="/home";
+                    break;
+                }
+            }
             mv.addObject("errorMessage", ex.getMessage());
             mv.addObject("goBackUrl", goBackUrl);
             mv.setViewName("error");
@@ -55,4 +68,6 @@ public class UserController {
         mv.setView(new RedirectView("/logout"));
         return mv;
     }
+
+
 }
