@@ -1,5 +1,6 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.common.StringUtils;
 import com.example.demo.entity.UserEntity;
 import com.example.demo.model.UserDto;
 import com.example.demo.repository.UserRepository;
@@ -25,10 +26,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto updateProfile(UserDto userDto) {
+    public UserDto updateProfile(UserDto userDto) throws Exception {
         UserEntity userEntity = userRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         if (userEntity == null) return null;
-        if (userDto.getName() != null && userDto.getPhone() != null && userDto.getEmail() != null) {
+        if (!StringUtils.isEmpty(userDto.getName()) && !StringUtils.isEmpty(userDto.getPhone()) && !StringUtils.isEmpty(userDto.getEmail())) {
             userEntity.setName(userDto.getName());
             userEntity.setEmail(userDto.getEmail());
             userEntity.setPhone(userDto.getPhone());
@@ -36,7 +37,7 @@ public class UserServiceImpl implements UserService {
             BeanUtils.copyProperties(userEntity1, userDto);
             return userDto;
         }else {
-            return null;
+            throw new Exception("Không được bỏ trống các trường bắt buộc");
         }
     }
 }

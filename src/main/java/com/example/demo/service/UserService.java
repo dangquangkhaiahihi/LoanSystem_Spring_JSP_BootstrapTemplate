@@ -5,5 +5,5 @@ import com.example.demo.model.UserDto;
 public interface UserService {
     UserDto getUserDetailByUsername(String username);
 
-    UserDto updateProfile(UserDto userDto);
+    UserDto updateProfile(UserDto userDto) throws Exception;
 }
