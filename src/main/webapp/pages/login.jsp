@@ -64,6 +64,7 @@
                                                 name = "password"
                                         />
                                     </div>
+                                    <p style="color: red">${SPRING_SECURITY_LAST_EXCEPTION.message}</p>
                                     <div class="form-group">
                                         <div class="custom-control custom-checkbox small">
                                             <input
