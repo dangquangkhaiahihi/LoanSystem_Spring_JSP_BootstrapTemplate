@@ -1,23 +1,29 @@
 package com.example.demo.controller;
 
+import com.example.demo.model.UserDto;
+import com.example.demo.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
 public class HomeController {
+
+	@Autowired
+	UserService userService;
+	@Autowired
+	private HttpSession session;
 
 	@RequestMapping("/home")
 	public ModelAndView home() {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("home");
-		return mv;
-	}
-
-	@RequestMapping("/home1")
-	public ModelAndView home1() {
-		ModelAndView mv = new ModelAndView();
-		mv.setViewName("layout");
+		UserDto userDto = userService.getUserDetailByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+		session.setAttribute("user-info",userDto);
 		return mv;
 	}
 	
@@ -29,7 +35,7 @@ public class HomeController {
 	@RequestMapping("/logout")
 	public ModelAndView logOutPage() {
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("home");
+		mv.setViewName("login");
 		return mv;
 	}
 }
