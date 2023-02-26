@@ -25,7 +25,6 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) throws ServletException, IOException {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
 
         String redirectURL = request.getContextPath();
 
