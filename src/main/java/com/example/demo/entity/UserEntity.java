@@ -3,6 +3,7 @@ package com.example.demo.entity;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -46,6 +47,6 @@ public class UserEntity {
 
     //trong bảng ko có cột này
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<LoanEntity> loans;
+    private List<LoanEntity> loans = new ArrayList<>();
 
 }

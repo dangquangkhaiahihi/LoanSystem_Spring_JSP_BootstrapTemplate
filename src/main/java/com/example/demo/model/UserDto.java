@@ -2,6 +2,8 @@ package com.example.demo.model;
 
 import lombok.Data;
 
+import java.text.DecimalFormat;
+
 @Data
 public class UserDto {
     private Long id;
@@ -12,5 +14,11 @@ public class UserDto {
     private String email;
     private String username;
     private Integer creditPoint;
-    private Float balance;
+    private String balance;
+
+    public void setBalance(Float balance) {
+        DecimalFormat decimalFormat = new DecimalFormat("#.###");
+        String stringValue = decimalFormat.format(balance);
+        this.balance = stringValue;
+    }
 }

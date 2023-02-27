@@ -1,6 +1,7 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.common.StringUtils;
+import com.example.demo.common.Utils;
 import com.example.demo.entity.UserEntity;
 import com.example.demo.model.ChangePassDto;
 import com.example.demo.model.UserDto;
@@ -28,12 +29,13 @@ public class UserServiceImpl implements UserService {
 
         UserDto userDto = new UserDto();
         BeanUtils.copyProperties(userEntity, userDto);
+        userDto.setBalance(userEntity.getBalance());
         return userDto;
     }
 
     @Override
     public UserDto updateProfile(UserDto userDto) throws Exception {
-        UserEntity userEntity = userRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        UserEntity userEntity = userRepository.findByUsername(Utils.getCurrentUser().getName());
         if (userEntity == null) return null;
         if (StringUtils.isEmpty(userDto.getName()) || StringUtils.isEmpty(userDto.getPhone()) || StringUtils.isEmpty(userDto.getEmail())) {
             throw new Exception("Không được bỏ trống các trường bắt buộc.");
@@ -43,6 +45,7 @@ public class UserServiceImpl implements UserService {
             userEntity.setPhone(userDto.getPhone());
             UserEntity userEntity1 = userRepository.save(userEntity);
             BeanUtils.copyProperties(userEntity1, userDto);
+            userDto.setBalance(userEntity1.getBalance());
             return userDto;
         }
     }
@@ -59,7 +62,7 @@ public class UserServiceImpl implements UserService {
             throw new Exception("Xác nhận lại mật khẩu mới không chính xác.");
         }
 
-        UserEntity userEntity = userRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        UserEntity userEntity = userRepository.findByUsername(Utils.getCurrentUser().getName());
         if(!passwordEncoderUserService().matches(changePassDto.getOldPass(),userEntity.getPassword())){
             throw new Exception("Mật khẩu cũ không chính xác.");
         }
@@ -80,11 +83,12 @@ public class UserServiceImpl implements UserService {
 
         try{
             Float addBalanceF = Float.parseFloat(addBalance);
-            UserEntity userEntity = userRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+            UserEntity userEntity = userRepository.findByUsername(Utils.getCurrentUser().getName());
             userEntity.setBalance(userEntity.getBalance() + addBalanceF);
             userRepository.save(userEntity);
             UserDto userDto = new UserDto();
             BeanUtils.copyProperties(userEntity,userDto);
+            userDto.setBalance(userEntity.getBalance());
             return userDto;
         }catch (Exception ex){
             throw new Exception("Nạp tiền lỗi, thử lại sau.");

@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.common.Utils;
 import com.example.demo.model.UserDto;
 import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ public class HomeController {
 	public ModelAndView home() {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("home");
-		UserDto userDto = userService.getUserDetailByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+		UserDto userDto = userService.getUserDetailByUsername(Utils.getCurrentUser().getName());
 		session.setAttribute("user-info",userDto);
 		return mv;
 	}
@@ -39,7 +40,7 @@ public class HomeController {
 	@RequestMapping("/logout")
 	public ModelAndView logOutPage(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView mv = new ModelAndView();
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Authentication auth = Utils.getCurrentUser();
 		if (auth != null) {
 			SecurityContextHolder.clearContext();
 			new SecurityContextLogoutHandler().logout(request, response, auth);
