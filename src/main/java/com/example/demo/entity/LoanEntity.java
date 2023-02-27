@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -31,10 +32,10 @@ public class LoanEntity {
     private Boolean status;
 
     @ManyToOne
-    @JoinColumn(name = "USER_ID", nullable = false)
+    @JoinColumn(name = "USER_ID")
     private UserEntity user;
 
     //trong bảng ko có cột này
     @OneToMany(mappedBy = "loan", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<TraceUserLoanEntity> traces;
+    private List<TraceUserLoanEntity> traces = new ArrayList<>();
 }

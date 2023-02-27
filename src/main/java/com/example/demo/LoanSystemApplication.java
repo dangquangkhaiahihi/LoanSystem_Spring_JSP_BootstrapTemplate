@@ -1,6 +1,9 @@
 package com.example.demo;
 
+import com.example.demo.common.Constant;
+import com.example.demo.entity.LoanEntity;
 import com.example.demo.entity.UserEntity;
+import com.example.demo.repository.LoanRepository;
 import com.example.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -9,11 +12,19 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.text.DecimalFormat;
+import java.time.LocalDateTime;
+import java.time.Month;
+import java.time.temporal.ChronoUnit;
+
 @SpringBootApplication
 public class LoanSystemApplication implements CommandLineRunner {
 
 	@Autowired
 	UserRepository userRepository;
+
+	@Autowired
+	LoanRepository loanRepository;
 
 	public static void main(String[] args)  {
 		SpringApplication.run(LoanSystemApplication.class, args);
@@ -36,6 +47,28 @@ public class LoanSystemApplication implements CommandLineRunner {
 		userEntity.setUsername("user00");
 		userEntity.setPassword(passwordEncoder123().encode("1"));
 		userRepository.save(userEntity);
+
+		LoanEntity loanEntity = new LoanEntity();
+		loanEntity.setAmount(100000f);
+		loanEntity.setCreatedAt(LocalDateTime.now());
+		loanEntity.setDeadline(loanEntity.getCreatedAt().plus(1, ChronoUnit.MONTHS));
+		loanEntity.setType(Constant.LOAN_TYPE_ONE_TIME);
+		loanEntity.setStatus(true);
+		loanEntity.setUser(userEntity);
+		loanRepository.save(loanEntity);
+
+		LoanEntity loanEntity1 = new LoanEntity();
+		loanEntity1.setAmount(10000000f);
+		loanEntity1.setCreatedAt(LocalDateTime.now());
+		loanEntity1.setDeadline(loanEntity.getCreatedAt().plus(12, ChronoUnit.MONTHS));
+		loanEntity1.setType(Constant.LOAN_TYPE_INSTALLMENT);
+		loanEntity1.setStatus(true);
+		loanEntity1.setUser(userEntity);
+		loanRepository.save(loanEntity1);
+
+		DecimalFormat decimalFormat = new DecimalFormat("#.###");
+		String stringValue = decimalFormat.format(loanEntity1.getAmount());
+		System.out.println(stringValue);
 	}
 
 }
