@@ -1,0 +1,15 @@
+.text-light-success{
+    color: #29a339;
+    background-color: #eef6ef;
+    border: 1px solid #dbebdd;
+    border-radius: 50px;
+    text-align: center;
+}
+
+.text-light-danger{
+    color:#c91d1d;
+    background-color:#faeaea;
+    border:1px solid #faeaea;
+    border-radius: 50px;
+    text-align: center;
+}

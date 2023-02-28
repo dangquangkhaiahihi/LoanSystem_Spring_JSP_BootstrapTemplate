@@ -31,19 +31,20 @@ public class UserController {
             UserDto userDto1 = userService.updateProfile(userDto);
             session.setAttribute("user-info", userDto1);
         } catch (Exception ex) {
-            String goBackUrl = request.getHeader("referer");
-            for(String url : Constant.cantRedirectUrls){
-                if(goBackUrl.contains(url)){
-                    goBackUrl="/home";
-                    break;
-                }
-            }
             mv.addObject("errorMessage", ex.getMessage());
-            mv.addObject("goBackUrl", goBackUrl);
             mv.setViewName("error");
             return mv;
         }
-        mv.setViewName("home");
+
+        String goBackUrl = request.getHeader("referer");
+        for(String url : Constant.cantRedirectUrls){
+            if(goBackUrl.contains(url)){
+                goBackUrl="/home";
+                break;
+            }
+        }
+        mv.addObject("goBackUrl", goBackUrl);
+        mv.setView(new RedirectView(goBackUrl));
         return mv;
     }
 
@@ -76,19 +77,20 @@ public class UserController {
             UserDto userDto = userService.addBalance(addBalance);
             session.setAttribute("user-info", userDto);
         } catch (Exception ex) {
-            String goBackUrl = request.getHeader("referer");
-            for(String url : Constant.cantRedirectUrls){
-                if(goBackUrl.contains(url)){
-                    goBackUrl="/home";
-                    break;
-                }
-            }
             mv.addObject("errorMessage", ex.getMessage());
-            mv.addObject("goBackUrl", goBackUrl);
             mv.setViewName("error");
             return mv;
         }
-        mv.setView(new RedirectView("/home"));
+
+        String goBackUrl = request.getHeader("referer");
+        for(String url : Constant.cantRedirectUrls){
+            if(goBackUrl.contains(url)){
+                goBackUrl="/home";
+                break;
+            }
+        }
+        mv.addObject("goBackUrl", goBackUrl);
+        mv.setView(new RedirectView(goBackUrl));
         return mv;
     }
 

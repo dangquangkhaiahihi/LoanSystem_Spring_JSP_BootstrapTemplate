@@ -22,6 +22,7 @@
             rel="stylesheet">
 
     <!-- Custom styles for this template-->
+    <link href="../../css/custom-style.css" rel="stylesheet">
     <link href="../../css/sb-admin-2.min.css" rel="stylesheet">
     <!-- Custom styles for this page -->
     <link href="../../vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
@@ -70,7 +71,8 @@
                                     </div>
                                     <div style="display: flex;flex: 1;flex-direction: column;max-width: 100%;margin-bottom: 1rem;">
                                         <label for="fromDeadlineStr">Từ hạn chót</label>
-                                        <input id="fromDeadlineStr" name="fromDeadlineStr" type="date" class="form-control"
+                                        <input id="fromDeadlineStr" name="fromDeadlineStr" type="date"
+                                               class="form-control"
                                                value=""
                                                placeholder="Chọn từ ngày"/>
                                     </div>
@@ -91,7 +93,8 @@
                                     </div>
                                     <div style="display: flex;flex: 1;flex-direction: column;max-width: 100%;margin-bottom: 1rem;">
                                         <label for="toCreatedDateStr">Đến ngày bắt đầu</label>
-                                        <input id="toCreatedDateStr" name="toCreatedDateStr" type="date" class="form-control"
+                                        <input id="toCreatedDateStr" name="toCreatedDateStr" type="date"
+                                               class="form-control"
                                                value=""
                                                placeholder="Chọn đến ngày"/>
                                     </div>
@@ -143,9 +146,50 @@
                                     </td>
                                     <td><%= loanDto.getDeadline() %>
                                     </td>
-                                    <td><%= loanDto.getStatus() %>
+                                    <td>
+                                        <% if (loanDto.getStatus()) { %>
+                                        <p class="text-light-success">
+                                            Hoạt động
+                                        </p>
+                                        <% } else { %>
+                                        <p class="text-light-danger">
+                                            Khóa
+                                        </p>
+                                        <% } %>
                                     </td>
-                                    <td></td>
+                                    <td>
+                                        <div style="display: flex">
+                                            <div>
+                                                <button class="btn btn-transaprent btn-icon btn-sm"
+                                                        data-tooltip="tooltip" title="Xem chi tiết" data-toggle="modal" data-target="#loan-modal-detail">
+                                                    <img src="../../img/icon/24x24-information-circle.svg" alt=""
+                                                         class="btn-icon"/>
+                                                </button>
+                                            </div>
+                                            <div>
+                                                <button class="btn btn-transaprent btn-icon btn-sm"
+                                                        data-tooltip="tooltip" title="Cập nhật" data-toggle="modal" data-target="#loan-modal-edit">
+                                                    <img src="../../img/icon/24x24-edit.svg" alt="" class="btn-icon"/>
+                                                </button>
+                                            </div>
+                                            <% if (loanDto.getStatus()) { %>
+                                            <div>
+                                                <button class="btn btn-transaprent btn-icon btn-sm"
+                                                        data-tooltip="tooltip" title="Khoá"  data-toggle="modal" data-target="#loan-modal-unlock">
+                                                    <Image src="../../img/icon/24x24-unlock.svg" alt=""
+                                                           class="btn-icon"/>
+                                                </button>
+                                            </div>
+                                            <% } else { %>
+                                            <div>
+                                                <button class="btn btn-transaprent btn-icon btn-sm"
+                                                        data-tooltip="tooltip" title="Mở khoá" data-toggle="modal" data-target="#loan-modal-lock">
+                                                    <Image src="../../img/icon/24x24-lock.svg" alt="" class="btn-icon"/>
+                                                </button>
+                                            </div>
+                                            <% } %>
+                                        </div>
+                                    </td>
                                 </tr>
                                 <% } %>
                                 </tbody>
@@ -168,6 +212,9 @@
 
 </div>
 <!-- End of Page Wrapper -->
+
+<%--Import detail modal--%>
+<%@ include file="../../modal/loan/modal-detail.jsp" %>
 
 <!-- Bootstrap core JavaScript-->
 <script src="../../vendor/jquery/jquery.min.js"></script>
