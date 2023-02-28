@@ -57,6 +57,7 @@ public class LoanSystemApplication implements CommandLineRunner {
 		loanEntity.setUser(userEntity);
 		loanRepository.save(loanEntity);
 
+
 		LoanEntity loanEntity1 = new LoanEntity();
 		loanEntity1.setAmount(10000000f);
 		loanEntity1.setCreatedAt(LocalDateTime.now());
