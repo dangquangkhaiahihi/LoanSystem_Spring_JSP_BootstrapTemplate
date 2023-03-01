@@ -36,9 +36,6 @@ public class LoanController {
             mv.setViewName("error");
             return mv;
         }
-        LocalDateTime now = LocalDateTime.now();
-//        mv.addObject("fromCreatedDateStr", Utils.convertLocalDateTimeToyyyyMMdd(now.minus(1, ChronoUnit.MONTHS)));
-//        mv.addObject("toCreatedDateStr", now);
         return mv;
     }
 

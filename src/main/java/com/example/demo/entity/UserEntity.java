@@ -45,8 +45,8 @@ public class UserEntity {
     @Column(name = "BALANCE", nullable = false)
     private Float balance = 0f;
 
-    //trong bảng ko có cột này
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<LoanEntity> loans = new ArrayList<>();
+//    //trong bảng ko có cột này
+//    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    private List<LoanEntity> loans = new ArrayList<>();
 
 }

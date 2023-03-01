@@ -42,7 +42,7 @@ public class LoanServiceImpl implements LoanService {
         List<Predicate> predicates = new ArrayList<>();
 
         UserEntity userEntity = userRepository.findByUsername(Utils.getCurrentUser().getName());
-        predicates.add(cb.equal(root.get("id"), userEntity.getId()));
+        predicates.add(cb.equal(root.get("user"), userEntity.getId()));
 
         if (loanRequest.getFromAmount() != null) {
             predicates.add(cb.greaterThanOrEqualTo(root.get("amount"), loanRequest.getFromAmount()));
