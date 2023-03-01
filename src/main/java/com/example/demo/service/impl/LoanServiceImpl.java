@@ -3,9 +3,11 @@ package com.example.demo.service.impl;
 import com.example.demo.common.StringUtils;
 import com.example.demo.common.Utils;
 import com.example.demo.entity.LoanEntity;
+import com.example.demo.entity.UserEntity;
 import com.example.demo.model.LoanDto;
 import com.example.demo.model.LoanRequest;
 import com.example.demo.repository.LoanRepository;
+import com.example.demo.repository.UserRepository;
 import com.example.demo.service.LoanService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,9 @@ public class LoanServiceImpl implements LoanService {
     @Autowired
     LoanRepository loanRepository;
 
+    @Autowired
+    UserRepository userRepository;
+
     @PersistenceContext
     private EntityManager entityManager;
 
@@ -35,6 +40,10 @@ public class LoanServiceImpl implements LoanService {
         Root<LoanEntity> root = query.from(LoanEntity.class);
 
         List<Predicate> predicates = new ArrayList<>();
+
+        UserEntity userEntity = userRepository.findByUsername(Utils.getCurrentUser().getName());
+        predicates.add(cb.equal(root.get("id"), userEntity.getId()));
+
         if (loanRequest.getFromAmount() != null) {
             predicates.add(cb.greaterThanOrEqualTo(root.get("amount"), loanRequest.getFromAmount()));
         }

@@ -9,24 +9,24 @@ import java.time.temporal.ChronoUnit;
 
 @Data
 public class LoanRequest {
-    public String fromAmountStr;
-    public String toAmountStr;
-    public String fromCreatedDateStr;
-    public String toCreatedDateStr;
-    public String fromDeadlineStr;
-    public String toDeadlineStr;
+    private String fromAmountStr;
+    private String toAmountStr;
+    private String fromCreatedDateStr;
+    private String toCreatedDateStr;
+    private String fromDeadlineStr;
+    private String toDeadlineStr;
 
-    public Float fromAmount;
-    public Float toAmount;
-    public LocalDateTime fromCreatedDate;
-    public LocalDateTime toCreatedDate;
-    public LocalDateTime fromDeadline;
-    public LocalDateTime toDeadline;
+    private Float fromAmount;
+    private Float toAmount;
+    private LocalDateTime fromCreatedDate;
+    private LocalDateTime toCreatedDate;
+    private LocalDateTime fromDeadline;
+    private LocalDateTime toDeadline;
 
-    public String type;
+    private String type;
 
-    public Integer statusInt;
-    public Boolean status;
+    private Integer statusInt;
+    private Boolean status;
 
     public void validateInput() throws Exception {
         try {

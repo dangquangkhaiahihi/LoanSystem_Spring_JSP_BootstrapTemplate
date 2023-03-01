@@ -4,9 +4,9 @@ import lombok.Data;
 
 @Data
 public class ChangePassDto {
-    String oldPass;
-    String newPass;
-    String reNewPass;
+    private String oldPass;
+    private String newPass;
+    private String reNewPass;
 
     public void trimAll(){
         this.oldPass = this.oldPass.trim();

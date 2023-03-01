@@ -65,6 +65,26 @@ public class LoanSystemApplication implements CommandLineRunner {
 		loanEntity1.setStatus(false);
 		loanEntity1.setUser(userEntity);
 		loanRepository.save(loanEntity1);
+
+		UserEntity userEntity2 = new UserEntity();
+		userEntity2.setEmail("somerandomemail@gmail.com");
+		userEntity2.setName("Săm ran đầm name");
+		userEntity2.setGender(true);
+		userEntity2.setPhone("0559310270");
+		userEntity2.setCccdNum("001208139509");
+
+		userEntity2.setUsername("user01");
+		userEntity2.setPassword(passwordEncoder123().encode("1"));
+		userRepository.save(userEntity2);
+
+		LoanEntity loanEntity2 = new LoanEntity();
+		loanEntity2.setAmount(5000000f);
+		loanEntity2.setCreatedAt(LocalDateTime.now());
+		loanEntity2.setDeadline(loanEntity2.getCreatedAt().plus(12, ChronoUnit.MONTHS));
+		loanEntity2.setType(Constant.LOAN_TYPE_INSTALLMENT);
+		loanEntity2.setStatus(false);
+		loanEntity2.setUser(userEntity2);
+		loanRepository.save(loanEntity2);
 	}
 
 }
