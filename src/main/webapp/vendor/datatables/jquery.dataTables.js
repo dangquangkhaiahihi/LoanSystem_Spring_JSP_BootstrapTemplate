@@ -11508,7 +11508,7 @@
 			 *      } );
 			 *    } );
 			 */
-			"sEmptyTable": "No data available in table",
+			"sEmptyTable": "Không tìm thấy bản ghi thỏa mãn điều kiện",
 	
 	
 			/**

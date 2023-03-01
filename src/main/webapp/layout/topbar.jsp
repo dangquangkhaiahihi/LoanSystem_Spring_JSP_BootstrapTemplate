@@ -2,7 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 
-<%UserDto userInfo = (UserDto) session.getAttribute("user-info");%>
+<%UserDto userInfo = session.getAttribute("user-info") != null ? (UserDto) session.getAttribute("user-info") : new UserDto();%>
 <!-- Topbar -->
 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow" style="align-items: center">
     <!-- Sidebar Toggle (Topbar) -->

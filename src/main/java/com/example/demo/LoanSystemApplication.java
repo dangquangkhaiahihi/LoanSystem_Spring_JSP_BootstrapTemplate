@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import com.example.demo.common.Constant;
+import com.example.demo.common.Utils;
 import com.example.demo.entity.LoanEntity;
 import com.example.demo.entity.UserEntity;
 import com.example.demo.repository.LoanRepository;
@@ -14,7 +15,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
-import java.time.Month;
 import java.time.temporal.ChronoUnit;
 
 @SpringBootApplication
@@ -59,16 +59,12 @@ public class LoanSystemApplication implements CommandLineRunner {
 
 		LoanEntity loanEntity1 = new LoanEntity();
 		loanEntity1.setAmount(10000000f);
-		loanEntity1.setCreatedAt(LocalDateTime.now());
-		loanEntity1.setDeadline(loanEntity.getCreatedAt().plus(12, ChronoUnit.MONTHS));
+		loanEntity1.setCreatedAt(Utils.convertyyyyMMddToLocalDateTime("2022-12-29"));
+		loanEntity1.setDeadline(loanEntity1.getCreatedAt().plus(12, ChronoUnit.MONTHS));
 		loanEntity1.setType(Constant.LOAN_TYPE_INSTALLMENT);
 		loanEntity1.setStatus(false);
 		loanEntity1.setUser(userEntity);
 		loanRepository.save(loanEntity1);
-
-		DecimalFormat decimalFormat = new DecimalFormat("#.###");
-		String stringValue = decimalFormat.format(loanEntity1.getAmount());
-		System.out.println(stringValue);
 	}
 
 }

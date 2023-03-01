@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface LoanService {
     List<LoanDto> filter(LoanRequest loanRequest) throws Exception;
+
+    void changeStatus(Long loanId, boolean b);
 }

@@ -3,6 +3,7 @@ package com.example.demo.common;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -19,6 +20,13 @@ public class Utils {
 
     public static LocalDateTime convertyyyyMMddToLocalDateTime(String dateString) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        return LocalDateTime.parse(dateString, formatter);
+        LocalDate date = LocalDate.parse(dateString, formatter);
+        LocalDateTime localDateTime = date.atStartOfDay();
+        return localDateTime;
+    }
+
+    public static String convertLocalDateTimeToyyyyMMdd(LocalDateTime datetime) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        return datetime.format(formatter);
     }
 }

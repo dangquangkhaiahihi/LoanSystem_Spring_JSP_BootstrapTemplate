@@ -1,5 +1,9 @@
 <%@ page import="com.example.demo.model.*" %>
 <%@ page import="java.util.List" %>
+<%@ page import="com.example.demo.common.Constant" %>
+<%@ page import="java.time.LocalDateTime" %>
+<%@ page import="com.example.demo.common.Utils" %>
+<%@ page import="java.time.temporal.ChronoUnit" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <!DOCTYPE html>
@@ -29,7 +33,7 @@
 </head>
 
 <body id="page-top">
-
+<% LocalDateTime now = LocalDateTime.now(); %>
 <!-- Page Wrapper -->
 <div id="wrapper">
     <%-- Import side bar--%>
@@ -57,58 +61,97 @@
                                 <div style="display: flex;flex:1;flex-direction: column;margin-right: 2rem">
                                     <div style="display: flex;flex: 1;flex-direction: column;max-width: 100%;margin-bottom: 1rem;">
                                         <label for="fromAmountStr">Từ số tiền</label>
+                                        <%
+                                            String fromAmountStr = request.getParameter("fromAmountStr");
+                                        %>
                                         <input id="fromAmountStr" name="fromAmountStr" type="text"
-                                               class="form-control floatInput"
-                                               value=""
+                                               class="form-control"
+                                               value="<%=fromAmountStr != null ? fromAmountStr : "" %>"
                                                placeholder="Nhập số tiền tìm kiếm"/>
                                     </div>
                                     <div style="display: flex;flex: 1;flex-direction: column;max-width: 100%;margin-bottom: 1rem;">
                                         <label for="fromCreatedDateStr">Từ ngày bắt đầu</label>
                                         <input id="fromCreatedDateStr" name="fromCreatedDateStr" type="date"
                                                class="form-control"
-                                               value=""
+                                                <% if (request.getParameter("fromCreatedDateStr") != null) { %>
+                                               value="<%=request.getParameter("fromCreatedDateStr")%>"
+                                                <% } else {%>
+                                               value="<%=Utils.convertLocalDateTimeToyyyyMMdd(LocalDateTime.now().minus(1,ChronoUnit.MONTHS))%>"
+                                                <% } %>
                                                placeholder="Chọn từ ngày"/>
                                     </div>
                                     <div style="display: flex;flex: 1;flex-direction: column;max-width: 100%;margin-bottom: 1rem;">
                                         <label for="fromDeadlineStr">Từ hạn chót</label>
                                         <input id="fromDeadlineStr" name="fromDeadlineStr" type="date"
                                                class="form-control"
-                                               value=""
+                                               value="<%=request.getParameter("fromDeadlineStr")%>"
                                                placeholder="Chọn từ ngày"/>
                                     </div>
                                     <div style="display: flex;flex: 1;flex-direction: column;max-width: 100%;margin-bottom: 1rem;">
                                         <label for="type">Loại cho vay</label>
-                                        <input id="type" name="type" type="text" class="form-control"
-                                               value=""
-                                               placeholder="Chọn loại cho vay"/>
+                                        <select
+                                                id="type" name="type"
+                                                class="form-control"
+                                                value="<%=request.getParameter("type")%>"
+                                        >
+                                            <option value=""<% if (request.getParameter("type") == null) { %>
+                                                    selected<% } %>>Tất cả
+                                            </option>
+                                            <option value="<%=Constant.LOAN_TYPE_INSTALLMENT%>" <% if (Constant.LOAN_TYPE_INSTALLMENT.equals(request.getParameter("type"))) { %>
+                                                    selected<% } %>>Lũy tiến
+                                            </option>
+                                            <option value="<%=Constant.LOAN_TYPE_ONE_TIME%>" <% if (Constant.LOAN_TYPE_ONE_TIME.equals(request.getParameter("type"))) { %>
+                                                    selected<% } %>>Trả 1 lần
+                                            </option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div style="display: flex;flex:1;flex-direction: column;">
                                     <div style="display: flex;flex: 1;flex-direction: column;max-width: 100%;margin-bottom: 1rem;">
                                         <label for="toAmountStr">Đến số tiền</label>
+                                        <%
+                                            String toAmountStr = request.getParameter("toAmountStr");
+                                        %>
                                         <input id="toAmountStr" name="toAmountStr" type="text"
-                                               class="form-control floatInput"
-                                               value=""
+                                               class="form-control"
+                                               value="<%=toAmountStr != null ? toAmountStr : "" %>"
                                                placeholder="Nhập số tiền tìm kiếm"/>
                                     </div>
                                     <div style="display: flex;flex: 1;flex-direction: column;max-width: 100%;margin-bottom: 1rem;">
                                         <label for="toCreatedDateStr">Đến ngày bắt đầu</label>
                                         <input id="toCreatedDateStr" name="toCreatedDateStr" type="date"
                                                class="form-control"
-                                               value=""
+                                                <% if (request.getParameter("toCreatedDateStr") != null) { %>
+                                               value="<%=request.getParameter("toCreatedDateStr")%>"
+                                                <% } else {%>
+                                               value="<%=Utils.convertLocalDateTimeToyyyyMMdd(LocalDateTime.now().plus(1,ChronoUnit.DAYS))%>"
+                                                <% } %>
                                                placeholder="Chọn đến ngày"/>
                                     </div>
                                     <div style="display: flex;flex: 1;flex-direction: column;max-width: 100%;margin-bottom: 1rem;">
                                         <label for="toDeadlineStr">Đến hạn chót</label>
                                         <input id="toDeadlineStr" name="toDeadlineStr" type="date" class="form-control"
-                                               value=""
+                                               value="<%=request.getParameter("toDeadlineStr")%>"
                                                placeholder="Đến hạn chót"/>
                                     </div>
                                     <div style="display: flex;flex: 1;flex-direction: column;max-width: 100%;margin-bottom: 1rem;">
-                                        <label for="status">Trạng thái</label>
-                                        <input id="status" name="status" type="text" class="form-control"
-                                               value=""
-                                               placeholder="Chọn trạng thái"/>
+                                        <label for="statusInt">Trạng thái</label>
+                                        <select
+                                                id="statusInt" name="statusInt"
+                                                class="form-control"
+                                                value="<%=request.getParameter("statusInt")%>"
+                                        >
+                                            <option value=""<% if (request.getParameter("statusInt") == null) { %>
+                                                    selected<% } %>>Tất cả
+                                            </option>
+                                            <option value="1"<% if ("1".equals(request.getParameter("statusInt"))) { %>
+                                                    selected<% } %>>Hoạt động
+                                            </option>
+                                            <option value="0"<% if ("0".equals(request.getParameter("statusInt"))) { %>
+                                                    selected<% } %>>Khóa
+                                            </option>
+
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -138,7 +181,17 @@
                                 <%List<LoanDto> loanDtos = (List<LoanDto>) request.getAttribute("loanDtos");%>
                                 <% for (LoanDto loanDto : loanDtos) { %>
                                 <tr>
-                                    <td><%= loanDto.getType() %>
+                                    <td>
+                                        <% if (loanDto.getType() == "INSTALLMENT") { %>
+                                        <p>
+                                            Lũy tiến
+                                        </p>
+                                        <% } %>
+                                        <% if (loanDto.getType() == "ONE TIME") { %>
+                                        <p>
+                                            Trả 1 lần
+                                        </p>
+                                        <% } %>
                                     </td>
                                     <td><%= loanDto.getAmount() %>
                                     </td>
@@ -148,11 +201,11 @@
                                     </td>
                                     <td>
                                         <% if (loanDto.getStatus()) { %>
-                                        <p class="text-light-success">
+                                        <p class="text-light-success" style="max-width: 50%">
                                             Hoạt động
                                         </p>
                                         <% } else { %>
-                                        <p class="text-light-danger">
+                                        <p class="text-light-danger" style="max-width: 50%">
                                             Khóa
                                         </p>
                                         <% } %>
@@ -161,33 +214,37 @@
                                         <div style="display: flex">
                                             <div>
                                                 <button class="btn btn-transaprent btn-icon btn-sm"
-                                                        data-tooltip="tooltip" title="Xem chi tiết" data-toggle="modal" data-target="#loan-modal-detail">
+                                                        data-tooltip="tooltip" title="Xem chi tiết">
                                                     <img src="../../img/icon/24x24-information-circle.svg" alt=""
                                                          class="btn-icon"/>
-                                                </button>
-                                            </div>
-                                            <div>
-                                                <button class="btn btn-transaprent btn-icon btn-sm"
-                                                        data-tooltip="tooltip" title="Cập nhật" data-toggle="modal" data-target="#loan-modal-edit">
-                                                    <img src="../../img/icon/24x24-edit.svg" alt="" class="btn-icon"/>
                                                 </button>
                                             </div>
                                             <% if (loanDto.getStatus()) { %>
                                             <div>
                                                 <button class="btn btn-transaprent btn-icon btn-sm"
-                                                        data-tooltip="tooltip" title="Khoá"  data-toggle="modal" data-target="#loan-modal-unlock">
-                                                    <Image src="../../img/icon/24x24-unlock.svg" alt=""
-                                                           class="btn-icon"/>
+                                                        data-tooltip="tooltip" title="Khoá"
+                                                        data-toggle="modal" data-target="#loan-modal-lock"
+                                                        onclick="captrueCurrentId(<%=loanDto.getId()%>)">
+                                                    <img src="../../img/icon/24x24-lock.svg" alt="" class="btn-icon"/>
                                                 </button>
                                             </div>
                                             <% } else { %>
                                             <div>
                                                 <button class="btn btn-transaprent btn-icon btn-sm"
-                                                        data-tooltip="tooltip" title="Mở khoá" data-toggle="modal" data-target="#loan-modal-lock">
-                                                    <Image src="../../img/icon/24x24-lock.svg" alt="" class="btn-icon"/>
+                                                        data-tooltip="tooltip" title="Mở khoá"
+                                                        data-toggle="modal" data-target="#loan-modal-unlock"
+                                                        onclick="captrueCurrentId(<%=loanDto.getId()%>)">
+                                                    <img src="../../img/icon/24x24-unlock.svg" alt="" class="btn-icon"/>
                                                 </button>
                                             </div>
                                             <% } %>
+                                            <div>
+                                                <button class="btn btn-transaprent btn-icon btn-sm"
+                                                        data-tooltip="tooltip" title="Xóa">
+                                                    <img src="../../img/icon/24x24-remove.svg" alt=""
+                                                         class="btn-icon"/>
+                                                </button>
+                                            </div>
                                         </div>
                                     </td>
                                 </tr>
@@ -213,8 +270,11 @@
 </div>
 <!-- End of Page Wrapper -->
 
-<%--Import detail modal--%>
-<%@ include file="../../modal/loan/modal-detail.jsp" %>
+<%--Import loan lock modal--%>
+<%@ include file="../../modal/loan/modal-lock.jsp" %>
+
+<%--Import loan unlock modal--%>
+<%@ include file="../../modal/loan/modal-unlock.jsp" %>
 
 <!-- Bootstrap core JavaScript-->
 <script src="../../vendor/jquery/jquery.min.js"></script>
@@ -232,6 +292,48 @@
 
 <!-- Page level custom scripts -->
 <script src="../../js/demo/datatables-demo.js"></script>
+
+<%--=======================================================================================--%>
+<%--CAPTURE CURRENT RECORD ID--%>
+<script>
+    var currentId;
+
+    function captrueCurrentId(loanId) {
+        currentId = loanId
+    }
+</script>
+<%--END CAPTURE CURRENT RECORD ID--%>
+<%--=======================================================================================--%>
+<%--LOAN LOCK/UNLOCK SCRIPT--%>
+<script>
+    document.getElementById("submit-loan-lock").addEventListener("click", function () {
+        // code to execute when submit-loan-lock is clicked
+        sendRequest(currentId, '/loan/lock')
+    });
+    document.getElementById("submit-loan-unlock").addEventListener("click", function () {
+        // code to execute when submit-loan-unlock is clicked
+        sendRequest(currentId, '/loan/unlock')
+    });
+</script>
+
+<script>
+    function sendRequest(loanId, url) {
+        $.ajax({
+            url: url,
+            method: "POST",
+            data: {loanId: loanId},
+            success: function (response) {
+                // Extract data from the model map
+                var data = response;
+                currentId = null;
+                // Redirect to the view
+                window.location.href = data;
+            }
+        });
+    }
+</script>
+<%--END LOAN LOCK/UNLOCK SCRIPT--%>
+<%--=======================================================================================--%>
 
 </body>
 

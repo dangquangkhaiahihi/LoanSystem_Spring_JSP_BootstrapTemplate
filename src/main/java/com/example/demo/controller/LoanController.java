@@ -1,20 +1,22 @@
 package com.example.demo.controller;
 
+import com.example.demo.common.Utils;
 import com.example.demo.model.LoanDto;
 import com.example.demo.model.LoanRequest;
 import com.example.demo.service.LoanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Controller
-@RequestMapping("/loan")
+@RequestMapping(value = "/loan")
 public class LoanController {
     @Autowired
     LoanService loanService;
@@ -34,6 +36,29 @@ public class LoanController {
             mv.setViewName("error");
             return mv;
         }
+        LocalDateTime now = LocalDateTime.now();
+//        mv.addObject("fromCreatedDateStr", Utils.convertLocalDateTimeToyyyyMMdd(now.minus(1, ChronoUnit.MONTHS)));
+//        mv.addObject("toCreatedDateStr", now);
         return mv;
+    }
+
+    @RequestMapping(value = "/lock", method = RequestMethod.POST)
+    @ResponseBody
+    public String lock(@ModelAttribute("loanId") Long loanId) {
+        loanService.changeStatus(loanId,false);
+        return "/loan";
+    }
+
+    @RequestMapping(value = "/unlock", method = RequestMethod.POST)
+    @ResponseBody
+    public String unlock(@ModelAttribute("loanId") Long loanId) {
+        loanService.changeStatus(loanId,true);
+        return "/loan";
+    }
+
+    @RequestMapping(value = "/ping", method = RequestMethod.POST)
+    public void ping(@ModelAttribute("message") String message) {
+        System.out.println("pong");
+        System.out.println("message : "+message);
     }
 }

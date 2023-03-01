@@ -4,6 +4,7 @@
     border: 1px solid #dbebdd;
     border-radius: 50px;
     text-align: center;
+    margin: auto;
 }
 
 .text-light-danger{
@@ -12,4 +13,5 @@
     border:1px solid #faeaea;
     border-radius: 50px;
     text-align: center;
+    margin: auto;
 }
