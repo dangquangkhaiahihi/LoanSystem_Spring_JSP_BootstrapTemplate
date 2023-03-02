@@ -97,11 +97,11 @@
                                             <option value=""<% if (request.getParameter("type") == null) { %>
                                                     selected<% } %>>Tất cả
                                             </option>
-                                            <option value="<%=Constant.LOAN_TYPE_INSTALLMENT%>" <% if (Constant.LOAN_TYPE_INSTALLMENT.equals(request.getParameter("type"))) { %>
-                                                    selected<% } %>>Lũy tiến
+                                            <option value="<%=Constant.LOAN_TYPE_BASED_ON_CURRENT_DEBT%>" <% if (Constant.LOAN_TYPE_BASED_ON_CURRENT_DEBT.equals(request.getParameter("type"))) { %>
+                                                    selected<% } %>>Theo số dư nợ giảm dần
                                             </option>
-                                            <option value="<%=Constant.LOAN_TYPE_ONE_TIME%>" <% if (Constant.LOAN_TYPE_ONE_TIME.equals(request.getParameter("type"))) { %>
-                                                    selected<% } %>>Trả 1 lần
+                                            <option value="<%=Constant.LOAN_TYPE_BASED_ON_INITIAL_DEBT%>" <% if (Constant.LOAN_TYPE_BASED_ON_INITIAL_DEBT.equals(request.getParameter("type"))) { %>
+                                                    selected<% } %>>Theo số dư nợ gốc
                                             </option>
                                         </select>
                                     </div>
@@ -187,14 +187,14 @@
                                 <% for (LoanDto loanDto : loanDtos) { %>
                                 <tr>
                                     <td>
-                                        <% if (loanDto.getType() == "INSTALLMENT") { %>
+                                        <% if (Constant.LOAN_TYPE_BASED_ON_CURRENT_DEBT.equals(loanDto.getType())) { %>
                                         <p>
-                                            Lũy tiến
+                                            Theo số dư nợ giảm dần
                                         </p>
                                         <% } %>
-                                        <% if (loanDto.getType() == "ONE TIME") { %>
+                                        <% if (Constant.LOAN_TYPE_BASED_ON_INITIAL_DEBT.equals(loanDto.getType())) { %>
                                         <p>
-                                            Trả 1 lần
+                                            Theo số dư nợ gốc
                                         </p>
                                         <% } %>
                                     </td>

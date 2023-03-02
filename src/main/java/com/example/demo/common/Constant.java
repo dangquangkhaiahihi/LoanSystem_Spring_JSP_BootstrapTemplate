@@ -9,8 +9,8 @@ public class Constant {
     public static final String TRACE_STATUS_PAID = "PAID";
     public static final String TRACE_STATUS_NOT_YET = "NOT YET";
 
-    public static final String LOAN_TYPE_INSTALLMENT = "INSTALLMENT";
-    public static final String LOAN_TYPE_ONE_TIME = "ONE TIME";
+    public static final String LOAN_TYPE_BASED_ON_CURRENT_DEBT = "BASED_ON_CURRENT_DEBT";
+    public static final String LOAN_TYPE_BASED_ON_INITIAL_DEBT = "BASED_ON_INITIAL_DEBT";
 
     public static final String DURATION_ONE_MONTH = "ONE_MONTH";
     public static final String DURATION_TWO_MONTHS = "TWO_MONTHS";

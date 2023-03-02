@@ -26,9 +26,9 @@
                                 <label for="type">Loại cho vay</label>
                                 <select id="type" name="type" class="form-control">
                                     <option value="">Chọn loại cho vay</option>
-                                    <option value="<%=Constant.LOAN_TYPE_INSTALLMENT%>">Lũy tiến
+                                    <option value="<%=Constant.LOAN_TYPE_BASED_ON_CURRENT_DEBT%>">Theo số dư nợ giảm dần
                                     </option>
-                                    <option value="<%=Constant.LOAN_TYPE_ONE_TIME%>">Trả 1 lần
+                                    <option value="<%=Constant.LOAN_TYPE_BASED_ON_INITIAL_DEBT%>">Theo số dư nợ gốc
                                     </option>
                                 </select>
                             </div>

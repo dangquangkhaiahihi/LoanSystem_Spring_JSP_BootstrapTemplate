@@ -17,22 +17,30 @@
                 <div style="display: flex; flex-direction: row">
                     <div style="display: flex;flex: 1;flex-direction: column;max-width: 50%;">
                         <div style="display: flex;flex: 1;flex-direction: row;max-width: 70%;margin-bottom: 1rem;">
-                            <label style="flex: 2" for="loan-detail-confirm-amount">Số tiền : </label>
+                            <label style="flex: 1.5" for="loan-detail-confirm-amount">Số tiền : </label>
                             <label style="flex: 1;font-weight: bold;" id="loan-detail-confirm-amount"/>
                         </div>
                         <div style="display: flex;flex: 1;flex-direction: row;max-width: 70%;margin-bottom: 1rem;">
-                            <label style="flex: 2" for="loan-detail-confirm-type">Loại cho vay : </label>
+                            <label style="flex: 1.5" for="loan-detail-confirm-type">Loại cho vay : </label>
                             <label style="flex: 1;font-weight: bold;" id="loan-detail-confirm-type"/>
+                        </div>
+                        <div style="display: flex;flex: 1;flex-direction: row;max-width: 70%;margin-bottom: 1rem;">
+                            <label style="flex: 1.5" for="loan-detail-confirm-nearest-period">Loại cho vay : </label>
+                            <label style="flex: 1;font-weight: bold;" id="loan-detail-confirm-nearest-period"/>
                         </div>
                     </div>
                     <div style="display: flex;flex: 1;flex-direction: column;max-width: 50%">
                         <div style="display: flex;flex: 1;flex-direction: row;max-width: 70%;margin-bottom: 1rem;">
-                            <label style="flex: 2" for="loan-detail-confirm-duration">Thời hạn cho vay : </label>
+                            <label style="flex: 1.5" for="loan-detail-confirm-duration">Thời hạn cho vay : </label>
                             <label style="flex: 1;font-weight: bold;" id="loan-detail-confirm-duration"/>
                         </div>
                         <div style="display: flex;flex: 1;flex-direction: row;max-width: 70%;margin-bottom: 1rem;">
-                            <label style="flex: 2" for="loan-detail-confirm-interest">Tiền lãi  : </label>
-                            <label style="flex: 1;font-weight: bold;" id="loan-detail-confirm-interest"/>
+                            <label style="flex: 1.5" for="loan-detail-confirm-interest-nearest-period">Tiền lãi phải trả trong kỳ gần nhất : </label>
+                            <label style="flex: 1;font-weight: bold;" id="loan-detail-confirm-interest-nearest-period"/>
+                        </div>
+                        <div style="display: flex;flex: 1;flex-direction: row;max-width: 70%;margin-bottom: 1rem;">
+<%--                            <label style="flex: 1.5" for="loan-detail-confirm-interest-nearest-period">Tiền lãi phải trả trong kỳ gần nhất : </label>--%>
+<%--                            <label style="flex: 1;font-weight: bold;" id="loan-detail-confirm-interest-nearest-period"/>--%>
                         </div>
                     </div>
                 </div>
