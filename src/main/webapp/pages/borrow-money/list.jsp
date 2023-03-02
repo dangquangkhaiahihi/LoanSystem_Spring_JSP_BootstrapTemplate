@@ -17,7 +17,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Danh sách khoản cho vay</title>
+    <title>Vay tiền</title>
 
     <!-- Custom fonts for this template-->
     <link href="../../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -51,12 +51,12 @@
             <div class="container-fluid">
 
                 <!-- Page Heading -->
-                <h1 class="h3 mb-2 text-gray-800">Danh sách khoản cho vay</h1>
+                <h1 class="h3 mb-2 text-gray-800">Tìm khoản vay phù hợp</h1>
 
                 <div class="card shadow mb-4">
                     <div class="card-body">
                         <%-- Form Search --%>
-                        <form method="GET" action="/loan" modelAttribute="loanRequestFilter">
+                        <form method="GET" action="/borrow-money" modelAttribute="loanRequestFilter">
                             <div style="display: flex;">
                                 <div style="display: flex;flex:1;flex-direction: column;margin-right: 2rem">
                                     <div style="display: flex;flex: 1;flex-direction: column;max-width: 100%;margin-bottom: 1rem;">
@@ -94,7 +94,7 @@
                                                 class="form-control"
                                                 value="<%=request.getParameter("type")%>"
                                         >
-                                            <option value=""<% if (request.getParameter("type") == null) { %>
+                                            <option value="" <% if (request.getParameter("type") == null) { %>
                                                     selected<% } %>>Tất cả
                                             </option>
                                             <option value="<%=Constant.LOAN_TYPE_INSTALLMENT%>" <% if (Constant.LOAN_TYPE_INSTALLMENT.equals(request.getParameter("type"))) { %>
@@ -135,33 +135,39 @@
                                                placeholder="Đến hạn chót"/>
                                     </div>
                                     <div style="display: flex;flex: 1;flex-direction: column;max-width: 100%;margin-bottom: 1rem;">
-                                        <label for="statusInt">Trạng thái</label>
-                                        <select
-                                                id="statusInt" name="statusInt"
-                                                class="form-control"
-                                                value="<%=request.getParameter("statusInt")%>"
-                                        >
-                                            <option value=""<% if (request.getParameter("statusInt") == null) { %>
-                                                    selected<% } %>>Tất cả
+                                        <label for="duration">Thời hạn cho vay</label>
+                                        <select id="duration" name="duration" class="form-control">
+                                            <option value=""
+                                                    <% if (request.getParameter("duration") == null) { %>
+                                                    selected<% } %>>
+                                                Tất cả
                                             </option>
-                                            <option value="1"<% if ("1".equals(request.getParameter("statusInt"))) { %>
-                                                    selected<% } %>>Hoạt động
+                                            <option value="<%=Constant.DURATION_ONE_MONTH%>"
+                                                    <% if (Constant.DURATION_ONE_MONTH.equals(request.getParameter("duration"))) { %>
+                                                    selected <% } %>>
+                                                1 tháng
                                             </option>
-                                            <option value="0"<% if ("0".equals(request.getParameter("statusInt"))) { %>
-                                                    selected<% } %>>Khóa
+                                            <option value="<%=Constant.DURATION_TWO_MONTHS%>"
+                                                    <% if (Constant.DURATION_TWO_MONTHS.equals(request.getParameter("duration"))) { %>
+                                                    selected<% } %>>
+                                                2 tháng
                                             </option>
-
+                                            <option value="<%=Constant.DURATION_THREE_MONTHS%>"
+                                                    <% if (Constant.DURATION_THREE_MONTHS.equals(request.getParameter("duration"))) { %>
+                                                    selected<% } %>>
+                                                3 tháng
+                                            </option>
+                                            <option value="<%=Constant.DURATION_ONE_YEAR%>"
+                                                    <% if (Constant.DURATION_ONE_YEAR.equals(request.getParameter("duration"))) { %>
+                                                    selected<% } %>>
+                                                1 năm
+                                            </option>
                                         </select>
                                     </div>
                                 </div>
                             </div>
                             <div style="text-align: center;">
                                 <input class="btn btn-primary" type="submit" value="Tìm kiếm"/>
-                                <a href="#" class="btn btn-primary" data-toggle="modal"
-                                   style="background-color: orange; border-color: orange"
-                                   data-target="#loan-modal-add">
-                                    <span class="text">Thêm mới</span>
-                                </a>
                             </div>
                         </form>
                     </div>
@@ -178,7 +184,6 @@
                                     <th>Số tiền cho vay</th>
                                     <th>Ngày tạo</th>
                                     <th>Hạn chót</th>
-                                    <th>Trạng thái</th>
                                     <th>Hành động</th>
                                 </tr>
                                 </thead>
@@ -205,49 +210,13 @@
                                     <td><%= loanDto.getDeadline() %>
                                     </td>
                                     <td>
-                                        <% if (loanDto.getStatus()) { %>
-                                        <p class="text-light-success" style="max-width: 50%">
-                                            Hoạt động
-                                        </p>
-                                        <% } else { %>
-                                        <p class="text-light-danger" style="max-width: 50%">
-                                            Khóa
-                                        </p>
-                                        <% } %>
-                                    </td>
-                                    <td>
                                         <div style="display: flex">
                                             <div>
                                                 <button class="btn btn-transaprent btn-icon btn-sm"
-                                                        data-tooltip="tooltip" title="Xem chi tiết">
-                                                    <img src="../../img/icon/24x24-information-circle.svg" alt=""
-                                                         class="btn-icon"/>
-                                                </button>
-                                            </div>
-                                            <% if (loanDto.getStatus()) { %>
-                                            <div>
-                                                <button class="btn btn-transaprent btn-icon btn-sm"
-                                                        data-tooltip="tooltip" title="Khoá"
-                                                        data-toggle="modal" data-target="#loan-modal-lock"
-                                                        onclick="captrueCurrentId(<%=loanDto.getId()%>)">
-                                                    <img src="../../img/icon/24x24-lock.svg" alt="" class="btn-icon"/>
-                                                </button>
-                                            </div>
-                                            <% } else { %>
-                                            <div>
-                                                <button class="btn btn-transaprent btn-icon btn-sm"
-                                                        data-tooltip="tooltip" title="Mở khoá"
-                                                        data-toggle="modal" data-target="#loan-modal-unlock"
-                                                        onclick="captrueCurrentId(<%=loanDto.getId()%>)">
-                                                    <img src="../../img/icon/24x24-unlock.svg" alt="" class="btn-icon"/>
-                                                </button>
-                                            </div>
-                                            <% } %>
-                                            <div>
-                                                <button class="btn btn-transaprent btn-icon btn-sm"
-                                                        data-tooltip="tooltip" title="Xóa">
-                                                    <img src="../../img/icon/24x24-remove.svg" alt=""
-                                                         class="btn-icon"/>
+                                                        data-tooltip="tooltip" title="Vay tiền" style="background-color: #5a7087"
+                                                        data-toggle="modal" data-target="#loan-modal-confirm-borrow"
+                                                        onclick="captrueCurrentId(<%=loanDto.getId()%>);captrueLoanDto(<%=loanDto%>)">
+                                                    <i class="fas fa-donate text-white" ></i>
                                                 </button>
                                             </div>
                                         </div>
@@ -276,13 +245,7 @@
 <!-- End of Page Wrapper -->
 
 <%--Import loan lock modal--%>
-<%@ include file="../../modal/loan/modal-lock.jsp" %>
-
-<%--Import loan unlock modal--%>
-<%@ include file="../../modal/loan/modal-unlock.jsp" %>
-
-<%--Import loan add modal--%>
-<%@ include file="../../modal/loan/modal-add.jsp" %>
+<%@ include file="../../modal/borrow-money/modal-confirm-borrow.jsp" %>
 
 <!-- Bootstrap core JavaScript-->
 <script src="../../vendor/jquery/jquery.min.js"></script>
@@ -305,9 +268,13 @@
 <%--CAPTURE CURRENT RECORD ID--%>
 <script>
     var currentId;
-
     function captrueCurrentId(loanId) {
         currentId = loanId
+    }
+
+    var selectedLoanDto;
+    function captrueLoanDto(loanDto) {
+        selectedLoanDto = loanDto
     }
 </script>
 <%--END CAPTURE CURRENT RECORD ID--%>

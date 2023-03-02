@@ -25,6 +25,9 @@ public class LoanEntity {
     @Column(name = "DEADLINE")
     private LocalDateTime deadline;
 
+    @Column(name = "DURATION")
+    private String duration;
+
     @Column(name = "TYPE")
     private String type;
 

@@ -51,6 +51,7 @@ public class LoanSystemApplication implements CommandLineRunner {
 		LoanEntity loanEntity = new LoanEntity();
 		loanEntity.setAmount(100000f);
 		loanEntity.setCreatedAt(LocalDateTime.now());
+		loanEntity.setDuration(Constant.DURATION_ONE_MONTH);
 		loanEntity.setDeadline(loanEntity.getCreatedAt().plus(1, ChronoUnit.MONTHS));
 		loanEntity.setType(Constant.LOAN_TYPE_ONE_TIME);
 		loanEntity.setStatus(true);
@@ -60,11 +61,22 @@ public class LoanSystemApplication implements CommandLineRunner {
 		LoanEntity loanEntity1 = new LoanEntity();
 		loanEntity1.setAmount(10000000f);
 		loanEntity1.setCreatedAt(Utils.convertyyyyMMddToLocalDateTime("2022-12-29"));
+		loanEntity1.setDuration(Constant.DURATION_ONE_YEAR);
 		loanEntity1.setDeadline(loanEntity1.getCreatedAt().plus(12, ChronoUnit.MONTHS));
 		loanEntity1.setType(Constant.LOAN_TYPE_INSTALLMENT);
-		loanEntity1.setStatus(false);
+		loanEntity1.setStatus(true);
 		loanEntity1.setUser(userEntity);
 		loanRepository.save(loanEntity1);
+
+		LoanEntity loanEntity3 = new LoanEntity();
+		loanEntity3.setAmount(26102000f);
+		loanEntity3.setCreatedAt(LocalDateTime.now());
+		loanEntity3.setDuration(Constant.DURATION_THREE_MONTHS);
+		loanEntity3.setDeadline(loanEntity3.getCreatedAt().plus(3, ChronoUnit.MONTHS));
+		loanEntity3.setType(Constant.LOAN_TYPE_INSTALLMENT);
+		loanEntity3.setStatus(true);
+		loanEntity3.setUser(userEntity);
+		loanRepository.save(loanEntity3);
 
 		UserEntity userEntity2 = new UserEntity();
 		userEntity2.setEmail("somerandomemail@gmail.com");
@@ -80,6 +92,7 @@ public class LoanSystemApplication implements CommandLineRunner {
 		LoanEntity loanEntity2 = new LoanEntity();
 		loanEntity2.setAmount(5000000f);
 		loanEntity2.setCreatedAt(LocalDateTime.now());
+		loanEntity2.setDuration(Constant.DURATION_ONE_YEAR);
 		loanEntity2.setDeadline(loanEntity2.getCreatedAt().plus(12, ChronoUnit.MONTHS));
 		loanEntity2.setType(Constant.LOAN_TYPE_INSTALLMENT);
 		loanEntity2.setStatus(false);

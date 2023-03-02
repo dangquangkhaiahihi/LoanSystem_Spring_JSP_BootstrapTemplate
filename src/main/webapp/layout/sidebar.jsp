@@ -46,11 +46,20 @@
             </div>
         </li>
 
-        <!-- Nav Item - Item -->
+        <!-- Nav Item - Collapse Menu -->
         <li class="nav-item">
-            <a class="nav-link" href="charts.html">
-                <i class="fas fa-fw fa-chart-area"></i>
-                <span>Đang nợ</span></a>
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree"
+               aria-expanded="true" aria-controls="collapseThree">
+                <i class="fas fa-fw fa-folder"></i>
+                <span>Vay nợ</span>
+            </a>
+            <div id="collapseThree" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Danh sách:</h6>
+                    <a class="collapse-item" href="/borrow-money">Đi vay</a>
+                    <a class="collapse-item" href="cards.html">Danh sách khoản nợ</a>
+                </div>
+            </div>
         </li>
 
         <!-- Divider -->

@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
 @Data
-public class LoanRequest {
+public class LoanRequestFilter {
     private String fromAmountStr;
     private String toAmountStr;
     private String fromCreatedDateStr;
@@ -24,7 +24,7 @@ public class LoanRequest {
     private LocalDateTime toDeadline;
 
     private String type;
-
+    private String duration;
     private Integer statusInt;
     private Boolean status;
 

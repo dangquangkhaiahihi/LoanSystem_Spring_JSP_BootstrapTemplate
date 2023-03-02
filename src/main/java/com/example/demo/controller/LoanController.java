@@ -67,10 +67,4 @@ public class LoanController {
         loanService.changeStatus(loanId,true);
         return "/loan";
     }
-
-    @RequestMapping(value = "/ping", method = RequestMethod.POST)
-    public void ping(@ModelAttribute("message") String message) {
-        System.out.println("pong");
-        System.out.println("message : "+message);
-    }
 }
