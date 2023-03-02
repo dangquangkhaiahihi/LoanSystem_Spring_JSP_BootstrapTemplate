@@ -20,7 +20,7 @@ public class LoanEntity {
     private Float amount;
 
     @Column(name = "CREATED_AT")
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     @Column(name = "DEADLINE")
     private LocalDateTime deadline;
@@ -29,13 +29,13 @@ public class LoanEntity {
     private String type;
 
     @Column(name = "STATUS")
-    private Boolean status;
+    private Boolean status = true;
 
     @ManyToOne
     @JoinColumn(name = "USER_ID")
     private UserEntity user;
 
-    //trong bảng ko có cột này
-    @OneToMany(mappedBy = "loan", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<TraceUserLoanEntity> traces = new ArrayList<>();
+//    //trong bảng ko có cột này
+//    @OneToMany(mappedBy = "loan", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    private List<TraceUserLoanEntity> traces = new ArrayList<>();
 }

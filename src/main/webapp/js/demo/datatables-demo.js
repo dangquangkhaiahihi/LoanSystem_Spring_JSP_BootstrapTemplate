@@ -20,4 +20,13 @@ fromAmountStrElement.addEventListener("input", function(event) {
   const regex = /[^0-9\.]/g;
   fromAmountStrElement.value = fromAmountStrElement.value.replace(regex, '');
 });
+
+//Float input in /loan/add amountStr
+const amountStr = document.getElementById("amountStr");
+
+// Restrict input to only numbers and a dot character
+amountStr.addEventListener("input", function(event) {
+  const regex = /[^0-9\.]/g;
+  amountStr.value = amountStr.value.replace(regex, '');
+});
 // ===========================================================

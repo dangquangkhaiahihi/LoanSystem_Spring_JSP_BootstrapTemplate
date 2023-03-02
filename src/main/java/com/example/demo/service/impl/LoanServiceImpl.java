@@ -1,9 +1,11 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.common.Constant;
 import com.example.demo.common.StringUtils;
 import com.example.demo.common.Utils;
 import com.example.demo.entity.LoanEntity;
 import com.example.demo.entity.UserEntity;
+import com.example.demo.model.LoanRequestAdd;
 import com.example.demo.model.LoanDto;
 import com.example.demo.model.LoanRequest;
 import com.example.demo.repository.LoanRepository;
@@ -16,10 +18,8 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,50 +34,50 @@ public class LoanServiceImpl implements LoanService {
     @PersistenceContext
     private EntityManager entityManager;
 
-    private List<LoanEntity> performFilter(LoanRequest loanRequest) {
+    private void addCriteria(LoanRequestFilter loanRequestFilter, List<Predicate> predicates, CriteriaBuilder cb, Root<LoanEntity> root) {
+        if (loanRequestFilter.getFromAmount() != null) {
+            predicates.add(cb.greaterThanOrEqualTo(root.get("amount"), loanRequestFilter.getFromAmount()));
+        }
+        if (loanRequestFilter.getToAmount() != null) {
+            predicates.add(cb.lessThanOrEqualTo(root.get("amount"), loanRequestFilter.getToAmount()));
+        }
+        if (loanRequestFilter.getFromCreatedDate() != null) {
+            predicates.add(cb.greaterThanOrEqualTo(root.get("createdAt"), loanRequestFilter.getFromCreatedDate()));
+        }
+        if (loanRequestFilter.getToCreatedDate() != null) {
+            predicates.add(cb.lessThanOrEqualTo(root.get("createdAt"), loanRequestFilter.getToCreatedDate()));
+        }
+        if (loanRequestFilter.getFromDeadline() != null) {
+            predicates.add(cb.greaterThanOrEqualTo(root.get("deadline"), loanRequestFilter.getFromDeadline()));
+        }
+        if (loanRequestFilter.getToDeadline() != null) {
+            predicates.add(cb.lessThanOrEqualTo(root.get("deadline"), loanRequestFilter.getToDeadline()));
+        }
+        if (loanRequestFilter.getStatus() != null) {
+            predicates.add(cb.equal(root.get("status"), loanRequestFilter.getStatus()));
+        }
+        if (!StringUtils.isEmpty(loanRequestFilter.getType())) {
+            predicates.add(cb.equal(root.get("type"), loanRequestFilter.getType()));
+        }
+    }
+
+
+    @Override
+    public List<LoanDto> filter(LoanRequestFilter loanRequestFilter) throws Exception {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<LoanEntity> query = cb.createQuery(LoanEntity.class);
         Root<LoanEntity> root = query.from(LoanEntity.class);
 
         List<Predicate> predicates = new ArrayList<>();
-
         UserEntity userEntity = userRepository.findByUsername(Utils.getCurrentUser().getName());
         predicates.add(cb.equal(root.get("user"), userEntity.getId()));
-
-        if (loanRequest.getFromAmount() != null) {
-            predicates.add(cb.greaterThanOrEqualTo(root.get("amount"), loanRequest.getFromAmount()));
-        }
-        if (loanRequest.getToAmount() != null) {
-            predicates.add(cb.lessThanOrEqualTo(root.get("amount"), loanRequest.getToAmount()));
-        }
-        if (loanRequest.getFromCreatedDate() != null) {
-            predicates.add(cb.greaterThanOrEqualTo(root.get("createdAt"), loanRequest.getFromCreatedDate()));
-        }
-        if (loanRequest.getToCreatedDate() != null) {
-            predicates.add(cb.lessThanOrEqualTo(root.get("createdAt"), loanRequest.getToCreatedDate()));
-        }
-        if (loanRequest.getFromDeadline() != null) {
-            predicates.add(cb.greaterThanOrEqualTo(root.get("deadline"), loanRequest.getFromDeadline()));
-        }
-        if (loanRequest.getToDeadline() != null) {
-            predicates.add(cb.lessThanOrEqualTo(root.get("deadline"), loanRequest.getToDeadline()));
-        }
-        if (loanRequest.getStatus() != null) {
-            predicates.add(cb.equal(root.get("status"), loanRequest.getStatus()));
-        }
-        if (!StringUtils.isEmpty(loanRequest.getType())) {
-            predicates.add(cb.equal(root.get("type"), loanRequest.getType()));
-        }
-
+        addCriteria(loanRequestFilter,predicates,cb,root);
         query.select(root).where(predicates.toArray(new Predicate[]{}));
+        Order orderByCreateAt = cb.desc(root.get("createdAt"));
+        query.orderBy(orderByCreateAt);
         TypedQuery<LoanEntity> typedQuery = entityManager.createQuery(query);
-        return typedQuery.getResultList();
-    }
+        List<LoanEntity> loanEntities = typedQuery.getResultList();
 
-
-    @Override
-    public List<LoanDto> filter(LoanRequest loanRequest) throws Exception {
-        List<LoanEntity> loanEntities = performFilter(loanRequest);
         List<LoanDto> loanDtos = new ArrayList<>();
         for (LoanEntity loanEntity : loanEntities) {
             LoanDto loanDto = new LoanDto();
@@ -88,6 +88,24 @@ public class LoanServiceImpl implements LoanService {
             loanDtos.add(loanDto);
         }
         return loanDtos;
+    }
+
+    @Override
+    public void addLoan(LoanRequestAdd loanRequestAdd) {
+        LoanEntity loanEntity = new LoanEntity();
+        loanEntity.setUser(userRepository.findByUsername(Utils.getCurrentUser().getName()));
+        loanEntity.setAmount(loanRequestAdd.getAmount());
+        loanEntity.setType(loanRequestAdd.getType());
+        if(loanRequestAdd.getDuration().equals(Constant.DURATION_ONE_MONTH)){
+            loanEntity.setDeadline(loanEntity.getCreatedAt().plus(1, ChronoUnit.MONTHS));
+        }else if(loanRequestAdd.getDuration().equals(Constant.DURATION_TWO_MONTHS)){
+            loanEntity.setDeadline(loanEntity.getCreatedAt().plus(2, ChronoUnit.MONTHS));
+        }else if(loanRequestAdd.getDuration().equals(Constant.DURATION_THREE_MONTHS)){
+            loanEntity.setDeadline(loanEntity.getCreatedAt().plus(3, ChronoUnit.MONTHS));
+        }else if(loanRequestAdd.getDuration().equals(Constant.DURATION_ONE_YEAR)){
+            loanEntity.setDeadline(loanEntity.getCreatedAt().plus(1, ChronoUnit.YEARS));
+        }
+        loanRepository.save(loanEntity);
     }
 
     @Override

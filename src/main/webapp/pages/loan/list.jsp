@@ -157,6 +157,11 @@
                             </div>
                             <div style="text-align: center;">
                                 <input class="btn btn-primary" type="submit" value="Tìm kiếm"/>
+                                <a href="#" class="btn btn-primary" data-toggle="modal"
+                                   style="background-color: orange; border-color: orange"
+                                   data-target="#loan-modal-add">
+                                    <span class="text">Thêm mới</span>
+                                </a>
                             </div>
                         </form>
                     </div>
@@ -275,6 +280,9 @@
 
 <%--Import loan unlock modal--%>
 <%@ include file="../../modal/loan/modal-unlock.jsp" %>
+
+<%--Import loan add modal--%>
+<%@ include file="../../modal/loan/modal-add.jsp" %>
 
 <!-- Bootstrap core JavaScript-->
 <script src="../../vendor/jquery/jquery.min.js"></script>

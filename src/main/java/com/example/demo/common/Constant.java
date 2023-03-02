@@ -12,5 +12,10 @@ public class Constant {
     public static final String LOAN_TYPE_INSTALLMENT = "INSTALLMENT";
     public static final String LOAN_TYPE_ONE_TIME = "ONE TIME";
 
+    public static final String DURATION_ONE_MONTH = "ONE_MONTH";
+    public static final String DURATION_TWO_MONTHS = "TWO_MONTHS";
+    public static final String DURATION_THREE_MONTHS = "THREE_MONTHS ";
+    public static final String DURATION_ONE_YEAR = "ONE_YEAR";
+
     public static final List<String> cantRedirectUrls = new ArrayList<>(Arrays.asList("update-profile","change-pass","add-balance"));
 }
