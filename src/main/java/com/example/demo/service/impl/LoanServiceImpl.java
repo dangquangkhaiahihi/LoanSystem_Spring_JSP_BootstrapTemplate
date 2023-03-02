@@ -149,6 +149,16 @@ public class LoanServiceImpl implements LoanService {
             loanDto.setAmount(loanEntity.getAmount());
             loanDto.setCreatedAt(loanEntity.getCreatedAt());
             loanDto.setDeadline(loanEntity.getDeadline());
+            loanDto.setDuration(loanEntity.getDuration());
+//            if(loanEntities.equals(Constant.DURATION_ONE_MONTH)){
+//                loanDto.setDuration("1 tháng");
+//            }else if(loanEntities.equals(Constant.DURATION_TWO_MONTHS)){
+//                loanDto.setDuration("2 tháng");
+//            }else if(loanEntities.equals(Constant.DURATION_THREE_MONTHS)){
+//                loanDto.setDuration("3 tháng");
+//            }else if(loanEntities.equals(Constant.DURATION_ONE_YEAR)){
+//                loanDto.setDuration("1 năm");
+//            }
             loanDtos.add(loanDto);
         }
         return loanDtos;

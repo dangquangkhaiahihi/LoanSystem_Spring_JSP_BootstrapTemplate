@@ -17,6 +17,7 @@ public class LoanDto {
     private String createdAt;
     private String deadline;
     private String type;
+    private String duration;
     private Boolean status;
     private UserEntity user;
     private List<TraceUserLoanEntity> traces = new ArrayList<>();

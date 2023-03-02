@@ -203,7 +203,7 @@
                                         </p>
                                         <% } %>
                                     </td>
-                                    <td><%= loanDto.getAmount() %>
+                                    <td><%= loanDto.getAmount()  %>
                                     </td>
                                     <td><%= loanDto.getCreatedAt() %>
                                     </td>
@@ -215,7 +215,7 @@
                                                 <button class="btn btn-transaprent btn-icon btn-sm"
                                                         data-tooltip="tooltip" title="Vay tiền" style="background-color: #5a7087"
                                                         data-toggle="modal" data-target="#loan-modal-confirm-borrow"
-                                                        onclick="captrueCurrentId(<%=loanDto.getId()%>);captrueLoanDto(<%=loanDto%>)">
+                                                        onclick="captrueCurrentLoanDto(<%=loanDto.getId()%>,<%=loanDto.getAmount()%>,'<%=loanDto.getType()%>','<%=loanDto.getDuration()%>')">
                                                     <i class="fas fa-donate text-white" ></i>
                                                 </button>
                                             </div>
@@ -265,30 +265,44 @@
 <script src="../../js/demo/datatables-demo.js"></script>
 
 <%--=======================================================================================--%>
-<%--CAPTURE CURRENT RECORD ID--%>
+<%--CAPTURE CURRENT RECORD DETAIL--%>
 <script>
-    var currentId;
-    function captrueCurrentId(loanId) {
-        currentId = loanId
-    }
+    var selectedLoanDto = {
+        id : '',
+        amount : '',
+        type : '',
+        duration : ''
+    };
+    function captrueCurrentLoanDto(id,amount,type,duration) {
+        console.log("...............................",id,amount,type,duration)
+        selectedLoanDto.id = id;
+        selectedLoanDto.amount = amount;
+        if(type == '<%=Constant.LOAN_TYPE_ONE_TIME%>') selectedLoanDto.type = 'Trả 1 lần';
+        else if(type == '<%=Constant.LOAN_TYPE_INSTALLMENT%>') selectedLoanDto.type = 'Lũy tiến';
 
-    var selectedLoanDto;
-    function captrueLoanDto(loanDto) {
-        selectedLoanDto = loanDto
+        if(duration === '<%=Constant.DURATION_ONE_MONTH%>') selectedLoanDto.duration = '1 tháng';
+        else if(duration === '<%=Constant.DURATION_TWO_MONTHS%>') selectedLoanDto.duration = '2 tháng';
+        else if(duration === '<%=Constant.DURATION_THREE_MONTHS%>') selectedLoanDto.duration = '3 tháng';
+        else if(duration === '<%=Constant.DURATION_ONE_YEAR%>') selectedLoanDto.duration = '1 năm';
+
+        console.log('------------------------------',JSON.stringify(selectedLoanDto))
+        document.getElementById("loan-detail-confirm-amount").innerHTML = selectedLoanDto.amount;
+        document.getElementById("loan-detail-confirm-type").innerHTML = selectedLoanDto.type;
+        document.getElementById("loan-detail-confirm-duration").innerHTML = selectedLoanDto.duration;
     }
 </script>
-<%--END CAPTURE CURRENT RECORD ID--%>
+<%--END CAPTURE CURRENT RECORD DETAIL--%>
 <%--=======================================================================================--%>
 <%--LOAN LOCK/UNLOCK SCRIPT--%>
 <script>
-    document.getElementById("submit-loan-lock").addEventListener("click", function () {
-        // code to execute when submit-loan-lock is clicked
-        sendRequest(currentId, '/loan/lock')
-    });
-    document.getElementById("submit-loan-unlock").addEventListener("click", function () {
-        // code to execute when submit-loan-unlock is clicked
-        sendRequest(currentId, '/loan/unlock')
-    });
+    // document.getElementById("submit-loan-lock").addEventListener("click", function () {
+    //     // code to execute when submit-loan-lock is clicked
+    //     sendRequest(currentId, '/loan/lock')
+    // });
+    // document.getElementById("submit-loan-unlock").addEventListener("click", function () {
+    //     // code to execute when submit-loan-unlock is clicked
+    //     sendRequest(currentId, '/loan/unlock')
+    // });
 </script>
 
 <script>
