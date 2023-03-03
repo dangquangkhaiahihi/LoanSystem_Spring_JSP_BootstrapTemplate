@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.common.EnvironmentObj;
 import com.example.demo.model.LoanDto;
 import com.example.demo.model.LoanRequestFilter;
 import com.example.demo.service.LoanService;
@@ -19,6 +20,8 @@ public class BorrowMoneyController {
     @Autowired
     LoanService loanService;
 
+    @Autowired
+    EnvironmentObj env;
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView getLoanList(@ModelAttribute("loanRequest") LoanRequestFilter loanRequestFilter, HttpServletRequest request) {
         ModelAndView mv = new ModelAndView();

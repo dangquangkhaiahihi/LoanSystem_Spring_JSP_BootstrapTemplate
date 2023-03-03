@@ -4,6 +4,7 @@
 <%@ page import="java.time.LocalDateTime" %>
 <%@ page import="com.example.demo.common.Utils" %>
 <%@ page import="java.time.temporal.ChronoUnit" %>
+<%@ page import="com.example.demo.common.EnvironmentObj" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <!DOCTYPE html>
@@ -34,6 +35,7 @@
 
 <body id="page-top">
 <% LocalDateTime now = LocalDateTime.now(); %>
+<% EnvironmentObj env = new EnvironmentObj(); %>
 <!-- Page Wrapper -->
 <div id="wrapper">
     <%-- Import side bar--%>
@@ -212,10 +214,11 @@
                                     <td>
                                         <div style="display: flex">
                                             <div>
+                                                <% String strInterest = Float.toString(env.getInterestRate(loanDto.getDuration())); %>
                                                 <button class="btn btn-transaprent btn-icon btn-sm"
                                                         data-tooltip="tooltip" title="Vay tiền" style="background-color: #5a7087"
                                                         data-toggle="modal" data-target="#loan-modal-confirm-borrow"
-                                                        onclick="captrueCurrentLoanDto(<%=loanDto.getId()%>,<%=loanDto.getAmount()%>,'<%=loanDto.getType()%>','<%=loanDto.getDuration()%>')">
+                                                        onclick="captrueCurrentLoanDto(<%=loanDto.getId()%>,<%=loanDto.getAmount()%>,'<%=loanDto.getType()%>','<%=loanDto.getDuration()%>','<%=strInterest%>')">
                                                     <i class="fas fa-donate text-white" ></i>
                                                 </button>
                                             </div>
@@ -273,7 +276,7 @@
         type : '',
         duration : ''
     };
-    function captrueCurrentLoanDto(id,amount,type,duration) {
+    function captrueCurrentLoanDto(id,amount,type,duration,interest) {
         console.log("...............................",id,amount,type,duration)
         selectedLoanDto.id = id;
         selectedLoanDto.amount = amount;
@@ -289,6 +292,7 @@
         document.getElementById("loan-detail-confirm-amount").innerHTML = selectedLoanDto.amount;
         document.getElementById("loan-detail-confirm-type").innerHTML = selectedLoanDto.type;
         document.getElementById("loan-detail-confirm-duration").innerHTML = selectedLoanDto.duration;
+        document.getElementById("loan-detail-confirm-interest").innerHTML = interest;
     }
 </script>
 <%--END CAPTURE CURRENT RECORD DETAIL--%>

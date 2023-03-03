@@ -35,8 +35,8 @@
                             <label style="flex: 1;font-weight: bold;" id="loan-detail-confirm-duration"/>
                         </div>
                         <div style="display: flex;flex: 1;flex-direction: row;max-width: 70%;margin-bottom: 1rem;">
-                            <label style="flex: 1.5" for="loan-detail-confirm-interest-nearest-period">Tiền lãi phải trả trong kỳ gần nhất : </label>
-                            <label style="flex: 1;font-weight: bold;" id="loan-detail-confirm-interest-nearest-period"/>
+                            <label style="flex: 1.5" for="loan-detail-confirm-interest">Lãi suất : </label>
+                            <label style="flex: 1;font-weight: bold;" id="loan-detail-confirm-interest"/>
                         </div>
                         <div style="display: flex;flex: 1;flex-direction: row;max-width: 70%;margin-bottom: 1rem;">
 <%--                            <label style="flex: 1.5" for="loan-detail-confirm-interest-nearest-period">Tiền lãi phải trả trong kỳ gần nhất : </label>--%>
