@@ -4,7 +4,6 @@
 <%@ page import="java.time.LocalDateTime" %>
 <%@ page import="com.example.demo.common.Utils" %>
 <%@ page import="java.time.temporal.ChronoUnit" %>
-<%@ page import="com.example.demo.common.EnvironmentObj" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <!DOCTYPE html>
@@ -35,7 +34,6 @@
 
 <body id="page-top">
 <% LocalDateTime now = LocalDateTime.now(); %>
-<% EnvironmentObj env = new EnvironmentObj(); %>
 <!-- Page Wrapper -->
 <div id="wrapper">
     <%-- Import side bar--%>
@@ -214,11 +212,10 @@
                                     <td>
                                         <div style="display: flex">
                                             <div>
-                                                <% String strInterest = Float.toString(env.getInterestRate(loanDto.getDuration())); %>
                                                 <button class="btn btn-transaprent btn-icon btn-sm"
                                                         data-tooltip="tooltip" title="Vay tiền" style="background-color: #5a7087"
                                                         data-toggle="modal" data-target="#loan-modal-confirm-borrow"
-                                                        onclick="captrueCurrentLoanDto(<%=loanDto.getId()%>,<%=loanDto.getAmount()%>,'<%=loanDto.getType()%>','<%=loanDto.getDuration()%>','<%=strInterest%>')">
+                                                        onclick="captrueCurrentLoanDto(<%=loanDto.getId()%>,<%=loanDto.getAmount()%>,'<%=loanDto.getType()%>','<%=loanDto.getDuration()%>','<%=loanDto.getInterestStr()%>')">
                                                     <i class="fas fa-donate text-white" ></i>
                                                 </button>
                                             </div>

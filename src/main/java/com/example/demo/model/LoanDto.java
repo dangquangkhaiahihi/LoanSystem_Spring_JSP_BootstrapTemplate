@@ -21,6 +21,8 @@ public class LoanDto {
     private Boolean status;
     private UserEntity user;
     private List<TraceUserLoanEntity> traces = new ArrayList<>();
+    private String interestStr;
+    private Float interest;
 
     public void setAmount(Float amount) {
         DecimalFormat decimalFormat = new DecimalFormat("#.###");

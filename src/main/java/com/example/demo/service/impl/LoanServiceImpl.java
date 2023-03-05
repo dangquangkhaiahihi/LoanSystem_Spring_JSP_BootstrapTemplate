@@ -1,6 +1,7 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.common.Constant;
+import com.example.demo.common.EnvironmentObj;
 import com.example.demo.common.StringUtils;
 import com.example.demo.common.Utils;
 import com.example.demo.entity.LoanEntity;
@@ -35,6 +36,9 @@ public class LoanServiceImpl implements LoanService {
 
     @PersistenceContext
     private EntityManager entityManager;
+
+    @Autowired
+    EnvironmentObj env;
 
     private void addCriteria(LoanRequestFilter loanRequestFilter, List<Predicate> predicates, CriteriaBuilder cb, Root<LoanEntity> root) {
         if (loanRequestFilter.getFromAmount() != null) {
@@ -150,15 +154,9 @@ public class LoanServiceImpl implements LoanService {
             loanDto.setCreatedAt(loanEntity.getCreatedAt());
             loanDto.setDeadline(loanEntity.getDeadline());
             loanDto.setDuration(loanEntity.getDuration());
-//            if(loanEntities.equals(Constant.DURATION_ONE_MONTH)){
-//                loanDto.setDuration("1 tháng");
-//            }else if(loanEntities.equals(Constant.DURATION_TWO_MONTHS)){
-//                loanDto.setDuration("2 tháng");
-//            }else if(loanEntities.equals(Constant.DURATION_THREE_MONTHS)){
-//                loanDto.setDuration("3 tháng");
-//            }else if(loanEntities.equals(Constant.DURATION_ONE_YEAR)){
-//                loanDto.setDuration("1 năm");
-//            }
+            Float configInterest = env.getInterestRate(loanEntity.getDuration());
+            loanDto.setInterest(configInterest);
+            loanDto.setInterestStr(configInterest.toString() + "%");
             loanDtos.add(loanDto);
         }
         return loanDtos;

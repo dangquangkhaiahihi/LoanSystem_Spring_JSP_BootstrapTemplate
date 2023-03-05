@@ -20,8 +20,6 @@ public class BorrowMoneyController {
     @Autowired
     LoanService loanService;
 
-    @Autowired
-    EnvironmentObj env;
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView getLoanList(@ModelAttribute("loanRequest") LoanRequestFilter loanRequestFilter, HttpServletRequest request) {
         ModelAndView mv = new ModelAndView();
