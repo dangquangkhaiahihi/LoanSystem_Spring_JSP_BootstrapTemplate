@@ -3,6 +3,7 @@ package com.example.demo.service.impl;
 import com.example.demo.common.StringUtils;
 import com.example.demo.common.Utils;
 import com.example.demo.entity.UserEntity;
+import com.example.demo.exception.AddBalanceNotMinException;
 import com.example.demo.model.ChangePassDto;
 import com.example.demo.model.UserDto;
 import com.example.demo.repository.UserRepository;
@@ -83,6 +84,9 @@ public class UserServiceImpl implements UserService {
 
         try{
             Float addBalanceF = Float.parseFloat(addBalance);
+            if(addBalanceF < 10000f){
+                throw new AddBalanceNotMinException("Vui lòng nạp lớn hơn 10.000 VNĐ");
+            }
             UserEntity userEntity = userRepository.findByUsername(Utils.getCurrentUser().getName());
             userEntity.setBalance(userEntity.getBalance() + addBalanceF);
             userRepository.save(userEntity);
@@ -90,7 +94,11 @@ public class UserServiceImpl implements UserService {
             BeanUtils.copyProperties(userEntity,userDto);
             userDto.setBalance(userEntity.getBalance());
             return userDto;
-        }catch (Exception ex){
+        }
+        catch (AddBalanceNotMinException ex){
+            throw ex;
+        }
+        catch (Exception ex){
             throw new Exception("Nạp tiền lỗi, thử lại sau.");
         }
     }

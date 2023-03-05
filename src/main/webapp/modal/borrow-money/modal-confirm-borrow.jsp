@@ -12,43 +12,41 @@
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
+            <form method="POST" action="/borrow-money/borrow" modelAttribute="borrowMoneyRequest">
             <div class="modal-body">
                 <h3>Thông tin khoản vay : </h3>
                 <div style="display: flex; flex-direction: row">
                     <div style="display: flex;flex: 1;flex-direction: column;max-width: 50%;">
                         <div style="display: flex;flex: 1;flex-direction: row;max-width: 70%;margin-bottom: 1rem;">
+                            <input id="value-borrow-amount" name="amountStr" hidden/>
                             <label style="flex: 1.5" for="loan-detail-confirm-amount">Số tiền : </label>
                             <label style="flex: 1;font-weight: bold;" id="loan-detail-confirm-amount"/>
                         </div>
                         <div style="display: flex;flex: 1;flex-direction: row;max-width: 70%;margin-bottom: 1rem;">
+                            <input id="value-borrow-type" name="type" hidden/>
                             <label style="flex: 1.5" for="loan-detail-confirm-type">Loại cho vay : </label>
                             <label style="flex: 1;font-weight: bold;" id="loan-detail-confirm-type"/>
-                        </div>
-                        <div style="display: flex;flex: 1;flex-direction: row;max-width: 70%;margin-bottom: 1rem;">
-                            <label style="flex: 1.5" for="loan-detail-confirm-nearest-period">Loại cho vay : </label>
-                            <label style="flex: 1;font-weight: bold;" id="loan-detail-confirm-nearest-period"/>
                         </div>
                     </div>
                     <div style="display: flex;flex: 1;flex-direction: column;max-width: 50%">
                         <div style="display: flex;flex: 1;flex-direction: row;max-width: 70%;margin-bottom: 1rem;">
+                            <input id="value-borrow-duration" name="duration" hidden/>
                             <label style="flex: 1.5" for="loan-detail-confirm-duration">Thời hạn cho vay : </label>
                             <label style="flex: 1;font-weight: bold;" id="loan-detail-confirm-duration"/>
                         </div>
                         <div style="display: flex;flex: 1;flex-direction: row;max-width: 70%;margin-bottom: 1rem;">
+                            <input id="value-borrow-interest" name="interestStr" hidden/>
                             <label style="flex: 1.5" for="loan-detail-confirm-interest">Lãi suất : </label>
                             <label style="flex: 1;font-weight: bold;" id="loan-detail-confirm-interest"/>
-                        </div>
-                        <div style="display: flex;flex: 1;flex-direction: row;max-width: 70%;margin-bottom: 1rem;">
-<%--                            <label style="flex: 1.5" for="loan-detail-confirm-interest-nearest-period">Tiền lãi phải trả trong kỳ gần nhất : </label>--%>
-<%--                            <label style="flex: 1;font-weight: bold;" id="loan-detail-confirm-interest-nearest-period"/>--%>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Đóng</button>
-                <input id="submit-loan-lock" class="btn btn-primary" value="Xác nhận"/>
+                <input type="submit" class="btn btn-primary" value="Xác nhận"/>
             </div>
+            </form>
         </div>
     </div>
 </div>

@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import com.example.demo.common.StringUtils;
 import com.example.demo.common.Utils;
 import com.example.demo.entity.TraceUserLoanEntity;
 import com.example.demo.entity.UserEntity;
@@ -24,9 +25,7 @@ public class LoanDto {
     private Float interest;
 
     public void setAmount(Float amount) {
-        DecimalFormat decimalFormat = new DecimalFormat("#.###");
-        String stringValue = decimalFormat.format(amount);
-        this.amount = stringValue;
+        this.amount = StringUtils.convertFloatToString(amount);
     }
 
     public void setCreatedAt(LocalDateTime createdAt) {

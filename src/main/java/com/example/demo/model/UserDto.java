@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import com.example.demo.common.StringUtils;
 import lombok.Data;
 
 import java.text.DecimalFormat;
@@ -17,8 +18,6 @@ public class UserDto {
     private String balance;
 
     public void setBalance(Float balance) {
-        DecimalFormat decimalFormat = new DecimalFormat("#.###");
-        String stringValue = decimalFormat.format(balance);
-        this.balance = stringValue;
+        this.balance = StringUtils.convertFloatToString(balance);
     }
 }

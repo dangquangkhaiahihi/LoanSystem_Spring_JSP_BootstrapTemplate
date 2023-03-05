@@ -211,7 +211,7 @@
                                                 <button class="btn btn-transaprent btn-icon btn-sm"
                                                         data-tooltip="tooltip" title="Vay tiền" style="background-color: #5a7087"
                                                         data-toggle="modal" data-target="#loan-modal-confirm-borrow"
-                                                        onclick="captrueCurrentLoanDto(<%=loanDto.getId()%>,<%=loanDto.getAmount()%>,'<%=loanDto.getType()%>','<%=loanDto.getDuration()%>','<%=loanDto.getInterestStr()%>')">
+                                                        onclick="captrueCurrentLoanDto(<%=loanDto.getId()%>,<%=loanDto.getAmount()%>,'<%=loanDto.getType()%>','<%=loanDto.getDuration()%>','<%=loanDto.getInterestStr()%>','<%=loanDto.getInterest()%>')">
                                                     <i class="fas fa-donate text-white" ></i>
                                                 </button>
                                             </div>
@@ -269,7 +269,7 @@
         type : '',
         duration : ''
     };
-    function captrueCurrentLoanDto(id,amount,type,duration,interest) {
+    function captrueCurrentLoanDto(id,amount,type,duration,interestStr,interest) {
         console.log("...............................",id,amount,type,duration)
         selectedLoanDto.id = id;
         selectedLoanDto.amount = amount;
@@ -285,7 +285,12 @@
         document.getElementById("loan-detail-confirm-amount").innerHTML = selectedLoanDto.amount;
         document.getElementById("loan-detail-confirm-type").innerHTML = selectedLoanDto.type;
         document.getElementById("loan-detail-confirm-duration").innerHTML = selectedLoanDto.duration;
-        document.getElementById("loan-detail-confirm-interest").innerHTML = interest;
+        document.getElementById("loan-detail-confirm-interest").innerHTML = interestStr;
+
+        document.getElementById("value-borrow-amount").value = selectedLoanDto.amount;
+        document.getElementById("value-borrow-type").value = type;
+        document.getElementById("value-borrow-duration").value = duration;
+        document.getElementById("value-borrow-interest").value = interest;
     }
 </script>
 <%--END CAPTURE CURRENT RECORD DETAIL--%>
