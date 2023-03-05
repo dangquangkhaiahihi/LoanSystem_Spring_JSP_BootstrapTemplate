@@ -13,15 +13,11 @@ public class LoanRequestFilter {
     private String toAmountStr;
     private String fromCreatedDateStr;
     private String toCreatedDateStr;
-    private String fromDeadlineStr;
-    private String toDeadlineStr;
 
     private Float fromAmount;
     private Float toAmount;
     private LocalDateTime fromCreatedDate;
     private LocalDateTime toCreatedDate;
-    private LocalDateTime fromDeadline;
-    private LocalDateTime toDeadline;
 
     private String type;
     private String duration;
@@ -48,11 +44,6 @@ public class LoanRequestFilter {
                     this.toCreatedDate = Utils.convertyyyyMMddToLocalDateTime(toCreatedDateStr);
                 }
             }
-
-            if (!StringUtils.isEmpty(fromDeadlineStr))
-                this.fromDeadline = Utils.convertyyyyMMddToLocalDateTime(fromDeadlineStr);
-            if (!StringUtils.isEmpty(toDeadlineStr))
-                this.toDeadline = Utils.convertyyyyMMddToLocalDateTime(toDeadlineStr);
         } catch (Exception e) {
             throw new Exception("Không parse được ngày.");
         }

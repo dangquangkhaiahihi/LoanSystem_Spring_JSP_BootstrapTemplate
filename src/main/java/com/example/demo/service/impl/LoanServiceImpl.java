@@ -53,14 +53,11 @@ public class LoanServiceImpl implements LoanService {
         if (loanRequestFilter.getToCreatedDate() != null) {
             predicates.add(cb.lessThanOrEqualTo(root.get("createdAt"), loanRequestFilter.getToCreatedDate()));
         }
-        if (loanRequestFilter.getFromDeadline() != null) {
-            predicates.add(cb.greaterThanOrEqualTo(root.get("deadline"), loanRequestFilter.getFromDeadline()));
-        }
-        if (loanRequestFilter.getToDeadline() != null) {
-            predicates.add(cb.lessThanOrEqualTo(root.get("deadline"), loanRequestFilter.getToDeadline()));
-        }
         if (!StringUtils.isEmpty(loanRequestFilter.getType())) {
             predicates.add(cb.equal(root.get("type"), loanRequestFilter.getType()));
+        }
+        if(!StringUtils.isEmpty(loanRequestFilter.getDuration())){
+            predicates.add(cb.equal(root.get("duration"), loanRequestFilter.getDuration()));
         }
     }
 
@@ -91,7 +88,6 @@ public class LoanServiceImpl implements LoanService {
             BeanUtils.copyProperties(loanEntity, loanDto);
             loanDto.setAmount(loanEntity.getAmount());
             loanDto.setCreatedAt(loanEntity.getCreatedAt());
-            loanDto.setDeadline(loanEntity.getDeadline());
             loanDtos.add(loanDto);
         }
         return loanDtos;
@@ -104,15 +100,6 @@ public class LoanServiceImpl implements LoanService {
         loanEntity.setAmount(loanRequestAdd.getAmount());
         loanEntity.setType(loanRequestAdd.getType());
         loanEntity.setDuration(loanRequestAdd.getDuration());
-        if(loanRequestAdd.getDuration().equals(Constant.DURATION_ONE_MONTH)){
-            loanEntity.setDeadline(loanEntity.getCreatedAt().plus(1, ChronoUnit.MONTHS));
-        }else if(loanRequestAdd.getDuration().equals(Constant.DURATION_TWO_MONTHS)){
-            loanEntity.setDeadline(loanEntity.getCreatedAt().plus(2, ChronoUnit.MONTHS));
-        }else if(loanRequestAdd.getDuration().equals(Constant.DURATION_THREE_MONTHS)){
-            loanEntity.setDeadline(loanEntity.getCreatedAt().plus(3, ChronoUnit.MONTHS));
-        }else if(loanRequestAdd.getDuration().equals(Constant.DURATION_ONE_YEAR)){
-            loanEntity.setDeadline(loanEntity.getCreatedAt().plus(1, ChronoUnit.YEARS));
-        }
         loanRepository.save(loanEntity);
     }
 
@@ -136,9 +123,6 @@ public class LoanServiceImpl implements LoanService {
 
         addCriteria(loanRequestFilter,predicates,cb,root);
         predicates.add(cb.equal(root.get("status"), true));
-        if(!StringUtils.isEmpty(loanRequestFilter.getDuration())){
-            predicates.add(cb.equal(root.get("duration"), loanRequestFilter.getDuration()));
-        }
         query.select(root).where(predicates.toArray(new Predicate[]{}));
 
         Order orderByCreateAt = cb.desc(root.get("createdAt"));
@@ -152,7 +136,6 @@ public class LoanServiceImpl implements LoanService {
             BeanUtils.copyProperties(loanEntity, loanDto);
             loanDto.setAmount(loanEntity.getAmount());
             loanDto.setCreatedAt(loanEntity.getCreatedAt());
-            loanDto.setDeadline(loanEntity.getDeadline());
             loanDto.setDuration(loanEntity.getDuration());
             Float configInterest = env.getInterestRate(loanEntity.getDuration());
             loanDto.setInterest(configInterest);

@@ -51,7 +51,6 @@ public class LoanSystemApplication implements CommandLineRunner {
 		loanEntity.setAmount(100000f);
 		loanEntity.setCreatedAt(LocalDateTime.now());
 		loanEntity.setDuration(Constant.DURATION_ONE_MONTH);
-		loanEntity.setDeadline(loanEntity.getCreatedAt().plus(1, ChronoUnit.MONTHS));
 		loanEntity.setType(Constant.LOAN_TYPE_BASED_ON_INITIAL_DEBT);
 		loanEntity.setStatus(true);
 		loanEntity.setUser(userEntity);
@@ -61,7 +60,6 @@ public class LoanSystemApplication implements CommandLineRunner {
 		loanEntity1.setAmount(10000000f);
 		loanEntity1.setCreatedAt(Utils.convertyyyyMMddToLocalDateTime("2022-12-29"));
 		loanEntity1.setDuration(Constant.DURATION_ONE_YEAR);
-		loanEntity1.setDeadline(loanEntity1.getCreatedAt().plus(12, ChronoUnit.MONTHS));
 		loanEntity1.setType(Constant.LOAN_TYPE_BASED_ON_CURRENT_DEBT);
 		loanEntity1.setStatus(true);
 		loanEntity1.setUser(userEntity);
@@ -71,7 +69,6 @@ public class LoanSystemApplication implements CommandLineRunner {
 		loanEntity3.setAmount(26102000f);
 		loanEntity3.setCreatedAt(LocalDateTime.now());
 		loanEntity3.setDuration(Constant.DURATION_THREE_MONTHS);
-		loanEntity3.setDeadline(loanEntity3.getCreatedAt().plus(3, ChronoUnit.MONTHS));
 		loanEntity3.setType(Constant.LOAN_TYPE_BASED_ON_CURRENT_DEBT);
 		loanEntity3.setStatus(true);
 		loanEntity3.setUser(userEntity);
@@ -92,7 +89,6 @@ public class LoanSystemApplication implements CommandLineRunner {
 		loanEntity2.setAmount(5000000f);
 		loanEntity2.setCreatedAt(LocalDateTime.now());
 		loanEntity2.setDuration(Constant.DURATION_ONE_YEAR);
-		loanEntity2.setDeadline(loanEntity2.getCreatedAt().plus(12, ChronoUnit.MONTHS));
 		loanEntity2.setType(Constant.LOAN_TYPE_BASED_ON_CURRENT_DEBT);
 		loanEntity2.setStatus(false);
 		loanEntity2.setUser(userEntity2);

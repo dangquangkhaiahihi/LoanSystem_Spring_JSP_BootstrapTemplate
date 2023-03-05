@@ -81,13 +81,6 @@
                                                placeholder="Chọn từ ngày"/>
                                     </div>
                                     <div style="display: flex;flex: 1;flex-direction: column;max-width: 100%;margin-bottom: 1rem;">
-                                        <label for="fromDeadlineStr">Từ hạn chót</label>
-                                        <input id="fromDeadlineStr" name="fromDeadlineStr" type="date"
-                                               class="form-control"
-                                               value="<%=request.getParameter("fromDeadlineStr")%>"
-                                               placeholder="Chọn từ ngày"/>
-                                    </div>
-                                    <div style="display: flex;flex: 1;flex-direction: column;max-width: 100%;margin-bottom: 1rem;">
                                         <label for="type">Loại cho vay</label>
                                         <select
                                                 id="type" name="type"
@@ -102,6 +95,36 @@
                                             </option>
                                             <option value="<%=Constant.LOAN_TYPE_BASED_ON_INITIAL_DEBT%>" <% if (Constant.LOAN_TYPE_BASED_ON_INITIAL_DEBT.equals(request.getParameter("type"))) { %>
                                                     selected<% } %>>Theo số dư nợ gốc
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div style="display: flex;flex: 1;flex-direction: column;max-width: 100%;margin-bottom: 1rem;">
+                                        <label for="duration">Thời hạn cho vay</label>
+                                        <select id="duration" name="duration" class="form-control">
+                                            <option value=""
+                                                <% if (request.getParameter("duration") == null) { %>
+                                                selected<% } %>>
+                                                    Tất cả
+                                            </option>
+                                            <option value="<%=Constant.DURATION_ONE_MONTH%>"
+                                                <% if (Constant.DURATION_ONE_MONTH.equals(request.getParameter("duration"))) { %>
+                                                selected <% } %>>
+                                                    1 tháng
+                                            </option>
+                                            <option value="<%=Constant.DURATION_TWO_MONTHS%>"
+                                                <% if (Constant.DURATION_TWO_MONTHS.equals(request.getParameter("duration"))) { %>
+                                                selected<% } %>>
+                                                    2 tháng
+                                            </option>
+                                            <option value="<%=Constant.DURATION_THREE_MONTHS%>"
+                                                <% if (Constant.DURATION_THREE_MONTHS.equals(request.getParameter("duration"))) { %>
+                                                selected<% } %>>
+                                                    3 tháng
+                                            </option>
+                                            <option value="<%=Constant.DURATION_ONE_YEAR%>"
+                                                <% if (Constant.DURATION_ONE_YEAR.equals(request.getParameter("duration"))) { %>
+                                                 selected<% } %>>
+                                                    1 năm
                                             </option>
                                         </select>
                                     </div>
@@ -129,12 +152,6 @@
                                                placeholder="Chọn đến ngày"/>
                                     </div>
                                     <div style="display: flex;flex: 1;flex-direction: column;max-width: 100%;margin-bottom: 1rem;">
-                                        <label for="toDeadlineStr">Đến hạn chót</label>
-                                        <input id="toDeadlineStr" name="toDeadlineStr" type="date" class="form-control"
-                                               value="<%=request.getParameter("toDeadlineStr")%>"
-                                               placeholder="Đến hạn chót"/>
-                                    </div>
-                                    <div style="display: flex;flex: 1;flex-direction: column;max-width: 100%;margin-bottom: 1rem;">
                                         <label for="statusInt">Trạng thái</label>
                                         <select
                                                 id="statusInt" name="statusInt"
@@ -150,9 +167,9 @@
                                             <option value="0"<% if ("0".equals(request.getParameter("statusInt"))) { %>
                                                     selected<% } %>>Khóa
                                             </option>
-
                                         </select>
                                     </div>
+                                    <div style="display: flex;flex: 1;flex-direction: column;max-width: 100%;margin-bottom: 1rem;"></div>
                                 </div>
                             </div>
                             <div style="text-align: center;">
@@ -177,7 +194,7 @@
                                     <th>Loại cho vay</th>
                                     <th>Số tiền cho vay</th>
                                     <th>Ngày tạo</th>
-                                    <th>Hạn chót</th>
+                                    <th>Thời hạn</th>
                                     <th>Trạng thái</th>
                                     <th>Hành động</th>
                                 </tr>
@@ -202,7 +219,16 @@
                                     </td>
                                     <td><%= loanDto.getCreatedAt() %>
                                     </td>
-                                    <td><%= loanDto.getDeadline() %>
+                                    <td>
+                                        <% if (Constant.DURATION_ONE_MONTH.equals(loanDto.getDuration())) { %>
+                                            <p>1 tháng</p>
+                                        <% } else if (Constant.DURATION_TWO_MONTHS.equals(loanDto.getDuration())) { %>
+                                            <p>2 tháng</p>
+                                        <% } else if (Constant.DURATION_THREE_MONTHS.equals(loanDto.getDuration())) { %>
+                                            <p>3 tháng</p>
+                                        <% } else if (Constant.DURATION_ONE_YEAR.equals(loanDto.getDuration())) { %>
+                                            <p>1 năm</p>
+                                        <% } %>
                                     </td>
                                     <td>
                                         <% if (loanDto.getStatus()) { %>

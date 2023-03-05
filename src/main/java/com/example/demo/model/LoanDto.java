@@ -15,7 +15,6 @@ public class LoanDto {
     private Long id;
     private String amount;
     private String createdAt;
-    private String deadline;
     private String type;
     private String duration;
     private Boolean status;
@@ -33,10 +32,5 @@ public class LoanDto {
     public void setCreatedAt(LocalDateTime createdAt) {
         String stringValue = Utils.convertLocalDateTimeToddMMyyy(createdAt);
         this.createdAt = stringValue;
-    }
-
-    public void setDeadline(LocalDateTime deadline) {
-        String stringValue = Utils.convertLocalDateTimeToddMMyyy(deadline);
-        this.deadline = stringValue;
     }
 }

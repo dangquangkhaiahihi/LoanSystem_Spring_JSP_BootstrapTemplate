@@ -22,9 +22,6 @@ public class LoanEntity {
     @Column(name = "CREATED_AT")
     private LocalDateTime createdAt = LocalDateTime.now();
 
-    @Column(name = "DEADLINE")
-    private LocalDateTime deadline;
-
     @Column(name = "DURATION")
     private String duration;
 
