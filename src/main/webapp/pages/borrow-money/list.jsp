@@ -208,12 +208,27 @@
                                     <td>
                                         <div style="display: flex">
                                             <div>
+                                            <% if (loanDto.getCanLoan()) {%>
                                                 <button class="btn btn-transaprent btn-icon btn-sm"
                                                         data-tooltip="tooltip" title="Vay tiền" style="background-color: #5a7087"
                                                         data-toggle="modal" data-target="#loan-modal-confirm-borrow"
+                                                        onclick="captrueCurrentLoanDto(<%=loanDto.getId()%>,<%=loanDto.getAmount()%>,'<%=loanDto.getType()%>','<%=loanDto.getDuration()%>','<%=loanDto.getInterestStr()%>','<%=loanDto.getInterest()%>','<%=loanDto.getUser().getId()%>')">
+                                                    <i class="fas fa-donate text-white" ></i>
+                                                </button>
+                                            <% } else { %>
+                                                <button class="btn btn-transaprent btn-icon btn-sm"
+                                                        data-tooltip="tooltip" title="Vay tiền" style="background-color: red"
+                                                        data-toggle="modal" data-target="#loan-modal-can-not-borrow"
                                                         onclick="captrueCurrentLoanDto(<%=loanDto.getId()%>,<%=loanDto.getAmount()%>,'<%=loanDto.getType()%>','<%=loanDto.getDuration()%>','<%=loanDto.getInterestStr()%>','<%=loanDto.getInterest()%>')">
                                                     <i class="fas fa-donate text-white" ></i>
                                                 </button>
+                                                <button class="btn btn-transaprent btn-icon btn-sm"
+                                                        data-tooltip="tooltip" title="Hủy yêu cầu"
+                                                        data-toggle="modal" data-target="#confirm-modal-delete-request"
+                                                        onclick="captrueCurrentLoanDto(<%=loanDto.getId()%>,<%=loanDto.getAmount()%>,'<%=loanDto.getType()%>','<%=loanDto.getDuration()%>','<%=loanDto.getInterestStr()%>','<%=loanDto.getInterest()%>')">
+                                                    <img src="../../img/icon/24x24-close-circle.svg" alt="" class="btn-icon"/>
+                                                </button>
+                                            <% } %>
                                             </div>
                                         </div>
                                     </td>
@@ -240,8 +255,14 @@
 </div>
 <!-- End of Page Wrapper -->
 
-<%--Import loan lock modal--%>
+<%--Import confirm borrow modal--%>
 <%@ include file="../../modal/borrow-money/modal-confirm-borrow.jsp" %>
+
+<%--Import can not borrow modal--%>
+<%@ include file="../../modal/borrow-money/modal-can-not-borrow.jsp" %>
+
+<%--Import confirm delete request modal--%>
+<%@ include file="../../modal/borrow-money/modal-confirm-delete-request.jsp" %>
 
 <!-- Bootstrap core JavaScript-->
 <script src="../../vendor/jquery/jquery.min.js"></script>
@@ -269,8 +290,8 @@
         type : '',
         duration : ''
     };
-    function captrueCurrentLoanDto(id,amount,type,duration,interestStr,interest) {
-        console.log("...............................",id,amount,type,duration)
+    function captrueCurrentLoanDto(id,amount,type,duration,interestStr,interest,loanerId) {
+        console.log("...............................",id,amount,type,duration,loanerId)
         selectedLoanDto.id = id;
         selectedLoanDto.amount = amount;
         if(type == '<%=Constant.LOAN_TYPE_BASED_ON_INITIAL_DEBT%>') selectedLoanDto.type = 'Theo số dư nợ gốc';
@@ -287,36 +308,36 @@
         document.getElementById("loan-detail-confirm-duration").innerHTML = selectedLoanDto.duration;
         document.getElementById("loan-detail-confirm-interest").innerHTML = interestStr;
 
-        document.getElementById("value-borrow-amount").value = selectedLoanDto.amount;
-        document.getElementById("value-borrow-type").value = type;
-        document.getElementById("value-borrow-duration").value = duration;
-        document.getElementById("value-borrow-interest").value = interest;
+        document.getElementById("loan-detail-cannot-amount").innerHTML = selectedLoanDto.amount;
+        document.getElementById("loan-detail-cannot-type").innerHTML = selectedLoanDto.type;
+        document.getElementById("loan-detail-cannot-duration").innerHTML = selectedLoanDto.duration;
+        document.getElementById("loan-detail-cannot-interest").innerHTML = interestStr;
+
+        if(id && loanerId) {
+            document.getElementById("value-borrow-loan-id").value = id;
+            document.getElementById("value-borrow-loaner-id").value = loanerId;
+        }
     }
 </script>
 <%--END CAPTURE CURRENT RECORD DETAIL--%>
 <%--=======================================================================================--%>
-<%--LOAN LOCK/UNLOCK SCRIPT--%>
+<%--DELETE REQUEST SCRIPT--%>
 <script>
-    // document.getElementById("submit-loan-lock").addEventListener("click", function () {
-    //     // code to execute when submit-loan-lock is clicked
-    //     sendRequest(currentId, '/loan/lock')
-    // });
-    // document.getElementById("submit-loan-unlock").addEventListener("click", function () {
-    //     // code to execute when submit-loan-unlock is clicked
-    //     sendRequest(currentId, '/loan/unlock')
-    // });
+        document.getElementById("submit-delete-request").addEventListener("click", function () {
+        // code to execute when submit-delete-request is clicked
+        sendRequest( '/borrow-money/delete-request')
+    });
 </script>
 
 <script>
-    function sendRequest(loanId, url) {
+    function sendRequest( url) {
         $.ajax({
             url: url,
-            method: "POST",
-            data: {loanId: loanId},
+            method: "DELETE",
+            data: {loanId: selectedLoanDto.id},
             success: function (response) {
                 // Extract data from the model map
                 var data = response;
-                currentId = null;
                 // Redirect to the view
                 window.location.href = data;
             }

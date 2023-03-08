@@ -3,8 +3,10 @@ package com.example.demo;
 import com.example.demo.common.Constant;
 import com.example.demo.common.Utils;
 import com.example.demo.entity.LoanEntity;
+import com.example.demo.entity.RequestEntity;
 import com.example.demo.entity.UserEntity;
 import com.example.demo.repository.LoanRepository;
+import com.example.demo.repository.RequestRepository;
 import com.example.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -15,6 +17,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 
 @SpringBootApplication
 public class LoanSystemApplication implements CommandLineRunner {
@@ -24,6 +27,9 @@ public class LoanSystemApplication implements CommandLineRunner {
 
 	@Autowired
 	LoanRepository loanRepository;
+
+	@Autowired
+	RequestRepository requestRepository;
 
 	public static void main(String[] args)  {
 		SpringApplication.run(LoanSystemApplication.class, args);
@@ -93,6 +99,21 @@ public class LoanSystemApplication implements CommandLineRunner {
 		loanEntity2.setStatus(false);
 		loanEntity2.setUser(userEntity2);
 		loanRepository.save(loanEntity2);
+
+		RequestEntity requestEntity = new RequestEntity();
+		requestEntity.setLoaner(userEntity);
+		requestEntity.setDebtor(userEntity2);
+		requestEntity.setLoan(loanEntity1);
+		requestRepository.save(requestEntity);
+
+		RequestEntity requestEntity2 = new RequestEntity();
+		requestEntity2.setLoaner(userEntity);
+		requestEntity2.setDebtor(userEntity2);
+		requestEntity2.setLoan(loanEntity3);
+		requestRepository.save(requestEntity2);
+
+		List<RequestEntity> requestEntities = requestRepository.findByLoaner(userEntity);
+		System.out.println('f');
 	}
 
 }

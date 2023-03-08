@@ -5,12 +5,14 @@ import com.example.demo.common.EnvironmentObj;
 import com.example.demo.common.StringUtils;
 import com.example.demo.common.Utils;
 import com.example.demo.entity.LoanEntity;
+import com.example.demo.entity.RequestEntity;
 import com.example.demo.entity.UserEntity;
 import com.example.demo.model.LoanRequestAdd;
 import com.example.demo.model.LoanDto;
 
 import com.example.demo.model.LoanRequestFilter;
 import com.example.demo.repository.LoanRepository;
+import com.example.demo.repository.RequestRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.LoanService;
 import org.springframework.beans.BeanUtils;
@@ -33,6 +35,9 @@ public class LoanServiceImpl implements LoanService {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    RequestRepository requestRepository;
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -140,6 +145,11 @@ public class LoanServiceImpl implements LoanService {
             Float configInterest = env.getInterestRate(loanEntity.getDuration());
             loanDto.setInterest(configInterest);
             loanDto.setInterestStr(configInterest.toString() + "%");
+
+            RequestEntity requestEntity = requestRepository.findByLoanAndDebtor(loanEntity,userEntity);
+            if(requestEntity != null) {
+                loanDto.setCanLoan(false);
+            }
             loanDtos.add(loanDto);
         }
         return loanDtos;

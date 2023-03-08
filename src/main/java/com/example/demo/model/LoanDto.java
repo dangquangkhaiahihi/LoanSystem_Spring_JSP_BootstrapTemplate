@@ -24,6 +24,8 @@ public class LoanDto {
     private String interestStr;
     private Float interest;
 
+    private Boolean canLoan = true;
+
     public void setAmount(Float amount) {
         this.amount = StringUtils.convertFloatToString(amount);
     }

@@ -1,10 +1,8 @@
 package com.example.demo.controller;
 
-import com.example.demo.common.EnvironmentObj;
 import com.example.demo.model.LoanDto;
-import com.example.demo.model.LoanRequestAdd;
 import com.example.demo.model.LoanRequestFilter;
-import com.example.demo.model.TraceUserLoanRequest;
+import com.example.demo.model.BrowMoneyRequest;
 import com.example.demo.service.BorrowMoneyService;
 import com.example.demo.service.LoanService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,13 +44,13 @@ public class BorrowMoneyController {
         return mv;
     }
 
-    @RequestMapping(value = "/borrow", method = RequestMethod.POST)
-    public ModelAndView borrowMoney(@ModelAttribute("borrowMoneyRequest") TraceUserLoanRequest borrowMoneyRequest, HttpServletRequest request) {
+    @RequestMapping(value = "/request_borrow", method = RequestMethod.POST)
+    public ModelAndView borrowMoney(@ModelAttribute("borrowMoneyRequest") BrowMoneyRequest borrowMoneyRequest, HttpServletRequest request) {
         ModelAndView mv = new ModelAndView();
         try {
             borrowMoneyRequest.validateInput();
-            borrowMoneyService.borrowMoney(borrowMoneyRequest);
-            mv.setView(new RedirectView("/home"));
+            borrowMoneyService.requestBorrowMoney(borrowMoneyRequest);
+            mv.setView(new RedirectView("/borrow-money"));
         } catch (Exception ex) {
             String goBackUrl = request.getHeader("referer");
             mv.addObject("errorMessage", ex.getMessage());
@@ -61,5 +59,12 @@ public class BorrowMoneyController {
             return mv;
         }
         return mv;
+    }
+
+    @RequestMapping(value = "/delete-request", method = RequestMethod.DELETE)
+    @ResponseBody
+    public String lock(@ModelAttribute("loanId") Long loanId) {
+        borrowMoneyService.deleteRequest(loanId);
+        return "/borrow-money";
     }
 }
