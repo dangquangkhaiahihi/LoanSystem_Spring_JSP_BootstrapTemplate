@@ -61,9 +61,10 @@ public class RequestServiceImpl implements RequestService {
         Root<RequestEntity> root = query.from(RequestEntity.class);
 
         List<Predicate> predicates = new ArrayList<>();
-        UserEntity currentUser = userRepository.findByUsername(Utils.getCurrentUser().getName());
-        //get loan that this logged in user not own
-        predicates.add(cb.equal(root.get("loaner"), currentUser.getId()));
+//        UserEntity currentUser = userRepository.findByUsername(Utils.getCurrentUser().getName());
+//        //get loan that this logged in user not own
+//        predicates.add(cb.equal(root.get("loaner"), currentUser.getId()));
+        predicates.add(cb.equal(root.get("loaner"), 1L));
 
         addCriteria(requestFilterRequest,predicates,cb,root);
         query.select(root).where(predicates.toArray(new Predicate[]{}));

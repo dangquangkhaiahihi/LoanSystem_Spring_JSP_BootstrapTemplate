@@ -1,13 +1,19 @@
 package com.example.demo;
 
 import com.example.demo.common.Constant;
+import com.example.demo.common.LocalDateTimeSerializer;
 import com.example.demo.common.Utils;
 import com.example.demo.entity.LoanEntity;
 import com.example.demo.entity.RequestEntity;
 import com.example.demo.entity.UserEntity;
+import com.example.demo.model.RequestDto;
+import com.example.demo.model.RequestFilterRequest;
 import com.example.demo.repository.LoanRepository;
 import com.example.demo.repository.RequestRepository;
 import com.example.demo.repository.UserRepository;
+import com.example.demo.service.RequestService;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -30,6 +36,9 @@ public class LoanSystemApplication implements CommandLineRunner {
 
 	@Autowired
 	RequestRepository requestRepository;
+
+	@Autowired
+	RequestService requestService;
 
 	public static void main(String[] args)  {
 		SpringApplication.run(LoanSystemApplication.class, args);
@@ -112,8 +121,13 @@ public class LoanSystemApplication implements CommandLineRunner {
 		requestEntity2.setLoan(loanEntity3);
 		requestRepository.save(requestEntity2);
 
-		List<RequestEntity> requestEntities = requestRepository.findByLoaner(userEntity);
-		System.out.println('f');
+//		<% String requestJson = gson.toJson(requestDto); %>
+		Gson gson = new GsonBuilder()
+				.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer())
+				.create();
+		List<RequestDto> requestDtos = requestService.filter(new RequestFilterRequest());
+		String str = gson.toJson(requestDtos.get(0));
+		System.out.println(str);
 	}
 
 }

@@ -1,5 +1,7 @@
 package com.example.demo.common;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -28,5 +30,11 @@ public class Utils {
     public static String convertLocalDateTimeToyyyyMMdd(LocalDateTime datetime) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         return datetime.format(formatter);
+    }
+
+    public static Gson getGson() {
+        return new GsonBuilder()
+                .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer())
+                .create();
     }
 }

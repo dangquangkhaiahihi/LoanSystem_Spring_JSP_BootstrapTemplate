@@ -4,6 +4,7 @@
 <%@ page import="java.time.LocalDateTime" %>
 <%@ page import="com.example.demo.common.Utils" %>
 <%@ page import="java.time.temporal.ChronoUnit" %>
+<%@ page import="com.google.gson.Gson" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <!DOCTYPE html>
@@ -175,7 +176,9 @@
                                 </thead>
                                 <tbody>
                                 <%List<RequestDto> requestDtos = (List<RequestDto>) request.getAttribute("requestDtos");%>
+                                <%Gson gson = Utils.getGson();%>
                                 <% for (RequestDto requestDto : requestDtos) { %>
+                                    <% String requestJson = gson.toJson(requestDto); %>
                                 <tr>
                                     <td>
                                         <%= requestDto.getDebtorDto().getName() %>
@@ -189,7 +192,8 @@
                                             <div>
                                                 <button class="btn btn-transaprent btn-icon btn-sm"
                                                         data-toggle="modal" data-target="#request-show-loan"
-                                                        data-tooltip="tooltip" title="Thông tin khoản vay">
+                                                        data-tooltip="tooltip" title="Thông tin khoản vay"
+                                                        onclick='captrueCurrentRequestLoanDetail(<%=requestJson%>)' >
                                                     <img src="../../img/icon/24x24-information-circle.svg" alt=""
                                                          class="btn-icon"/>
                                                 </button>
@@ -197,7 +201,8 @@
                                             <div>
                                                 <button class="btn btn-transaprent btn-icon btn-sm"
                                                         data-toggle="modal" data-target="#request-show-debtor"
-                                                        data-tooltip="tooltip" title="Thông tin người vay">
+                                                        data-tooltip="tooltip" title="Thông tin người vay"
+                                                        onclick='captrueCurrentRequestLoanDetail(<%=requestJson%>)' >
                                                     <img src="../../img/icon/24x24-user.svg" alt=""
                                                          class="btn-icon"/>
                                                 </button>
@@ -243,6 +248,12 @@
 </div>
 <!-- End of Page Wrapper -->
 
+<%--Import request show loan modal--%>
+<%@ include file="../../modal/request/request-show-loan.jsp" %>
+
+<%--Import request show debtor modal--%>
+<%@ include file="../../modal/request/request-show-debtor.jsp" %>
+
 <!-- Bootstrap core JavaScript-->
 <script src="../../vendor/jquery/jquery.min.js"></script>
 <script src="../../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -261,26 +272,43 @@
 <script src="../../js/demo/datatables-demo.js"></script>
 
 <%--=======================================================================================--%>
-<%--CAPTURE CURRENT RECORD ID--%>
+<%--CAPTURE CURRENT RECORD--%>
 <script>
-    var currentId;
+    function captrueCurrentRequestLoanDetail(json) {
+    console.log('asdasdasd ',json);
+        var type;
+        var duration;
 
-    function captrueCurrentId(loanId) {
-        currentId = loanId
+        if(json.loanDto.type == '<%=Constant.LOAN_TYPE_BASED_ON_INITIAL_DEBT%>') type = 'Theo số dư nợ gốc';
+        else if(json.loanDto.type == '<%=Constant.LOAN_TYPE_BASED_ON_CURRENT_DEBT%>') type = 'Theo số dư nợ giảm dần';
+
+        if(json.loanDto.duration === '<%=Constant.DURATION_ONE_MONTH%>') duration = '1 tháng';
+        else if(json.loanDto.duration === '<%=Constant.DURATION_TWO_MONTHS%>') duration = '2 tháng';
+        else if(json.loanDto.duration === '<%=Constant.DURATION_THREE_MONTHS%>') duration = '3 tháng';
+        else if(json.loanDto.duration === '<%=Constant.DURATION_ONE_YEAR%>') duration = '1 năm';
+
+        document.getElementById("request-show-loan-amount").innerHTML = json.loanDto.amount;
+        document.getElementById("request-show-loan-type").innerHTML = type;
+        document.getElementById("request-show-loan-createdAt").innerHTML = json.loanDto.createdAt;
+        document.getElementById("request-show-loan-duration").innerHTML = duration;
+
+        var gender;
+
+        if(json.debtorDto.gender) gender = 'Nam';
+        else gender = 'Nữ';
+
+        document.getElementById("request-show-debtor-name").innerHTML = json.debtorDto.name;
+        document.getElementById("request-show-debtor-cccd").innerHTML = json.debtorDto.cccdNum;
+        document.getElementById("request-show-debtor-phone").innerHTML = json.debtorDto.phone;
+        document.getElementById("request-show-debtor-credit-point").innerHTML = json.debtorDto.creditPoint;
+        document.getElementById("request-show-debtor-gender").innerHTML = gender;
+        document.getElementById("request-show-debtor-email").innerHTML = json.debtorDto.email;
     }
 </script>
 <%--END CAPTURE CURRENT RECORD ID--%>
 <%--=======================================================================================--%>
 <%--LOAN LOCK/UNLOCK SCRIPT--%>
 <script>
-    document.getElementById("submit-loan-lock").addEventListener("click", function () {
-        // code to execute when submit-loan-lock is clicked
-        sendRequest(currentId, '/loan/lock')
-    });
-    document.getElementById("submit-loan-unlock").addEventListener("click", function () {
-        // code to execute when submit-loan-unlock is clicked
-        sendRequest(currentId, '/loan/unlock')
-    });
 </script>
 
 <script>
