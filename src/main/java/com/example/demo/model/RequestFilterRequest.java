@@ -9,6 +9,7 @@ import java.time.temporal.ChronoUnit;
 
 @Data
 public class RequestFilterRequest {
+    private Long requestId;
 
     private String fromAmountStr;
     private String toAmountStr;

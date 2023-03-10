@@ -12,13 +12,16 @@
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
+        <form method="POST" action="/request/approve" modelAttribute="requestFilterRequest">
             <div class="modal-body">
                 Bạn có chắc muốn cho vay?
+                <input id="request-id-approve" name="requestId" type="text" hidden/>
             </div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Đóng</button>
-                <input id="submit-request-approve" class="btn btn-primary" value="Xác nhận"/>
+                <input type="submit" class="btn btn-primary" value="Xác nhận"/>
             </div>
+        </form>
         </div>
     </div>
 </div>

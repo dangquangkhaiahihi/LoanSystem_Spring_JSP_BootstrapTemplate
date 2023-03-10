@@ -12,13 +12,16 @@
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
+        <form method="POST" action="/request/reject" modelAttribute="requestFilterRequest">
             <div class="modal-body">
                 Bạn có chắc muốn từ chối yêu cầu cho vay?
+                <input id="request-id-reject" name="requestId" type="text" hidden/>
             </div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Đóng</button>
-                <input id="submit-request-reject" class="btn btn-primary" value="Xác nhận"/>
+                <input type="submit" class="btn btn-primary" value="Xác nhận"/>
             </div>
+        </form>
         </div>
     </div>
 </div>

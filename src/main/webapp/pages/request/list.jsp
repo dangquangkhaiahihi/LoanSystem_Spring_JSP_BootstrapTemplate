@@ -317,44 +317,13 @@
 <%--=======================================================================================--%>
 <%--CAPTURE CURRENT RECORD ID--%>
 <script>
-    var currentId;
     function captrueCurrentId(id) {
-        currentId = id;
+        document.getElementById("request-id-approve").value = id;
+        document.getElementById("request-id-reject").value = id;
     }
 </script>
 <%--END CAPTURE CURRENT RECORD ID--%>
 <%--=======================================================================================--%>
-<%--REQUEST approve/reject SCRIPT--%>
-<script>
-    document.getElementById("submit-request-approve").addEventListener("click", function () {
-        // code to execute when submit-request-approve is clicked
-        sendRequest(currentId, '/request/approve')
-    });
-    document.getElementById("submit-request-reject").addEventListener("click", function () {
-        // code to execute when submit-request-reject is clicked
-        sendRequest(currentId, '/request/reject')
-    });
-</script>
-
-<script>
-    function sendRequest(id, url) {
-        $.ajax({
-            url: url,
-            method: "POST",
-            data: {requestId: id},
-            success: function (response) {
-                // Extract data from the model map
-                var data = response;
-                currentId = null;
-                // Redirect to the view
-                window.location.href = data;
-            }
-        });
-    }
-</script>
-<%--END REQUEST approve/reject SCRIPT--%>
-<%--=======================================================================================--%>
-
 </body>
 
 </html>

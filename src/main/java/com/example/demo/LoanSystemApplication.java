@@ -121,13 +121,6 @@ public class LoanSystemApplication implements CommandLineRunner {
 		requestEntity2.setLoan(loanEntity3);
 		requestRepository.save(requestEntity2);
 
-//		<% String requestJson = gson.toJson(requestDto); %>
-		Gson gson = new GsonBuilder()
-				.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer())
-				.create();
-		List<RequestDto> requestDtos = requestService.filter(new RequestFilterRequest());
-		String str = gson.toJson(requestDtos.get(0));
-		System.out.println(str);
 	}
 
 }
