@@ -142,13 +142,13 @@
 </a>
 
 <%-- Import User Detail Modal--%>
-<%@ include file="../modal/user-detail-modal.jsp" %>
+<%@ include file="../modal/modal-user-detail.jsp" %>
 
 <%-- Import Change Pass Modal--%>
-<%@ include file="../modal/change-pass-modal.jsp" %>
+<%@ include file="../modal/modal-change-pass.jsp" %>
 
 <%-- Import Logout Modal--%>
-<%@ include file="../modal/logout-modal.jsp" %>
+<%@ include file="../modal/modal-logout.jsp" %>
 
 <%-- Import Add Balance Modal--%>
-<%@ include file="../modal/add-balance-modal.jsp" %>
+<%@ include file="../modal/modal-add-balance.jsp" %>
