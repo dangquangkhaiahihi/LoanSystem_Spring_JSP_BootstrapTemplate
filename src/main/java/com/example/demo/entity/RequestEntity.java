@@ -25,9 +25,6 @@ public class RequestEntity {
     @JoinColumn(name = "LOANER_ID", nullable = false)
     private UserEntity loaner;
 
-    @Column(name = "STATUS")
-    private Boolean status = false;
-
     @Column(name = "CREATED_AT")
     private LocalDateTime createdAt = LocalDateTime.now();
 
