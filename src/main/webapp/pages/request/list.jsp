@@ -209,16 +209,18 @@
                                             </div>
                                             <div>
                                                 <button class="btn btn-transaprent btn-icon btn-sm"
-                                                        data-toggle="modal" data-target="#request-approve"
-                                                        data-tooltip="tooltip" title="Đồng ý cho vay">
+                                                        data-toggle="modal" data-target="#request-modal-approve"
+                                                        data-tooltip="tooltip" title="Đồng ý cho vay"
+                                                        onclick='captrueCurrentId(<%=requestDto.getId()%>)' >
                                                     <img src="../../img/icon/24x24-check.svg" alt=""
                                                          class="btn-icon"/>
                                                 </button>
                                             </div>
                                             <div>
                                                 <button class="btn btn-transaprent btn-icon btn-sm"
-                                                        data-toggle="modal" data-target="#request-reject"
-                                                        data-tooltip="tooltip" title="Từ chối cho vay">
+                                                        data-toggle="modal" data-target="#request-modal-reject"
+                                                        data-tooltip="tooltip" title="Từ chối cho vay"
+                                                        onclick='captrueCurrentId(<%=requestDto.getId()%>)' >
                                                     <img src="../../img/icon/24x24-close-circle.svg" alt=""
                                                          class="btn-icon"/>
                                                 </button>
@@ -249,10 +251,16 @@
 <!-- End of Page Wrapper -->
 
 <%--Import request show loan modal--%>
-<%@ include file="../../modal/request/request-show-loan.jsp" %>
+<%@ include file="../../modal/request/modal-request-show-loan.jsp" %>
 
 <%--Import request show debtor modal--%>
-<%@ include file="../../modal/request/request-show-debtor.jsp" %>
+<%@ include file="../../modal/request/modal-request-show-debtor.jsp" %>
+
+<%--Import request approve modal--%>
+<%@ include file="../../modal/request/modal-request-approve.jsp" %>
+
+<%--Import request reject modal--%>
+<%@ include file="../../modal/request/modal-request-reject.jsp" %>
 
 <!-- Bootstrap core JavaScript-->
 <script src="../../vendor/jquery/jquery.min.js"></script>
@@ -305,18 +313,35 @@
         document.getElementById("request-show-debtor-email").innerHTML = json.debtorDto.email;
     }
 </script>
+<%--END CURRENT RECORD--%>
+<%--=======================================================================================--%>
+<%--CAPTURE CURRENT RECORD ID--%>
+<script>
+    var currentId;
+    function captrueCurrentId(id) {
+        currentId = id;
+    }
+</script>
 <%--END CAPTURE CURRENT RECORD ID--%>
 <%--=======================================================================================--%>
-<%--LOAN LOCK/UNLOCK SCRIPT--%>
+<%--REQUEST approve/reject SCRIPT--%>
 <script>
+    document.getElementById("submit-request-approve").addEventListener("click", function () {
+        // code to execute when submit-request-approve is clicked
+        sendRequest(currentId, '/request/approve')
+    });
+    document.getElementById("submit-request-reject").addEventListener("click", function () {
+        // code to execute when submit-request-reject is clicked
+        sendRequest(currentId, '/request/reject')
+    });
 </script>
 
 <script>
-    function sendRequest(loanId, url) {
+    function sendRequest(id, url) {
         $.ajax({
             url: url,
             method: "POST",
-            data: {loanId: loanId},
+            data: {requestId: id},
             success: function (response) {
                 // Extract data from the model map
                 var data = response;
@@ -327,7 +352,7 @@
         });
     }
 </script>
-<%--END LOAN LOCK/UNLOCK SCRIPT--%>
+<%--END REQUEST approve/reject SCRIPT--%>
 <%--=======================================================================================--%>
 
 </body>

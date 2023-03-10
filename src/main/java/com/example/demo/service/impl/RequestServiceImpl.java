@@ -95,4 +95,13 @@ public class RequestServiceImpl implements RequestService {
         }
         return requestDtos;
     }
+
+    @Override
+    public void approveOrReject(Long requestId, boolean b) {
+        if(b){
+            System.out.println(b);
+        }else {
+            System.out.println(b);
+        }
+    }
 }

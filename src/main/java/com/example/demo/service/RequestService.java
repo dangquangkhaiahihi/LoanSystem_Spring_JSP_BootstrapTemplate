@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface RequestService {
     List<RequestDto> filter(RequestFilterRequest requestFilterRequest);
+
+    void approveOrReject(Long requestId, boolean b);
 }

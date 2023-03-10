@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -38,5 +39,17 @@ public class RequestController {
         }
         return mv;
     }
+    @RequestMapping(value = "/approve", method = RequestMethod.POST)
+    @ResponseBody
+    public String approve(@ModelAttribute("requestId") Long requestId) {
+        requestService.approveOrReject(requestId,true);
+        return "/request";
+    }
 
+    @RequestMapping(value = "/reject", method = RequestMethod.POST)
+    @ResponseBody
+    public String reject(@ModelAttribute("requestId") Long requestId) {
+        requestService.approveOrReject(requestId,false);
+        return "/request";
+    }
 }
