@@ -1,15 +1,20 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.common.Constant;
+import com.example.demo.common.EnvironmentObj;
 import com.example.demo.common.StringUtils;
 import com.example.demo.common.Utils;
 import com.example.demo.entity.LoanEntity;
 import com.example.demo.entity.RequestEntity;
+import com.example.demo.entity.TraceUserLoanEntity;
 import com.example.demo.entity.UserEntity;
 import com.example.demo.model.LoanDto;
 import com.example.demo.model.RequestDto;
 import com.example.demo.model.RequestFilterRequest;
 import com.example.demo.model.UserDto;
+import com.example.demo.repository.LoanRepository;
 import com.example.demo.repository.RequestRepository;
+import com.example.demo.repository.TraceUserLoanRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.RequestService;
 import org.springframework.beans.BeanUtils;
@@ -20,6 +25,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,9 +35,15 @@ public class RequestServiceImpl implements RequestService {
     RequestRepository requestRepository;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    TraceUserLoanRepository traceUserLoanRepository;
+
     @PersistenceContext
     private EntityManager entityManager;
-
+    @Autowired
+    EnvironmentObj env;
+    @Autowired
+    private HttpSession session;
     private void addCriteria(RequestFilterRequest requestFilterRequest, List<Predicate> predicates, CriteriaBuilder cb, Root<RequestEntity> root) {
         Join<RequestEntity, LoanEntity> loanJoin = root.join("loan");
         if (requestFilterRequest.getFromAmount() != null) {
@@ -99,16 +111,34 @@ public class RequestServiceImpl implements RequestService {
     public void approveOrReject(Long requestId, boolean b) throws Exception {
         RequestEntity requestEntity = requestRepository.findById(requestId).get();
         UserEntity currentUser = userRepository.findByUsername(Utils.getCurrentUser().getName());
-//        requestEntity.getLoan();
-//        requestEntity.getDebtor();
-//        requestEntity.getLoaner();
+        LoanEntity loan = requestEntity.getLoan();
+        UserEntity debtor = requestEntity.getDebtor();
+
         if(b){
-            System.out.println(requestId);
-            System.out.println(b);
+            if(currentUser.getBalance() < loan.getAmount()){
+                throw new Exception("Số dư không đủ để cho vay khoản vay này");
+            }else{
+                currentUser.setBalance(currentUser.getBalance() - loan.getAmount());
+                debtor.setBalance(currentUser.getBalance() + loan.getAmount());
+
+                TraceUserLoanEntity traceUserLoanEntity = new TraceUserLoanEntity();
+                traceUserLoanEntity.setDebtorId(debtor.getId());
+                traceUserLoanEntity.setRemain(loan.getAmount());
+                traceUserLoanEntity.setFinalAmount(loan.getAmount());
+                traceUserLoanEntity.setInterest(env.getInterestRate(loan.getDuration()));
+                traceUserLoanEntity.setLoan(loan);
+                traceUserLoanEntity.setStatus(Constant.TRACE_STATUS_NOT_YET);
+                traceUserLoanRepository.save(traceUserLoanEntity);
+
+                userRepository.save(currentUser);
+                userRepository.save(debtor);
+                requestRepository.delete(requestEntity);
+                UserDto currentUserDto = new UserDto();
+                BeanUtils.copyProperties(currentUser,currentUserDto);
+                session.setAttribute("user-info", currentUserDto);
+            }
         }else {
-            System.out.println(requestId);
-            System.out.println(b);
+            requestRepository.delete(requestEntity);
         }
-//        requestRepository.delete(requestEntity);
     }
 }

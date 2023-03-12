@@ -4,11 +4,10 @@ import com.example.demo.common.Utils;
 import com.example.demo.entity.LoanEntity;
 import com.example.demo.entity.RequestEntity;
 import com.example.demo.entity.UserEntity;
-import com.example.demo.model.LoanDto;
 import com.example.demo.model.BrowMoneyRequest;
+import com.example.demo.model.LoanDto;
 import com.example.demo.repository.LoanRepository;
 import com.example.demo.repository.RequestRepository;
-import com.example.demo.repository.TraceUserLoanRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.BorrowMoneyService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +17,6 @@ import org.springframework.stereotype.Service;
 public class BorrowMoneyServiceImpl implements BorrowMoneyService {
     @Autowired
     UserRepository userRepository;
-
-    @Autowired
-    TraceUserLoanRepository traceUserLoanRepository;
 
     @Autowired
     LoanRepository loanRepository;

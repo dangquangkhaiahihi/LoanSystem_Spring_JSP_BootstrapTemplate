@@ -13,8 +13,8 @@ public class TraceUserLoanEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "DEBTORS_ID")
-    private Long debtorsId;
+    @Column(name = "DEBTOR_ID")
+    private Long debtorId;
 
     @Column(name = "REMAIN")
     private Float remain;
@@ -26,7 +26,7 @@ public class TraceUserLoanEntity {
     private Float finalAmount;
 
     @Column(name = "STATUS")
-    private Boolean status;
+    private String status;
 
     @ManyToOne
     @JoinColumn(name = "LOAN_ID", nullable = false)
