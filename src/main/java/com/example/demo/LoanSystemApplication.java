@@ -105,7 +105,7 @@ public class LoanSystemApplication implements CommandLineRunner {
 		loanEntity2.setCreatedAt(LocalDateTime.now());
 		loanEntity2.setDuration(Constant.DURATION_ONE_YEAR);
 		loanEntity2.setType(Constant.LOAN_TYPE_BASED_ON_CURRENT_DEBT);
-		loanEntity2.setStatus(false);
+		loanEntity2.setStatus(true);
 		loanEntity2.setUser(userEntity2);
 		loanRepository.save(loanEntity2);
 

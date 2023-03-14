@@ -12,7 +12,6 @@ import com.example.demo.model.LoanDto;
 import com.example.demo.model.RequestDto;
 import com.example.demo.model.RequestFilterRequest;
 import com.example.demo.model.UserDto;
-import com.example.demo.repository.LoanRepository;
 import com.example.demo.repository.RequestRepository;
 import com.example.demo.repository.TraceUserLoanRepository;
 import com.example.demo.repository.UserRepository;
@@ -26,6 +25,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import javax.servlet.http.HttpSession;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,6 +44,7 @@ public class RequestServiceImpl implements RequestService {
     EnvironmentObj env;
     @Autowired
     private HttpSession session;
+
     private void addCriteria(RequestFilterRequest requestFilterRequest, List<Predicate> predicates, CriteriaBuilder cb, Root<RequestEntity> root) {
         Join<RequestEntity, LoanEntity> loanJoin = root.join("loan");
         if (requestFilterRequest.getFromAmount() != null) {
@@ -61,7 +62,7 @@ public class RequestServiceImpl implements RequestService {
         if (!StringUtils.isEmpty(requestFilterRequest.getType())) {
             predicates.add(cb.equal(loanJoin.get("type"), requestFilterRequest.getType()));
         }
-        if(!StringUtils.isEmpty(requestFilterRequest.getDuration())){
+        if (!StringUtils.isEmpty(requestFilterRequest.getDuration())) {
             predicates.add(cb.equal(loanJoin.get("duration"), requestFilterRequest.getDuration()));
         }
     }
@@ -77,7 +78,7 @@ public class RequestServiceImpl implements RequestService {
         //get loan that this logged in user not own
         predicates.add(cb.equal(root.get("loaner"), currentUser.getId()));
 
-        addCriteria(requestFilterRequest,predicates,cb,root);
+        addCriteria(requestFilterRequest, predicates, cb, root);
         query.select(root).where(predicates.toArray(new Predicate[]{}));
 
         Order orderByCreateAt = cb.desc(root.get("createdAt"));
@@ -114,30 +115,49 @@ public class RequestServiceImpl implements RequestService {
         LoanEntity loan = requestEntity.getLoan();
         UserEntity debtor = requestEntity.getDebtor();
 
-        if(b){
-            if(currentUser.getBalance() < loan.getAmount()){
+        if (b) {
+            if (currentUser.getBalance() < loan.getAmount()) {
                 throw new Exception("Số dư không đủ để cho vay khoản vay này");
-            }else{
+            } else {
                 currentUser.setBalance(currentUser.getBalance() - loan.getAmount());
-                debtor.setBalance(currentUser.getBalance() + loan.getAmount());
+                debtor.setBalance(debtor.getBalance() + loan.getAmount());
 
+                String duration = loan.getDuration();
                 TraceUserLoanEntity traceUserLoanEntity = new TraceUserLoanEntity();
-                traceUserLoanEntity.setDebtorId(debtor.getId());
+                traceUserLoanEntity.setLoanerUserName(currentUser.getUsername());
+                traceUserLoanEntity.setDebtorUserName(debtor.getUsername());
                 traceUserLoanEntity.setRemain(loan.getAmount());
-                traceUserLoanEntity.setFinalAmount(loan.getAmount());
+
                 traceUserLoanEntity.setInterest(env.getInterestRate(loan.getDuration()));
+                if (Constant.DURATION_ONE_YEAR.equals(duration)) {
+                    traceUserLoanEntity.setAmountThisMonth((float) Math.ceil(loan.getAmount() / 12));
+                } else if (Constant.DURATION_ONE_MONTH.equals(duration)) {
+                    traceUserLoanEntity.setAmountThisMonth(loan.getAmount());
+                } else if (Constant.DURATION_TWO_MONTHS.equals(duration)) {
+                    traceUserLoanEntity.setAmountThisMonth((float) Math.ceil(loan.getAmount() / 2));
+                } else if (Constant.DURATION_THREE_MONTHS.equals(duration)) {
+                    traceUserLoanEntity.setAmountThisMonth((float) Math.ceil(loan.getAmount() / 3));
+                }
+                traceUserLoanEntity.setAmountPerMonth(traceUserLoanEntity.getAmountThisMonth());
+                traceUserLoanEntity.setAmountInterestThisMonth(
+                        (float) Math.ceil(traceUserLoanEntity.getAmountThisMonth() * traceUserLoanEntity.getInterest()));
+                traceUserLoanEntity.setFinalAmountThisMonth(
+                        traceUserLoanEntity.getAmountThisMonth() + traceUserLoanEntity.getAmountInterestThisMonth());
+
                 traceUserLoanEntity.setLoan(loan);
                 traceUserLoanEntity.setStatus(Constant.TRACE_STATUS_NOT_YET);
+                traceUserLoanEntity.setNextDeadline(traceUserLoanEntity.getCreatedAt().plus(1, ChronoUnit.MONTHS));
+                traceUserLoanEntity.setPrevDeadline(traceUserLoanEntity.getNextDeadline());
                 traceUserLoanRepository.save(traceUserLoanEntity);
 
                 userRepository.save(currentUser);
                 userRepository.save(debtor);
                 requestRepository.delete(requestEntity);
                 UserDto currentUserDto = new UserDto();
-                BeanUtils.copyProperties(currentUser,currentUserDto);
+                BeanUtils.copyProperties(currentUser, currentUserDto);
                 session.setAttribute("user-info", currentUserDto);
             }
-        }else {
+        } else {
             requestRepository.delete(requestEntity);
         }
     }

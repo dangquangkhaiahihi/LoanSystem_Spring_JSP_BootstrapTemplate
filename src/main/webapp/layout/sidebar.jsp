@@ -42,6 +42,7 @@
                     <h6 class="collapse-header">Danh sách:</h6>
                     <a class="collapse-item" href="/loan">Danh sách khoản cho vay</a>
                     <a class="collapse-item" href="/request">Xác nhận cho vay</a>
+                    <a class="collapse-item" href="/trace">Đã cho vay</a>
                 </div>
             </div>
         </li>
@@ -57,7 +58,7 @@
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Danh sách:</h6>
                     <a class="collapse-item" href="/borrow-money">Đi vay</a>
-                    <a class="collapse-item" href="cards.html">Danh sách khoản nợ</a>
+                    <a class="collapse-item" href="/trace/list-debt">Danh sách khoản nợ</a>
                 </div>
             </div>
         </li>

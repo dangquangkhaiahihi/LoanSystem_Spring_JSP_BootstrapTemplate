@@ -61,7 +61,7 @@ public class LoanServiceImpl implements LoanService {
         if (!StringUtils.isEmpty(loanRequestFilter.getType())) {
             predicates.add(cb.equal(root.get("type"), loanRequestFilter.getType()));
         }
-        if(!StringUtils.isEmpty(loanRequestFilter.getDuration())){
+        if (!StringUtils.isEmpty(loanRequestFilter.getDuration())) {
             predicates.add(cb.equal(root.get("duration"), loanRequestFilter.getDuration()));
         }
     }
@@ -76,7 +76,7 @@ public class LoanServiceImpl implements LoanService {
         List<Predicate> predicates = new ArrayList<>();
         UserEntity userEntity = userRepository.findByUsername(Utils.getCurrentUser().getName());
         predicates.add(cb.equal(root.get("user"), userEntity.getId()));
-        addCriteria(loanRequestFilter,predicates,cb,root);
+        addCriteria(loanRequestFilter, predicates, cb, root);
         if (loanRequestFilter.getStatus() != null) {
             predicates.add(cb.equal(root.get("status"), loanRequestFilter.getStatus()));
         }
@@ -126,7 +126,7 @@ public class LoanServiceImpl implements LoanService {
         //get loan that this logged in user not own
         predicates.add(cb.notEqual(root.get("user"), userEntity.getId()));
 
-        addCriteria(loanRequestFilter,predicates,cb,root);
+        addCriteria(loanRequestFilter, predicates, cb, root);
         predicates.add(cb.equal(root.get("status"), true));
         query.select(root).where(predicates.toArray(new Predicate[]{}));
 
@@ -146,8 +146,8 @@ public class LoanServiceImpl implements LoanService {
             loanDto.setInterest(configInterest);
             loanDto.setInterestStr(configInterest.toString() + "%");
 
-            RequestEntity requestEntity = requestRepository.findByLoanAndDebtor(loanEntity,userEntity);
-            if(requestEntity != null) {
+            RequestEntity requestEntity = requestRepository.findByLoanAndDebtor(loanEntity, userEntity);
+            if (requestEntity != null) {
                 loanDto.setCanLoan(false);
             }
             loanDtos.add(loanDto);

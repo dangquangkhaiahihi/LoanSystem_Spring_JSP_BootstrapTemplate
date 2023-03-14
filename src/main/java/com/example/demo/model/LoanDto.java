@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import com.example.demo.common.Constant;
 import com.example.demo.common.StringUtils;
 import com.example.demo.common.Utils;
 import com.example.demo.entity.TraceUserLoanEntity;
@@ -34,4 +35,17 @@ public class LoanDto {
         String stringValue = Utils.convertLocalDateTimeToddMMyyy(createdAt);
         this.createdAt = stringValue;
     }
+
+    public void setDuration(String duration) {
+        if (Constant.DURATION_ONE_YEAR.equals(duration)) {
+            this.duration = "1 năm";
+        } else if (Constant.DURATION_ONE_MONTH.equals(duration)) {
+            this.duration = "1 tháng";
+        } else if (Constant.DURATION_TWO_MONTHS.equals(duration)) {
+            this.duration = "2 tháng";
+        } else if (Constant.DURATION_THREE_MONTHS.equals(duration)) {
+            this.duration = "3 tháng";
+        }
+    }
+
 }

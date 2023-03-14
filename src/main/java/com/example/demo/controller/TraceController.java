@@ -1,8 +1,8 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.*;
-import com.example.demo.service.BorrowMoneyService;
-import com.example.demo.service.LoanService;
+import com.example.demo.model.RequestFilterRequest;
+import com.example.demo.model.TraceDto;
+import com.example.demo.model.TraceRequest;
 import com.example.demo.service.TraceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,25 +17,19 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
-@RequestMapping(value = "/borrow-money")
-public class BorrowMoneyController {
-    @Autowired
-    LoanService loanService;
-
-    @Autowired
-    BorrowMoneyService borrowMoneyService;
-
+@RequestMapping(value = "/trace")
+public class TraceController {
     @Autowired
     TraceService traceService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView getBorrowList(@ModelAttribute("loanRequest") LoanRequestFilter loanRequestFilter, HttpServletRequest request) {
+    public ModelAndView getTraceList(@ModelAttribute("traceFilterRequest") RequestFilterRequest traceFilterRequest, HttpServletRequest request) {
         ModelAndView mv = new ModelAndView();
         try {
-            loanRequestFilter.validateInput();
-            List<LoanDto> loanDtos = loanService.filterForBorrow(loanRequestFilter);
-            mv.setViewName("/borrow-money/list");
-            mv.addObject("loanDtos", loanDtos);
+            traceFilterRequest.validateInput();
+            List<TraceDto> traces = traceService.filter(traceFilterRequest);
+            mv.setViewName("/trace/list");
+            mv.addObject("traces", traces);
         } catch (Exception ex) {
             String goBackUrl = request.getHeader("referer");
             mv.addObject("errorMessage", ex.getMessage());
@@ -46,13 +40,14 @@ public class BorrowMoneyController {
         return mv;
     }
 
-    @RequestMapping(value = "/request_borrow", method = RequestMethod.POST)
-    public ModelAndView borrowMoney(@ModelAttribute("borrowMoneyRequest") BrowMoneyRequest borrowMoneyRequest, HttpServletRequest request) {
+    @RequestMapping(value = "/list-debt",method = RequestMethod.GET)
+    public ModelAndView getTraceListDebt(@ModelAttribute("traceFilterRequest") RequestFilterRequest traceFilterRequest, HttpServletRequest request) {
         ModelAndView mv = new ModelAndView();
         try {
-            borrowMoneyRequest.validateInput();
-            borrowMoneyService.requestBorrowMoney(borrowMoneyRequest);
-            mv.setView(new RedirectView("/borrow-money"));
+            traceFilterRequest.validateInput();
+            List<TraceDto> traces = traceService.filterDebt(traceFilterRequest);
+            mv.setViewName("/trace/list-debt");
+            mv.addObject("traces", traces);
         } catch (Exception ex) {
             String goBackUrl = request.getHeader("referer");
             mv.addObject("errorMessage", ex.getMessage());
@@ -63,20 +58,13 @@ public class BorrowMoneyController {
         return mv;
     }
 
-    @RequestMapping(value = "/delete-request", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
     @ResponseBody
-    public String lock(@ModelAttribute("loanId") Long loanId) {
-        borrowMoneyService.deleteRequest(loanId);
-        return "/borrow-money";
-    }
-
-    @RequestMapping(value = "/pay-debt", method = RequestMethod.POST)
-    @ResponseBody
-    public ModelAndView payDebt(@ModelAttribute("traceRequest") TraceRequest traceRequest, HttpServletRequest request) {
+    public ModelAndView update(@ModelAttribute("traceRequest") TraceRequest traceRequest, HttpServletRequest request) {
         ModelAndView mv = new ModelAndView();
         try {
-            traceService.payDebt(traceRequest);
-            mv.setView(new RedirectView("/trace/list-debt"));
+            traceService.updateTrace(traceRequest);
+            mv.setView(new RedirectView("/trace"));
         } catch (Exception ex) {
             String goBackUrl = request.getHeader("referer");
             mv.addObject("errorMessage", ex.getMessage());
@@ -86,4 +74,6 @@ public class BorrowMoneyController {
         }
         return mv;
     }
+
+
 }
