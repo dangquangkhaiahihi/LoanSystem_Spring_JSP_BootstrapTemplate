@@ -8,8 +8,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -47,6 +50,34 @@ public class HomeController {
 			request.getSession(false).invalidate();
 		}
 		mv.setViewName("login");
+		return mv;
+	}
+
+
+	@RequestMapping("/register-page")
+	public String registerPage() {
+		return "register";
+	}
+
+	@RequestMapping("/error-not-logged-in")
+	public String errorNotLoggedIn() {
+		return "error-not-logged-in";
+	}
+
+	@RequestMapping(value = "/register", method = RequestMethod.POST)
+	public ModelAndView addLoan(@ModelAttribute("userDto") UserDto userDto, HttpServletRequest request) {
+		ModelAndView mv = new ModelAndView();
+		try {
+			userDto.validateInput();
+			userService.register(userDto);
+			mv.setView(new RedirectView("/login"));
+		} catch (Exception ex) {
+			String goBackUrl = request.getHeader("referer");
+			mv.addObject("errorMessage", ex.getMessage());
+			mv.addObject("/login", goBackUrl);
+			mv.setViewName("error-not-logged-in");
+			return mv;
+		}
 		return mv;
 	}
 }

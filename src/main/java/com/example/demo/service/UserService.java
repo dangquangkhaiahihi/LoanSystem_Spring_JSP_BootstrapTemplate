@@ -11,4 +11,6 @@ public interface UserService {
     void changePass(ChangePassDto changePassDto) throws Exception;
 
     UserDto addBalance(String addBalance) throws Exception;
+
+    void register(UserDto userDto) throws Exception;
 }

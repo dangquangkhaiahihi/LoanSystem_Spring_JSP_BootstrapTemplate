@@ -65,18 +65,7 @@
                                         />
                                     </div>
                                     <p style="color: red">${SPRING_SECURITY_LAST_EXCEPTION.message}</p>
-                                    <div class="form-group">
-                                        <div class="custom-control custom-checkbox small">
-                                            <input
-                                                    type="checkbox"
-                                                    class="custom-control-input"
-                                                    id="customCheck"
-                                            />
-                                            <label class="custom-control-label" for="customCheck"
-                                            >Remember Me</label
-                                            >
-                                        </div>
-                                    </div>
+
                                     <button
                                             type="submit"
                                             class="btn btn-primary btn-user btn-block"
@@ -86,14 +75,9 @@
                                 </form>
                                 <hr/>
                                 <div class="text-center">
-                                    <a class="small" href="forgot-password.html"
-                                    >Quên mật khẩu? </a
-                                    >
-                                </div>
-                                <div class="text-center">
-                                    <a class="small" href="register.html"
-                                    >Tạo tài khoản!</a
-                                    >
+                                    <a class="small" href="/register-page" data-toggle="modal" data-target="#register-modal">
+                                        Tạo tài khoản!
+                                    </a>
                                 </div>
                             </div>
                         </div>
