@@ -16,6 +16,7 @@ import com.example.demo.repository.RequestRepository;
 import com.example.demo.repository.TraceUserLoanRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.RequestService;
+import com.example.demo.service.TransactionService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,7 +38,8 @@ public class RequestServiceImpl implements RequestService {
     UserRepository userRepository;
     @Autowired
     TraceUserLoanRepository traceUserLoanRepository;
-
+    @Autowired
+    TransactionService transactionService;
     @PersistenceContext
     private EntityManager entityManager;
     @Autowired
@@ -152,6 +154,8 @@ public class RequestServiceImpl implements RequestService {
 
                 userRepository.save(currentUser);
                 userRepository.save(debtor);
+                transactionService.addTransaction(currentUser,loan.getAmount(),false,"Cho vay");
+                transactionService.addTransaction(debtor,loan.getAmount(),true,"Được vay");
                 requestRepository.delete(requestEntity);
                 UserDto currentUserDto = new UserDto();
                 BeanUtils.copyProperties(currentUser, currentUserDto);

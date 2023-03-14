@@ -7,6 +7,7 @@ import com.example.demo.exception.AddBalanceNotMinException;
 import com.example.demo.model.ChangePassDto;
 import com.example.demo.model.UserDto;
 import com.example.demo.repository.UserRepository;
+import com.example.demo.service.TransactionService;
 import com.example.demo.service.UserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,9 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements UserService {
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    TransactionService transactionService;
 
     @Autowired
     public BCryptPasswordEncoder passwordEncoderUserService() {
@@ -93,6 +97,8 @@ public class UserServiceImpl implements UserService {
             UserDto userDto = new UserDto();
             BeanUtils.copyProperties(userEntity, userDto);
             userDto.setBalance(userEntity.getBalance());
+
+            transactionService.addTransaction(userEntity,addBalanceF,true,"Nạp tiền");
             return userDto;
         } catch (AddBalanceNotMinException ex) {
             throw ex;

@@ -190,14 +190,14 @@
                         <div class="table-responsive">
                             <table class="table table-bordered" id="dataTable" style="width: 100%;mso-cellspacing: 0">
                                 <thead>
-                                <tr>
-                                    <th>Loại cho vay</th>
-                                    <th>Số tiền cho vay</th>
-                                    <th>Ngày tạo</th>
-                                    <th>Thời hạn</th>
-                                    <th>Trạng thái</th>
-                                    <th>Hành động</th>
-                                </tr>
+                                    <tr>
+                                        <th>Loại cho vay</th>
+                                        <th>Số tiền cho vay</th>
+                                        <th>Ngày tạo</th>
+                                        <th>Thời hạn</th>
+                                        <th>Trạng thái</th>
+                                        <th>Hành động</th>
+                                    </tr>
                                 </thead>
                                 <tbody>
                                 <%List<LoanDto> loanDtos = (List<LoanDto>) request.getAttribute("loanDtos");%>

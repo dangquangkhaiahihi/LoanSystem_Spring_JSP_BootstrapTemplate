@@ -20,6 +20,11 @@ public class Utils {
         return localDateTime.format(formatter);
     }
 
+    public static String convertLocalDateTimeToddMMyyyWithTime(LocalDateTime localDateTime) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm:ss");
+        return localDateTime.format(formatter);
+    }
+
     public static LocalDateTime convertyyyyMMddToLocalDateTime(String dateString) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate date = LocalDate.parse(dateString, formatter);

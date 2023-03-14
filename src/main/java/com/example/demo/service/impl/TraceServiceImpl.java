@@ -11,6 +11,7 @@ import com.example.demo.repository.LoanRepository;
 import com.example.demo.repository.TraceUserLoanRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.TraceService;
+import com.example.demo.service.TransactionService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,6 +37,8 @@ public class TraceServiceImpl implements TraceService {
     @Autowired
     EnvironmentObj env;
 
+    @Autowired
+    TransactionService transactionService;
     @Override
     public List<TraceDto> filter(RequestFilterRequest traceFilterRequest) {
         List<TraceUserLoanEntity> traceEntities = traceRepository.findAllByLoanerUserNameOrderByNextDeadlineDesc(Utils.getCurrentUser().getName());
@@ -102,6 +105,8 @@ public class TraceServiceImpl implements TraceService {
         }
         userRepository.save(debtor);
         userRepository.save(loaner);
+        transactionService.addTransaction(loaner,trace.getFinalAmountThisMonth(),true,"Được trả nợ");
+        transactionService.addTransaction(debtor,trace.getFinalAmountThisMonth(),false,"Trả nợ");
         traceRepository.save(trace);
 
         UserDto currentUserDto = new UserDto();

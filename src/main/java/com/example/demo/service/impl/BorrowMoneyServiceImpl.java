@@ -25,17 +25,6 @@ public class BorrowMoneyServiceImpl implements BorrowMoneyService {
     RequestRepository requestRepository;
 
     @Override
-    public void calculateInterest_TypeCurrentDebt(LoanEntity loanEntity, LoanDto loanDto) {
-
-    }
-
-    @Override
-    public void calculateInterest_TypeInitialDebt(LoanEntity loanEntity, LoanDto loanDto) {
-        float interest = 0f;
-
-    }
-
-    @Override
     public void requestBorrowMoney(BrowMoneyRequest borrowMoneyRequest) {
         UserEntity currentUser = userRepository.findByUsername(Utils.getCurrentUser().getName());
         UserEntity loaner = userRepository.findById(borrowMoneyRequest.getLoanerId()).get();
