@@ -1,46 +1,14 @@
-package com.example.demo.common;
+package com.example.demo.security;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
-public class Utils {
-    public static Authentication getCurrentUser() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        return auth;
-    }
-
-    public static String convertLocalDateTimeToddMMyyy(LocalDateTime localDateTime) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        return localDateTime.format(formatter);
-    }
-
-    public static String convertLocalDateTimeToddMMyyyWithTime(LocalDateTime localDateTime) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm:ss");
-        return localDateTime.format(formatter);
-    }
-
-    public static LocalDateTime convertyyyyMMddToLocalDateTime(String dateString) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate date = LocalDate.parse(dateString, formatter);
-        LocalDateTime localDateTime = date.atStartOfDay();
-        return localDateTime;
-    }
-
-    public static String convertLocalDateTimeToyyyyMMdd(LocalDateTime datetime) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        return datetime.format(formatter);
-    }
-
-    public static Gson getGson() {
-        return new GsonBuilder()
-                .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer())
-                .create();
+public class test {
+    public static void main(String[] args) {
+        System.out.println(addNumericString("-5","10"));
+        System.out.println(addNumericString("-10","5"));
+        System.out.println(addNumericString("8","-9"));
+        System.out.println( addNumericString("69","-30"));
+        System.out.println(addNumericString("12","19"));
+        System.out.println(addNumericString("61","-1"));
+        System.out.println(addNumericString("-10","110"));
     }
 
     public static String addNumericString(String num1, String num2){
@@ -80,7 +48,7 @@ public class Utils {
         }
     }
 
-    private static String addPosStrings (String s1, String s2) {
+    public static String addPosStrings (String s1, String s2) {
         StringBuilder sb = new StringBuilder();
         int carry = 0;
         int i = s1.length() - 1;
@@ -106,7 +74,7 @@ public class Utils {
 
         return sb.reverse().toString();
     }
-    private static String subtractPosStrings(String num1, String num2) {
+    public static String subtractPosStrings(String num1, String num2) {
         // Check for negative signs
         boolean isNegative = false;
         if (num1.charAt(0) == '-') {
@@ -153,7 +121,7 @@ public class Utils {
         return result.reverse().toString();
     }
 
-    private static int comparePosStrings(String a, String b) {
+    public static int comparePosStrings(String a, String b) {
         int len1 = a.length();
         int len2 = b.length();
 
@@ -175,4 +143,7 @@ public class Utils {
         }
         return 0;
     }
+
+
+
 }

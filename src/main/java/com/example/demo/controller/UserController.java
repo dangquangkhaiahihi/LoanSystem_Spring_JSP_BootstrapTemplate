@@ -67,29 +67,4 @@ public class UserController {
         mv.setView(new RedirectView("/logout"));
         return mv;
     }
-
-    @RequestMapping(value = "/add-balance", method = RequestMethod.POST)
-    public ModelAndView addBalance(@ModelAttribute("addBalanceVal") String addBalance, HttpServletRequest request) {
-        ModelAndView mv = new ModelAndView();
-        try {
-            UserDto userDto = userService.addBalance(addBalance);
-            session.setAttribute("user-info", userDto);
-        } catch (Exception ex) {
-            mv.addObject("errorMessage", ex.getMessage());
-            mv.setViewName("error");
-            return mv;
-        }
-
-        String goBackUrl = request.getHeader("referer");
-        for(String url : Constant.cantRedirectUrls){
-            if(goBackUrl.contains(url)){
-                goBackUrl="/home";
-                break;
-            }
-        }
-        mv.addObject("goBackUrl", goBackUrl);
-        mv.setView(new RedirectView(goBackUrl));
-        return mv;
-    }
-
 }

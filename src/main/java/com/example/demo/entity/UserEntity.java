@@ -15,38 +15,19 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "NAME", length = 50, nullable = false)
+    @Column(name = "NAME")
     private String name;
 
-    @Column(name = "CCCD_NUM", unique = true, length = 12, nullable = false)
-    private String cccdNum;
-
-    @Column(name = "GENDER", nullable = false)
-    private boolean gender;
-
-    @Column(name = "PHONE", unique = true, length = 10, nullable = false)
-    private String phone;
-
-    @Column(name = "EMAIL", unique = true, length = 50, nullable = false)
+    @Column(name = "EMAIL")
     private String email;
 
-    @Column(name = "USERNAME", unique = true, length = 30, nullable = false)
+    @Column(name = "USERNAME")
     private String username;
 
-    @Column(name = "PASSWORD", nullable = false)
+    @Column(name = "PASSWORD")
     private String password;
 
-    @Column(name = "STATUS", nullable = false)
-    private boolean status = true;
-
-    @Column(name = "CREDIT_POINT", nullable = false)
-    private Integer creditPoint = 50;
-
-    @Column(name = "BALANCE", nullable = false)
-    private Float balance = 0f;
-
-//    //trong bảng ko có cột này
-//    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    private List<LoanEntity> loans = new ArrayList<>();
+    @Column(name = "AMOUNT")
+    private String amount;
 
 }

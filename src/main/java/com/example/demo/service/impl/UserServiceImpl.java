@@ -3,11 +3,9 @@ package com.example.demo.service.impl;
 import com.example.demo.common.StringUtils;
 import com.example.demo.common.Utils;
 import com.example.demo.entity.UserEntity;
-import com.example.demo.exception.AddBalanceNotMinException;
 import com.example.demo.model.ChangePassDto;
 import com.example.demo.model.UserDto;
 import com.example.demo.repository.UserRepository;
-import com.example.demo.service.TransactionService;
 import com.example.demo.service.UserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +16,6 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements UserService {
     @Autowired
     UserRepository userRepository;
-
-    @Autowired
-    TransactionService transactionService;
 
     @Autowired
     public BCryptPasswordEncoder passwordEncoderUserService() {
@@ -34,7 +29,6 @@ public class UserServiceImpl implements UserService {
 
         UserDto userDto = new UserDto();
         BeanUtils.copyProperties(userEntity, userDto);
-        userDto.setBalance(userEntity.getBalance());
         return userDto;
     }
 
@@ -47,10 +41,8 @@ public class UserServiceImpl implements UserService {
         } else {
             userEntity.setName(userDto.getName());
             userEntity.setEmail(userDto.getEmail());
-            userEntity.setPhone(userDto.getPhone());
             UserEntity userEntity1 = userRepository.save(userEntity);
             BeanUtils.copyProperties(userEntity1, userDto);
-            userDto.setBalance(userEntity1.getBalance());
             return userDto;
         }
     }
@@ -77,51 +69,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto addBalance(String addBalance) throws Exception {
-        if (StringUtils.isEmpty(addBalance)) {
-            throw new Exception("Không được bỏ trống các trường bắt buộc.");
-        }
-        addBalance = addBalance.trim();
-        if (!StringUtils.containsOnlyNumbers(addBalance)) {
-            throw new Exception("Nạp tiền cần điền số");
-        }
-
-        try {
-            Float addBalanceF = Float.parseFloat(addBalance);
-            if (addBalanceF < 10000f) {
-                throw new AddBalanceNotMinException("Vui lòng nạp lớn hơn 10.000 VNĐ");
-            }
-            UserEntity userEntity = userRepository.findByUsername(Utils.getCurrentUser().getName());
-            userEntity.setBalance(userEntity.getBalance() + addBalanceF);
-            userRepository.save(userEntity);
-            UserDto userDto = new UserDto();
-            BeanUtils.copyProperties(userEntity, userDto);
-            userDto.setBalance(userEntity.getBalance());
-
-            transactionService.addTransaction(userEntity,addBalanceF,true,"Nạp tiền");
-            return userDto;
-        } catch (AddBalanceNotMinException ex) {
-            throw ex;
-        } catch (Exception ex) {
-            throw new Exception("Nạp tiền lỗi, thử lại sau.");
-        }
-    }
-
-    @Override
     public void register(UserDto userDto) throws Exception {
         UserEntity checkUsername = userRepository.findByUsername(userDto.getUsername());
-        UserEntity checkCccdNum = userRepository.findByCccdNum(userDto.getCccdNum());
-        UserEntity checkPhone = userRepository.findByPhone(userDto.getPhone());
         UserEntity checkEmail = userRepository.findByEmail(userDto.getEmail());
 
         if(checkUsername != null){
             throw new Exception("Tên đăng nhập đã tồn tại.");
-        }
-        if(checkCccdNum != null){
-            throw new Exception("CCCD đã tồn tại.");
-        }
-        if(checkPhone != null){
-            throw new Exception("Số điện thoại đã tồn tại.");
         }
         if(checkEmail != null){
             throw new Exception("Email đã tồn tại.");
@@ -130,9 +83,6 @@ public class UserServiceImpl implements UserService {
         UserEntity userEntity = new UserEntity();
         userEntity.setEmail(userDto.getEmail());
         userEntity.setName(userDto.getName());
-        userEntity.setGender(userDto.isGender());
-        userEntity.setPhone(userDto.getPhone());
-        userEntity.setCccdNum(userDto.getCccdNum());
 
         userEntity.setUsername(userDto.getUsername());
         userEntity.setPassword(passwordEncoderUserService().encode(userDto.getPassword()));
