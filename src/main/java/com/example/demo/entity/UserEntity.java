@@ -28,6 +28,6 @@ public class UserEntity {
     private String password;
 
     @Column(name = "AMOUNT")
-    private String amount;
+    private Long amount;
 
 }

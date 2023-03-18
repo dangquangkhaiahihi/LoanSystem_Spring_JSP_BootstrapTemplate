@@ -1,5 +1,6 @@
 package com.example.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -34,4 +35,9 @@ public class PersonEntity {
 
     @Column(name = "UPDATED_AT")
     private LocalDateTime updatedAt;
+
+    @ManyToOne
+    @JsonIgnoreProperties(value = "", allowGetters = true)
+    @JoinColumn(name = "USER_ID")
+    private UserEntity user;
 }
