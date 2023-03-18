@@ -26,7 +26,7 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
                                         Authentication authentication) throws ServletException, IOException {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
-        String redirectURL = request.getContextPath();
+        String redirectURL;
 
         HttpSession session = request.getSession();
         redirectURL = "/home";

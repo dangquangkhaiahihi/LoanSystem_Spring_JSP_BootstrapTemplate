@@ -10,20 +10,6 @@
         <i class="fa fa-bars"></i>
     </button>
 
-    <a href="#" class="btn btn-primary btn-icon-split btn-lg" data-toggle="modal" data-target="#addBalance">
-        <span class="icon text-white-50">
-            <i class="fas fa-donate text-white"></i>
-        </span>
-        <span class="text">Nạp tiền</span>
-    </a>
-
-    <div class="input-group" style="max-width: 20%; margin:auto">
-        <div class="input-group-prepend">
-            <span class="input-group-text" id="basic-addon1">Số dư</span>
-        </div>
-        <input type="text" class="form-control" value=<%=userInfo.getBalance()%> aria-label="Username" aria-describedby="basic-addon1" readonly>
-    </div>
-
     <!-- Topbar Navbar -->
     <ul class="navbar-nav ml-auto">
 
