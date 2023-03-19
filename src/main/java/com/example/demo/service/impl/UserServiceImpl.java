@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
     public UserDto updateProfile(UserDto userDto) throws Exception {
         UserEntity userEntity = userRepository.findByUsername(Utils.getCurrentUser().getName());
         if (userEntity == null) return null;
-        if (StringUtils.isEmpty(userDto.getName()) || StringUtils.isEmpty(userDto.getPhone()) || StringUtils.isEmpty(userDto.getEmail())) {
+        if (StringUtils.isEmpty(userDto.getName()) || StringUtils.isEmpty(userDto.getEmail())) {
             throw new Exception("Không được bỏ trống các trường bắt buộc.");
         } else {
             userEntity.setName(userDto.getName());

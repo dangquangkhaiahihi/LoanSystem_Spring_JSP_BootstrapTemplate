@@ -5,10 +5,12 @@ import com.example.demo.model.ChangePassDto;
 import com.example.demo.model.UserDto;
 import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -22,16 +24,15 @@ public class UserController {
     @Autowired
     private HttpSession session;
 
-    @RequestMapping(value = "/update-profile", method = RequestMethod.POST)
-    public ModelAndView updateProfile(@ModelAttribute("userDto") UserDto userDto, HttpServletRequest request) {
-        ModelAndView mv = new ModelAndView();
+    @RequestMapping(value = "/update-profile", method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    @ResponseBody
+    public String updateProfile(@ModelAttribute  UserDto userDto, HttpServletRequest request) throws Exception{
         try {
             UserDto userDto1 = userService.updateProfile(userDto);
             session.setAttribute("user-info", userDto1);
         } catch (Exception ex) {
-            mv.addObject("errorMessage", ex.getMessage());
-            mv.setViewName("error");
-            return mv;
+            session.setAttribute("error-message", ex.getMessage());
+            throw ex;
         }
 
         String goBackUrl = request.getHeader("referer");
@@ -41,9 +42,7 @@ public class UserController {
                 break;
             }
         }
-        mv.addObject("goBackUrl", goBackUrl);
-        mv.setView(new RedirectView(goBackUrl));
-        return mv;
+        return goBackUrl;
     }
 
     @RequestMapping(value = "/change-pass", method = RequestMethod.POST)

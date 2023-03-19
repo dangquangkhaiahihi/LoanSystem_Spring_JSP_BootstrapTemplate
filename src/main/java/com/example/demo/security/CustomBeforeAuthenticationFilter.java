@@ -17,6 +17,7 @@ public class CustomBeforeAuthenticationFilter extends UsernamePasswordAuthentica
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
             throws AuthenticationException {
+        request.getSession().setAttribute("error-message", null);
         //Check capcha
         String captcha = request.getParameter("captcha");
 

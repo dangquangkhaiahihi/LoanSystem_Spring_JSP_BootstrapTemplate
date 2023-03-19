@@ -12,14 +12,13 @@
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
-            <form method="POST" action="/update-profile" modelAttribute="userDto">
             <div class="modal-body">
-
+                    <form id="form-update-profile">
                     <div style="display: flex; flex-direction: row">
                         <div style="display: flex;flex: 1;flex-direction: column;max-width: 50%;">
                             <div style="display: flex;flex: 1;flex-direction: column;max-width: 70%;margin-bottom: 1rem;">
-                                <label for="name">Tên khách hàng</label>
-                                <input id="name" name="name" type="text" class="form-control" value="<%=userInfo.getName()%>"
+                                <label for="name-user-profile">Tên khách hàng</label>
+                                <input id="name-user-profile" name="name" type="text" class="form-control" value="<%=userInfo.getName()%>"
                                        placeholder="Nhập tên"/>
                             </div>
                             <div style="display: flex;flex: 1;flex-direction: column;max-width: 70%;margin-bottom: 1rem;">
@@ -29,17 +28,44 @@
                         </div>
                         <div style="display: flex;flex: 1;flex-direction: column;max-width: 50%">
                             <div style="display: flex;flex: 1;flex-direction: column;max-width: 70%;margin-bottom: 1rem;">
-                                <label for="email">Email</label>
-                                <input id="email" name="email" type="text" class="form-control" value="<%=userInfo.getEmail()%>"
+                                <label for="email-user-profile">Email</label>
+                                <input id="email-user-profile" name="email" type="text" class="form-control" value="<%=userInfo.getEmail()%>"
                                        placeholder="Nhập email">
                             </div>
                         </div>
                     </div>
+                    </form>
             </div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Đóng</button>
-                <input class="btn btn-primary" type="submit" value="Cập nhật"/>
-            </div></form>
+                <input id="button-update-profile" class="btn btn-primary" type="submit" value="Cập nhật"/>
+            </div>
         </div>
     </div>
 </div>
+
+<script>
+    function sendRequest(url) {
+        $.ajax({
+            url: url,
+            method: "POST",
+            data: $('#form-update-profile').serialize(),
+            success: function (response) {
+                // Extract data from the model map
+                var data = response;
+                // Redirect to the view
+                window.location.href = data;
+            },
+            error: function (response) {
+                console.log(response);
+                //document.getElementById("#content-error-message").value = response?.responseJSON?.message;
+                $('#modal-error-message').modal('show');
+
+            }
+        });
+    }
+
+    document.getElementById("button-update-profile").addEventListener("click", function () {
+            sendRequest('/update-profile');
+        });
+</script>

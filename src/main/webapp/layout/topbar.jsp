@@ -85,5 +85,8 @@
 <%-- Import Logout Modal--%>
 <%@ include file="../modal/modal-logout.jsp" %>
 
+<%-- Import Error Modal--%>
+<%@ include file="../modal/modal-error.jsp" %>
+
 <%-- Import Add Balance Modal--%>
 <%@ include file="../modal/modal-add-balance.jsp" %>
