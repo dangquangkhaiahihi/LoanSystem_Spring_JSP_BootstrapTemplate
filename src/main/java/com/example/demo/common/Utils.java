@@ -5,8 +5,10 @@ import com.google.gson.GsonBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -182,5 +184,19 @@ public class Utils {
         Pattern pattern = Pattern.compile("[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
+    }
+
+    public static String instantToString(Instant instant) {
+        // Convert the instant to a LocalDateTime object
+        LocalDateTime dateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
+
+        // Define the desired output format
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+
+        // Format the LocalDateTime object as a string using the formatter
+        String formattedString = dateTime.format(formatter);
+
+        // Return the formatted string
+        return formattedString;
     }
 }

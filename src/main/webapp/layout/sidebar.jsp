@@ -25,57 +25,10 @@
         <!-- Divider -->
         <hr class="sidebar-divider">
 
-        <!-- Heading -->
-        <div class="sidebar-heading">
-            Tiền
-        </div>
-
-        <!-- Nav Item - Collapse Menu -->
         <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-               aria-expanded="true" aria-controls="collapseTwo">
-                <i class="fas fa-fw fa-cog"></i>
-                <span>Cho vay</span>
-            </a>
-            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
-                    <h6 class="collapse-header">Danh sách:</h6>
-                    <a class="collapse-item" href="/loan">Danh sách khoản cho vay</a>
-                    <a class="collapse-item" href="/request">Xác nhận cho vay</a>
-                    <a class="collapse-item" href="/trace">Đã cho vay</a>
-                </div>
-            </div>
-        </li>
-
-        <!-- Nav Item - Collapse Menu -->
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree"
-               aria-expanded="true" aria-controls="collapseThree">
-                <i class="fas fa-fw fa-folder"></i>
-                <span>Vay nợ</span>
-            </a>
-            <div id="collapseThree" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
-                    <h6 class="collapse-header">Danh sách:</h6>
-                    <a class="collapse-item" href="/borrow-money">Đi vay</a>
-                    <a class="collapse-item" href="/trace/list-debt">Danh sách khoản nợ</a>
-                </div>
-            </div>
-        </li>
-
-        <!-- Divider -->
-        <hr class="sidebar-divider">
-
-        <!-- Heading -->
-        <div class="sidebar-heading">
-            Báo cáo
-        </div>
-
-        <!-- Nav Item - Item -->
-        <li class="nav-item">
-            <a class="nav-link" href="/transaction">
-                <i class="fas fa-fw fa-table"></i>
-                <span>Báo cáo</span></a>
+            <a class="nav-link" href="/person">
+                <i class="fas fa-fw fa-tachometer-alt"></i>
+                <span>Sổ ghi nợ</span></a>
         </li>
 
         <!-- Divider -->
