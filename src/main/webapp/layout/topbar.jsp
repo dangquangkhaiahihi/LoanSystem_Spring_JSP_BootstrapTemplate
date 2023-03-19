@@ -88,5 +88,21 @@
 <%-- Import Error Modal--%>
 <%@ include file="../modal/modal-error.jsp" %>
 
+<%-- Import Success Modal--%>
+<%@ include file="../modal/modal-success.jsp" %>
+
 <%-- Import Add Balance Modal--%>
 <%@ include file="../modal/modal-add-balance.jsp" %>
+
+<script>
+    function setErrorMessage(errorMessage){
+        console.log(errorMessage);
+        document.getElementById("content-error-message").innerHTML = errorMessage;
+    }
+
+    function setSuccessMessage(successMessage){
+        console.log(successMessage);
+        document.getElementById("content-success-message").innerHTML = successMessage;
+    }
+
+</script>

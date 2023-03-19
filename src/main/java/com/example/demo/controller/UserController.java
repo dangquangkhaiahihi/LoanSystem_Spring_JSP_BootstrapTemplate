@@ -28,10 +28,10 @@ public class UserController {
     @ResponseBody
     public String updateProfile(@ModelAttribute  UserDto userDto, HttpServletRequest request) throws Exception{
         try {
+            userDto.validateInput();
             UserDto userDto1 = userService.updateProfile(userDto);
             session.setAttribute("user-info", userDto1);
         } catch (Exception ex) {
-            session.setAttribute("error-message", ex.getMessage());
             throw ex;
         }
 

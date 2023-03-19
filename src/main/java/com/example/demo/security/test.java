@@ -1,14 +1,27 @@
 package com.example.demo.security;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class test {
     public static void main(String[] args) {
-        System.out.println(addNumericString("-5","10"));
-        System.out.println(addNumericString("-10","5"));
-        System.out.println(addNumericString("8","-9"));
-        System.out.println( addNumericString("69","-30"));
-        System.out.println(addNumericString("12","19"));
-        System.out.println(addNumericString("61","-1"));
-        System.out.println(addNumericString("-10","110"));
+//        System.out.println(addNumericString("-5","10"));
+//        System.out.println(addNumericString("-10","5"));
+//        System.out.println(addNumericString("8","-9"));
+//        System.out.println( addNumericString("69","-30"));
+//        System.out.println(addNumericString("12","19"));
+//        System.out.println(addNumericString("61","-1"));
+//        System.out.println(addNumericString("-10","110"));
+
+        System.out.println(validateEmail("asdasdas"));
+        System.out.println(validateEmail("2142r32434321dsfv"));
+        System.out.println(validateEmail("danguqngakhair@gmail.com"));
+    }
+
+    public static boolean validateEmail(String email) {
+        Pattern pattern = Pattern.compile("[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
     }
 
     public static String addNumericString(String num1, String num2){

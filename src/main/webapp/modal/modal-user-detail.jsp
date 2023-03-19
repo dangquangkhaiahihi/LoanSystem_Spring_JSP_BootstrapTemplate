@@ -53,14 +53,13 @@
             success: function (response) {
                 // Extract data from the model map
                 var data = response;
-                // Redirect to the view
-                window.location.href = data;
+                setSuccessMessage('Cập nhật thông tin thành công');
+                $('#modal-success-message').modal('show');
             },
             error: function (response) {
-                console.log(response);
-                //document.getElementById("#content-error-message").value = response?.responseJSON?.message;
+                console.log(response?.responseJSON?.message);
+                setErrorMessage(response?.responseJSON?.message);
                 $('#modal-error-message').modal('show');
-
             }
         });
     }
