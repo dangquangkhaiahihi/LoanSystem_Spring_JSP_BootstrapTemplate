@@ -3,12 +3,14 @@ package com.example.demo.common;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 
 public class Utils {
     public static Authentication getCurrentUser() {
@@ -185,5 +187,11 @@ public class Utils {
         } catch (Exception e) {
             return null;
         }
+    }
+
+    public static AuditorAware<String> auditorAware() {
+        // return the username of the currently authenticated user
+        return () -> Optional.ofNullable(SecurityContextHolder.getContext().getAuthentication())
+                .map(Authentication::getName);
     }
 }
