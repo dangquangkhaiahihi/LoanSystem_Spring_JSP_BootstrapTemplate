@@ -35,18 +35,22 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     @Transactional
-    public PersonEntity createUpdate(PersonDTO personDTO) {
+    public void createUpdate(PersonDTO personDTO) {
         validateCreateUpdateRequest(personDTO);
         enrichPersonInfo(personDTO);
         Optional<UserEntity> userOpt = userRepository.findById(personDTO.getUser().getId());
         PersonEntity person = personMapper.toEntity(personDTO);
         person.setUser(userOpt.get());
-        personRepository.save(person.getName(), person.getAddress(),
-                person.getPhone(), person.getEmail(),
-                person.getTotalAmount(), person.getUser().getId(),
-                person.getCreatedBy(), person.getCreatedDate(),
-                person.getLastModifiedBy(), Instant.now());
-        return personRepository.findByPhone(personDTO.getPhone()).get();
+        if (Objects.isNull(person.getId())) {
+            personRepository.save(person.getName(), person.getAddress(),
+                    person.getPhone(), person.getEmail(),
+                    person.getTotalAmount(), person.getUser().getId(),
+                    person.getCreatedBy(), person.getCreatedDate(),
+                    person.getLastModifiedBy(), Instant.now());
+        } else {
+            personRepository.updatePersonInfo(person.getId(), person.getName(),
+                    person.getAddress(), person.getEmail(), person.getPhone());
+        }
     }
 
     private void enrichPersonInfo(PersonDTO personDTO) {

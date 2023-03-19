@@ -67,4 +67,13 @@ public interface PersonRepository extends JpaRepository<PersonEntity, Long> {
               @Param("totalAmount") Long totalAmount, @Param("userId") Long userId,
               @Param("createdBy") String createdBy, @Param("createdDate") Instant createdDate,
               @Param("lastModifiedBy") String lastModifiedBy, @Param("lastModifiedDate") Instant lastModifiedDate);
+
+    @Query(value = "update person set name = :name, " +
+            "address = :address, email = :email, phone = :phone " +
+            "where id = :id",
+            nativeQuery = true)
+    @Modifying
+    void updatePersonInfo(@Param("id") Long id, @Param("name") String name,
+                          @Param("address") String address, @Param("email") String email,
+                          @Param("phone") String phone);
 }

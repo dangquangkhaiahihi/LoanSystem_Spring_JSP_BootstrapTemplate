@@ -26,9 +26,9 @@ public class PersonController {
 
     @PostMapping(value = "")
     @ResponseBody
-    public ResponseEntity<ResponseDTO> createUpdate(@Valid @RequestBody PersonDTO personDTO,
-                                                    HttpServletRequest request) {
-        return ResponseEntity.ok().body(ResponseUtils.responseOK(personService.createUpdate(personDTO)));
+    public ResponseEntity<ResponseDTO> createUpdate(@Valid @RequestBody PersonDTO personDTO) {
+        personService.createUpdate(personDTO);
+        return ResponseEntity.ok().body(ResponseUtils.responseOK(null));
     }
 
     @GetMapping(value = "/find")

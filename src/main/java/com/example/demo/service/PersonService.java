@@ -8,7 +8,7 @@ import org.springframework.data.domain.Pageable;
 import java.time.Instant;
 
 public interface PersonService {
-    PersonEntity createUpdate(PersonDTO personDTO);
+    void createUpdate(PersonDTO personDTO);
 
     Page<PersonEntity> findList(String name, String address, String phone, String email,
                                 Long userId, Long fromId, Long toId, Long fromTotal, Long toTotal,

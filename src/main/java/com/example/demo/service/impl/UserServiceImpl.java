@@ -2,6 +2,7 @@ package com.example.demo.service.impl;
 
 import com.example.demo.common.StringUtils;
 import com.example.demo.common.Utils;
+import com.example.demo.entity.PersonEntity;
 import com.example.demo.entity.UserEntity;
 import com.example.demo.service.dto.ChangePassDto;
 import com.example.demo.service.dto.UserDto;
@@ -11,6 +12,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Objects;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -73,10 +76,10 @@ public class UserServiceImpl implements UserService {
         UserEntity checkUsername = userRepository.findByUsername(userDto.getUsername());
         UserEntity checkEmail = userRepository.findByEmail(userDto.getEmail());
 
-        if(checkUsername != null){
+        if (checkUsername != null) {
             throw new Exception("Tên đăng nhập đã tồn tại.");
         }
-        if(checkEmail != null){
+        if (checkEmail != null) {
             throw new Exception("Email đã tồn tại.");
         }
 
@@ -87,5 +90,15 @@ public class UserServiceImpl implements UserService {
         userEntity.setUsername(userDto.getUsername());
         userEntity.setPassword(passwordEncoderUserService().encode(userDto.getPassword()));
         userRepository.save(userEntity);
+    }
+
+    @Override
+    public void updateAmount(PersonEntity person, Long amount, Boolean isPlus) {
+        Long oldAmount = Objects.nonNull(person.getUser().getAmount()) ? person.getUser().getAmount() : 0L;
+        if (isPlus) {
+            userRepository.updateAmount(oldAmount + amount, person.getUser().getId());
+        } else {
+            userRepository.updateAmount(oldAmount - amount, person.getUser().getId());
+        }
     }
 }

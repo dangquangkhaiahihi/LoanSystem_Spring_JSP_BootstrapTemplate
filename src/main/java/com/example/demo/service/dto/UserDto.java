@@ -16,7 +16,7 @@ public class UserDto {
     private String email;
     private String username;
     private Integer creditPoint;
-    private Long balance;
+    private Long amount;
 
     private String password;
 

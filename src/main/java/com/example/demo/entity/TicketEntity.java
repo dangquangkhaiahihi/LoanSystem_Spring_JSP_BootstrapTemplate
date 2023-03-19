@@ -2,6 +2,9 @@ package com.example.demo.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.time.Instant;
@@ -20,7 +23,7 @@ public class TicketEntity {
     private Long amount;
 
     @Column(name = "IS_PLUS")
-    private Long isPlus;
+    private Boolean isPlus;
 
     @Column(name = "NOTE")
     private String note;
@@ -35,4 +38,19 @@ public class TicketEntity {
     @JsonIgnoreProperties(value = "", allowGetters = true)
     @JoinColumn(name = "PERSON_ID")
     private PersonEntity person;
+
+    @Column(name = "CREATED_BY", updatable = false)
+    private String createdBy;
+
+    @CreatedDate
+    @Column(name = "CREATED_DATE", updatable = false)
+    private Instant createdDate = Instant.now();
+
+    @LastModifiedBy
+    @Column(name = "LAST_MODIFIED_BY")
+    private String lastModifiedBy;
+
+    @LastModifiedDate
+    @Column(name = "LAST_MODIFIED_DATE")
+    private Instant lastModifiedDate = Instant.now();
 }
