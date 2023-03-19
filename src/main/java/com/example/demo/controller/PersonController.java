@@ -31,7 +31,7 @@ public class PersonController {
         return ResponseEntity.ok().body(ResponseUtils.responseOK(personService.createUpdate(personDTO)));
     }
 
-    @PostMapping(value = "/find")
+    @GetMapping(value = "/find")
     @ResponseBody
     public ResponseEntity<ResponseDTO> findList(@RequestParam(value = "name", required = false) String name,
                                                 @RequestParam(value = "address", required = false) String address,
