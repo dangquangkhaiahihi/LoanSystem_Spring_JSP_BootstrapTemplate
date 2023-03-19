@@ -8,12 +8,15 @@ import com.example.demo.utils.ResponseUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.time.Instant;
+import java.time.ZonedDateTime;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/person")
@@ -34,22 +37,31 @@ public class PersonController {
                                                 @RequestParam(value = "address", required = false) String address,
                                                 @RequestParam(value = "phone", required = false) String phone,
                                                 @RequestParam(value = "email", required = false) String email,
-                                                @RequestParam(value = "userId", required = false) Long userId,
+                                                @RequestParam(value = "userId") Long userId,
                                                 @RequestParam(value = "fromId", required = false) Long fromId,
                                                 @RequestParam(value = "toId", required = false) Long toId,
                                                 @RequestParam(value = "fromTotal", required = false) Long fromTotal,
                                                 @RequestParam(value = "toTotal", required = false) Long toTotal,
-                                                @RequestParam(value = "fromCreatedDate", required = false) Instant fromCreatedDate,
-                                                @RequestParam(value = "toCreatedDate", required = false) Instant toCreatedDate,
-                                                @RequestParam(value = "fromLastModifiedDate", required = false) Instant fromLastModifiedDate,
-                                                @RequestParam(value = "toLastModifiedDate", required = false) Instant toLastModifiedDate,
+                                                @RequestParam(value = "fromCreatedDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssZ") ZonedDateTime fromCreatedDate,
+                                                @RequestParam(value = "toCreatedDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssZ") ZonedDateTime toCreatedDate,
+                                                @RequestParam(value = "fromLastModifiedDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssZ") ZonedDateTime fromLastModifiedDate,
+                                                @RequestParam(value = "toLastModifiedDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssZ") ZonedDateTime toLastModifiedDate,
                                                 @RequestParam(defaultValue = "0") int page,
                                                 @RequestParam(defaultValue = "10") int size) {
+        Instant fromCreatedDateInstant = Objects.nonNull(fromCreatedDate) ? fromCreatedDate.toInstant() : null;
+        Instant toCreatedDateInstant = Objects.nonNull(toCreatedDate) ? toCreatedDate.toInstant() : null;
+        Instant fromLastModifiedDateInstant = Objects.nonNull(fromLastModifiedDate) ? fromLastModifiedDate.toInstant() : null;
+        Instant toLastModifiedDateInstant = Objects.nonNull(toLastModifiedDate) ? toLastModifiedDate.toInstant() : null;
         Page<PersonEntity> pageResult = personService.findList(name, address, phone, email, userId,
                 fromId, toId, fromTotal, toTotal,
-                fromCreatedDate, toCreatedDate,
-                fromLastModifiedDate, toLastModifiedDate,
+                fromCreatedDateInstant, toCreatedDateInstant,
+                fromLastModifiedDateInstant, toLastModifiedDateInstant,
                 PageRequest.of(page, size));
-        return ResponseEntity.ok().body(ResponseUtils.responseOK(pageResult));
+        ResponseDTO response = ResponseUtils.responseOK(pageResult.toList());
+        response.getMeta().setTotal(pageResult.getTotalElements());
+        response.getMeta().setPage(pageResult.getNumber());
+        response.getMeta().setSize(pageResult.getSize());
+
+        return ResponseEntity.ok().body(response);
     }
 }

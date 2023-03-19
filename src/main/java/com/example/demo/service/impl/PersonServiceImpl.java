@@ -1,6 +1,7 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.common.StringUtils;
+import com.example.demo.common.Utils;
 import com.example.demo.common.exception.BusinessException;
 import com.example.demo.entity.PersonEntity;
 import com.example.demo.entity.UserEntity;
@@ -10,6 +11,7 @@ import com.example.demo.service.PersonService;
 import com.example.demo.service.dto.PersonDTO;
 import com.example.demo.service.mapper.PersonMapper;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -35,11 +37,23 @@ public class PersonServiceImpl implements PersonService {
     @Transactional
     public PersonEntity createUpdate(PersonDTO personDTO) {
         validateCreateUpdateRequest(personDTO);
+        enrichPersonInfo(personDTO);
         Optional<UserEntity> userOpt = userRepository.findById(personDTO.getUser().getId());
-
         PersonEntity person = personMapper.toEntity(personDTO);
         person.setUser(userOpt.get());
-        return personRepository.save(person);
+        personRepository.save(person.getName(), person.getAddress(),
+                person.getPhone(), person.getEmail(),
+                person.getTotalAmount(), person.getUser().getId(),
+                person.getCreatedBy(), person.getCreatedDate(),
+                person.getLastModifiedBy(), Instant.now());
+        return personRepository.findByPhone(personDTO.getPhone()).get();
+    }
+
+    private void enrichPersonInfo(PersonDTO personDTO) {
+        String currentUser = Utils.auditorAware().getCurrentAuditor().orElse("SYSTEM");
+        personDTO.setLastModifiedBy(currentUser);
+        personDTO.setCreatedBy(StringUtils.isEmpty(personDTO.getCreatedBy()) ? currentUser : personDTO.getCreatedBy());
+        personDTO.setCreatedDate(Objects.isNull(personDTO.getCreatedDate()) ? Instant.now() : personDTO.getCreatedDate());
     }
 
     @Override
@@ -71,14 +85,16 @@ public class PersonServiceImpl implements PersonService {
     private Boolean validateDuplicate(PersonDTO personDTO) {
         Optional<PersonEntity> personOpt = personRepository.findByPhone(personDTO.getPhone());
         if (personOpt.isPresent()) {
-            personDTO.setCreatedDate(personOpt.get().getCreatedDate());
+//            personDTO.setCreatedDate(personOpt.get().getCreatedDate());
             if (Objects.nonNull(personDTO.getId())
                     && personDTO.getId().equals(personOpt.get().getId())) {
+                personDTO.setCreatedDate(personOpt.get().getCreatedDate());
+                personDTO.setCreatedBy(personOpt.get().getCreatedBy());
                 return true;
             }
             return false;
         }
-        personDTO.setCreatedDate(Instant.now());
+//        personDTO.setCreatedDate(Instant.now());
         return true;
     }
 }

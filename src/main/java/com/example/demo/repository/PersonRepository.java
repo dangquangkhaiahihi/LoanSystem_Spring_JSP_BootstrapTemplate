@@ -4,11 +4,13 @@ import com.example.demo.entity.PersonEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -55,4 +57,14 @@ public interface PersonRepository extends JpaRepository<PersonEntity, Long> {
                                 @Param("fromCreatedDate") Instant fromCreatedDate, @Param("toCreatedDate") Instant toCreatedDate,
                                 @Param("fromLastModifiedDate") Instant fromLastModifiedDate, @Param("toLastModifiedDate") Instant toLastModifiedDate,
                                 Pageable pageable);
+
+    @Query(value = "insert into person (address, created_by, created_date, email, last_modified_by, last_modified_date, `name`, phone, total_amount, user_id) " +
+            "values (:address, :createdBy, :createdDate, :email, :lastModifiedBy, :lastModifiedDate, :name, :phone, :totalAmount, :userId)",
+            nativeQuery = true)
+    @Modifying
+    void save(@Param("name") String name, @Param("address") String address,
+              @Param("phone") String phone, @Param("email") String email,
+              @Param("totalAmount") Long totalAmount, @Param("userId") Long userId,
+              @Param("createdBy") String createdBy, @Param("createdDate") Instant createdDate,
+              @Param("lastModifiedBy") String lastModifiedBy, @Param("lastModifiedDate") Instant lastModifiedDate);
 }

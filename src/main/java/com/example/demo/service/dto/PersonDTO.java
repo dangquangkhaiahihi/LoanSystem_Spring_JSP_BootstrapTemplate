@@ -21,7 +21,7 @@ public class PersonDTO {
 
     private String email;
 
-    private Long totalAmount;
+    private Long totalAmount = 0L;
 
     private UserDto user;
 
@@ -31,14 +31,6 @@ public class PersonDTO {
 
     private String lastModifiedBy;
 
-    private Instant lastModifiedDate = Instant.now();
-
-    private Long fromTotal;
-    private Long toTotal;
-    private Long fromId;
-    private Long toId;
-    private Instant fromCreatedDate;
-    private Instant toCreatedDate;
-    private Instant fromLastModifiedDate;
-    private Instant toLastModifiedDate;
+    private Instant lastModifiedDate;
+//    private Instant lastModifiedDate = Instant.now();
 }
