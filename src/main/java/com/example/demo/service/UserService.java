@@ -1,7 +1,7 @@
 package com.example.demo.service;
 
-import com.example.demo.model.ChangePassDto;
-import com.example.demo.model.UserDto;
+import com.example.demo.service.dto.ChangePassDto;
+import com.example.demo.service.dto.UserDto;
 
 public interface UserService {
     UserDto getUserDetailByUsername(String username);

@@ -1,9 +1,10 @@
-package com.example.demo.model;
+package com.example.demo.service.dto;
 
 import com.example.demo.common.StringUtils;
 import lombok.Data;
 
 import java.text.DecimalFormat;
+import java.time.Instant;
 
 @Data
 public class UserDto {
@@ -15,21 +16,25 @@ public class UserDto {
     private String email;
     private String username;
     private Integer creditPoint;
-    private String balance;
+    private Long balance;
 
     private String password;
 
-    public void setBalance(Float balance) {
-        this.balance = StringUtils.convertFloatToString(balance);
-    }
+    private String createdBy;
 
-    public void validateInput() throws Exception{
-        if(StringUtils.isEmpty(this.username)
+    private Instant createdDate;
+
+    private String lastModifiedBy;
+
+    private Instant lastModifiedDate;
+
+    public void validateInput() throws Exception {
+        if (StringUtils.isEmpty(this.username)
                 || StringUtils.isEmpty(this.password)
                 || StringUtils.isEmpty(this.name)
                 || StringUtils.isEmpty(this.cccdNum)
                 || StringUtils.isEmpty(this.phone)
-                || StringUtils.isEmpty(this.email)){
+                || StringUtils.isEmpty(this.email)) {
             throw new Exception("Vui lòng điền tất cả các trường");
         }
     }

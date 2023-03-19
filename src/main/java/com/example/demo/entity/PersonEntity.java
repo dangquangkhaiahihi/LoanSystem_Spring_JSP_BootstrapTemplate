@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Entity
 @Data
 @Table(name = "PERSON")
-public class PersonEntity {
+public class PersonEntity extends AbstractAuditingEntity {
     @Id
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,19 +22,13 @@ public class PersonEntity {
     private String address;
 
     @Column(name = "PHONE")
-    private boolean phone;
+    private String phone;
 
     @Column(name = "EMAIL")
     private String email;
 
     @Column(name = "TOTAL_AMOUNT")
-    private String totalAmount;
-
-    @Column(name = "CREATE_AT")
-    private LocalDateTime createAt;
-
-    @Column(name = "UPDATED_AT")
-    private LocalDateTime updatedAt;
+    private Long totalAmount;
 
     @ManyToOne
     @JsonIgnoreProperties(value = "", allowGetters = true)

@@ -1,8 +1,8 @@
 package com.example.demo.controller;
 
 import com.example.demo.common.Constant;
-import com.example.demo.model.ChangePassDto;
-import com.example.demo.model.UserDto;
+import com.example.demo.service.dto.ChangePassDto;
+import com.example.demo.service.dto.UserDto;
 import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

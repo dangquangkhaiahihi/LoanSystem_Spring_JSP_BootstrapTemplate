@@ -1,5 +1,6 @@
 package com.example.demo.common;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.springframework.security.core.Authentication;
@@ -43,7 +44,7 @@ public class Utils {
                 .create();
     }
 
-    public static String addNumericString(String num1, String num2){
+    public static String addNumericString(String num1, String num2) {
         // Check for negative signs
         String num1NoSign = "";
         String num2NoSign = "";
@@ -58,29 +59,29 @@ public class Utils {
             isNum2Negative = true;
         }
 
-        if(!isNum1Negative && !isNum2Negative){
-            return addPosStrings(num1,num2);
-        }else if(isNum1Negative && isNum2Negative){
-            return "-"+addPosStrings(num1NoSign,num2NoSign);
-        }else if(!isNum1Negative && isNum2Negative){
-            if(comparePosStrings(num1,num2NoSign) == -1){
-                return "-" + subtractPosStrings(num2NoSign,num1);
-            }else{
-                return subtractPosStrings(num1,num2NoSign);
+        if (!isNum1Negative && !isNum2Negative) {
+            return addPosStrings(num1, num2);
+        } else if (isNum1Negative && isNum2Negative) {
+            return "-" + addPosStrings(num1NoSign, num2NoSign);
+        } else if (!isNum1Negative && isNum2Negative) {
+            if (comparePosStrings(num1, num2NoSign) == -1) {
+                return "-" + subtractPosStrings(num2NoSign, num1);
+            } else {
+                return subtractPosStrings(num1, num2NoSign);
             }
-        }else{
+        } else {
 //            isNum1Negative && !isNum2Negative
 //            -5 7
 //            -5 3
-            if(comparePosStrings(num1NoSign,num2) == -1){
-                return subtractPosStrings(num2,num1NoSign);
-            }else{
-                return "-" + subtractPosStrings(num1NoSign,num2);
+            if (comparePosStrings(num1NoSign, num2) == -1) {
+                return subtractPosStrings(num2, num1NoSign);
+            } else {
+                return "-" + subtractPosStrings(num1NoSign, num2);
             }
         }
     }
 
-    private static String addPosStrings (String s1, String s2) {
+    private static String addPosStrings(String s1, String s2) {
         StringBuilder sb = new StringBuilder();
         int carry = 0;
         int i = s1.length() - 1;
@@ -106,6 +107,7 @@ public class Utils {
 
         return sb.reverse().toString();
     }
+
     private static String subtractPosStrings(String num1, String num2) {
         // Check for negative signs
         boolean isNegative = false;
@@ -174,5 +176,14 @@ public class Utils {
             }
         }
         return 0;
+    }
+
+    public static <T> String convertObjectToJsonString(T o) {
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            return mapper.writeValueAsString(o);
+        } catch (Exception e) {
+            return null;
+        }
     }
 }

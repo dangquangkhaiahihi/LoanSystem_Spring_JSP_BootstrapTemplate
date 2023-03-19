@@ -1,4 +1,4 @@
-<%@ page import="com.example.demo.model.UserDto" %>
+<%@ page import="com.example.demo.service.dto.UserDto" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <!-- User Detail Modal -->

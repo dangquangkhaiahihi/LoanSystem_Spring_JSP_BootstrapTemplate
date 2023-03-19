@@ -26,7 +26,7 @@ public class TicketEntity {
     private String note;
 
     @Column(name = "DATE_OF_TRANS")
-    private LocalDateTime dateOfTrans;
+    private Instant dateOfTrans;
 
     @Column(name = "IMAGE_URL")
     private String imgUrl;

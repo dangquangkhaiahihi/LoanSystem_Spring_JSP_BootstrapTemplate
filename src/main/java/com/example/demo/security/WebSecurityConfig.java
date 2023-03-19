@@ -53,26 +53,28 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.addFilterBefore(getBeforeAuthenticationFilter(), CustomBeforeAuthenticationFilter.class)
+        httpSecurity
+//                .addFilterBefore(getBeforeAuthenticationFilter(), CustomBeforeAuthenticationFilter.class)
                 .authorizeRequests()
-                .antMatchers("/login", "/register-page", "/register", "/error-not-logged-in", "/captcha-servlet").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .formLogin()
-                .defaultSuccessUrl("/home")
-//                .failureUrl("/home")
-                .loginPage("/login")
-//                .successHandler(successHandler)
-                .usernameParameter("username")
-                .passwordParameter("password")
-                .permitAll()
-                .and()
-                .logout().invalidateHttpSession(true)
-                .clearAuthentication(true)
-                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/login").permitAll()
-                .and()
-                .rememberMe();
+//                .antMatchers("/login", "/register-page", "/register", "/error-not-logged-in", "/captcha-servlet").permitAll()
+//                .anyRequest().authenticated()
+                .anyRequest().permitAll();
+//                .and()
+//                .formLogin()
+//                .defaultSuccessUrl("/home")
+////                .failureUrl("/home")
+//                .loginPage("/login")
+////                .successHandler(successHandler)
+//                .usernameParameter("username")
+//                .passwordParameter("password")
+//                .permitAll()
+//                .and()
+//                .logout().invalidateHttpSession(true)
+//                .clearAuthentication(true)
+//                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+//                .logoutSuccessUrl("/login").permitAll()
+//                .and()
+//                .rememberMe();
         httpSecurity.csrf().disable();
         httpSecurity.headers().frameOptions().sameOrigin();
     }
