@@ -2,10 +2,12 @@ package com.example.demo.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.time.Instant;
-import java.time.LocalDateTime;
+import org.springframework.data.annotation.Transient;
 
 @Entity
 @Data
@@ -20,13 +22,24 @@ public class TicketEntity {
     private Long amount;
 
     @Column(name = "IS_PLUS")
-    private Long isPlus;
+    private Boolean isPlus;
 
     @Column(name = "NOTE")
     private String note;
 
+    @CreatedDate
     @Column(name = "DATE_OF_TRANS")
-    private LocalDateTime dateOfTrans;
+    private Instant dateOfTrans;
+
+    @LastModifiedDate
+    @Column(name = "LAST_MODIFIED_DATE")
+    private Instant lastModifiedDate;
+
+    @Transient
+    private String dateOfTransStr;
+
+    @Transient
+    private String lastModifiedDateStr;
 
     @Column(name = "IMAGE_URL")
     private String imgUrl;

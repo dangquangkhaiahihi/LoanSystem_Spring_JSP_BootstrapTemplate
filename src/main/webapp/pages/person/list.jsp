@@ -177,7 +177,7 @@
                 <div class="card shadow mb-4">
                     <div class="card-body">
                         <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" style="width: 100%;mso-cellspacing: 0">
+                            <table class="table table-bordered" id="dataTable" style="width: 100%;mso-cellspacing: 0">
                                 <thead>
                                     <tr>
                                         <th>Id</th>
@@ -208,11 +208,30 @@
                                             <td>
                                                 <div style="display: flex">
                                                     <div>
+                                                        <button
+                                                                class="btn btn-transaprent btn-icon btn-sm"
+                                                                data-tooltip="tooltip" title="Xem chi tiết"
+                                                                data-toggle="modal" data-target="#modal-list-ticket"
+                                                                onclick='captruePersonId(<%= person.getId() %>, "<%= person.getName() %>")'>
+                                                            <img src="../../img/icon/24x24-information-circle.svg" alt=""
+                                                                 class="btn-icon"/>
+                                                        </button>
+                                                    </div>
+                                                    <div>
                                                         <button class="btn btn-transaprent btn-icon btn-sm"
                                                                 data-tooltip="tooltip" title="Chỉnh sửa"
                                                                 data-toggle="modal" data-target="#modal-edit-person"
                                                                 onclick='captrueSelectedEdit(<%=personJson%>)'>
                                                             <img src="../../img/icon/24x24-edit.svg" alt=""
+                                                                 class="btn-icon"/>
+                                                        </button>
+                                                    </div>
+                                                    <div>
+                                                        <button class="btn btn-transaprent btn-icon btn-sm"
+                                                                data-tooltip="tooltip" title="Thêm phiếu nợ"
+                                                                data-toggle="modal" data-target="#modal-add-ticket"
+                                                                onclick='captrueSelectedEdit(<%=personJson%>)'>
+                                                            <img src="../../img/icon/24x24-plus-circle.svg" alt=""
                                                                  class="btn-icon"/>
                                                         </button>
                                                     </div>
@@ -257,6 +276,7 @@
 
 <!-- Page level custom scripts -->
 <script src="../../js/demo/datatables-demo.js"></script>
+<script src="../../js/person/used-in-person.js"></script>
 
 <%--Import add modal--%>
 <%@ include file="../../modal/person/modal-add.jsp" %>
@@ -264,9 +284,11 @@
 <%--Import edit modal--%>
 <%@ include file="../../modal/person/modal-edit.jsp" %>
 
+<%--Import list tickets modal--%>
+<%@ include file="../../modal/ticket/modal-list.jsp" %>
+
 <script>
     function captrueSelectedEdit(json) {
-        console.log('asdasdasd ',json);
         document.getElementById("id-person-edit").value = json.id;
         document.getElementById("name-person-edit").value = json.name;
         document.getElementById("address-person-edit").value = json.address;
@@ -319,6 +341,45 @@
         document.getElementById("fromLastModifiedDateStr").value = "";
         document.getElementById("toLastModifiedDateStr").value = "";
     });
+</script>
+
+<script>
+    function captruePersonId (receivedPersonId, receivedPersonName){
+        $.ajax({
+            url: '/ticket',
+            method: "GET",
+            data: {
+                personId : receivedPersonId,
+            },
+            success: function (response) {
+                // Extract data from the model map
+                //var data = response;
+                //setSuccessMessage('Thêm người nợ thành công');
+                //$('#modal-success-message').modal('show');
+                setUpTableTickets(response, receivedPersonName, receivedPersonId);
+            }
+        });
+    }
+</script>
+
+<script>
+    var modalBodyTicketList = document.querySelector('#modal-body-ticket-list');
+
+    //Close modal => clear all rows
+    document.getElementById("button-close-list-tickets").addEventListener("click", function () {
+        while (modalBodyTicketList.firstChild) {
+          modalBodyTicketList.removeChild(modalBodyTicketList.firstChild);
+        }
+    });
+
+    document.addEventListener('keydown', function(event) {
+        if (event.key === "Escape") {
+            while (modalBodyTicketList.firstChild) {
+              modalBodyTicketList.removeChild(modalBodyTicketList.firstChild);
+            }
+        }
+    });
+
 </script>
 
 </body>

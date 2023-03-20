@@ -79,10 +79,10 @@
     });
 
     document.getElementById("button-close-add-person").addEventListener("click", function () {
-        document.getElementById("name-person-add").value = "q";
-        document.getElementById("address-person-add").value = "q";
-        document.getElementById("phone-person-add").value = "q";
-        document.getElementById("email-person-add").value = "q";
+        document.getElementById("name-person-add").value = "";
+        document.getElementById("address-person-add").value = "";
+        document.getElementById("phone-person-add").value = "";
+        document.getElementById("email-person-add").value = "";
     });
 </script>
 
