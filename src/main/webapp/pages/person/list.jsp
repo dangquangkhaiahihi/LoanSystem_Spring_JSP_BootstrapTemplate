@@ -196,7 +196,11 @@
                                     <%List<PersonDTO> resultDtos = (List<PersonDTO>) request.getAttribute("resultDtos");%>
                                     <% for (PersonDTO person : resultDtos) { %>
                                         <% String personJson = gson.toJson(person); %>
-                                        <tr>
+                                    <tr style=
+                                        <% if (person.getTotalAmount() < 0 ) {%>
+                                            "color: red;"
+                                        <% } %>
+                                    >
                                             <td><%= person.getId() %></td>
                                             <td><%= person.getName() %></td>
                                             <td><%= person.getAddress() %></td>
@@ -320,7 +324,7 @@
               event.preventDefault();
               element.value = element.value.replace(/[^0-9]/g, '');
             }
-          });
+        });
     });
 </script>
 

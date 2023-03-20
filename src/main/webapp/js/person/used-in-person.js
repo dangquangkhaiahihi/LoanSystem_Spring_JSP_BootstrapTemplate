@@ -169,6 +169,14 @@ function generateFormSearchTicket (personId, ticketFilterRequest, ticketArr) {
         inputIdTicket.type = 'text';
         inputIdTicket.className = 'form-control';
         inputIdTicket.placeholder = 'ID';
+        inputIdTicket.addEventListener("input", function(event) {
+            const numberPattern = /^[0-9]*$/;
+
+            if (!numberPattern.test(event.target.value)) {
+              event.preventDefault();
+              inputIdTicket.value = inputIdTicket.value.replace(/[^0-9]/g, '');
+            }
+        });
         if(ticketFilterRequest) inputIdTicket.value = ticketFilterRequest.idTicket;
 
         formItemIdTicket.appendChild(labelIdTicket);
@@ -194,6 +202,14 @@ function generateFormSearchTicket (personId, ticketFilterRequest, ticketArr) {
         inputAmountTicket.type = 'text';
         inputAmountTicket.className = 'form-control';
         inputAmountTicket.placeholder = 'Từ số tiền';
+        inputAmountTicket.addEventListener("input", function(event) {
+            const numberPattern = /^[0-9]*$/;
+
+            if (!numberPattern.test(event.target.value)) {
+              event.preventDefault();
+              inputAmountTicket.value = inputAmountTicket.value.replace(/[^0-9]/g, '');
+            }
+        });
         if(ticketFilterRequest) inputAmountTicket.value = ticketFilterRequest.fromAmountTicket;
 
         formItemAmountTicket.appendChild(labelAmountTicket);
@@ -347,6 +363,14 @@ function generateFormSearchTicket (personId, ticketFilterRequest, ticketArr) {
         inputToAmountTicket.type = 'text';
         inputToAmountTicket.className = 'form-control';
         inputToAmountTicket.placeholder = 'Đến số tiền';
+        inputToAmountTicket.addEventListener("input", function(event) {
+            const numberPattern = /^[0-9]*$/;
+
+            if (!numberPattern.test(event.target.value)) {
+              event.preventDefault();
+              inputToAmountTicket.value = inputToAmountTicket.value.replace(/[^0-9]/g, '');
+            }
+        });
         if(ticketFilterRequest) inputToAmountTicket.value = ticketFilterRequest.toAmountTicket;
 
         toItemAmountTicket.appendChild(labeltoAmountTicket);
@@ -483,7 +507,6 @@ function generateFormSearchTicket (personId, ticketFilterRequest, ticketArr) {
 }
 
 function sendRequestFilterTicket(url) {
-    console.log('ppppppppppppppppppppppppppppppp',$('#form-filter-ticket').serialize());
     $.ajax({
         url: url,
         method: "GET",

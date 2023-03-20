@@ -83,7 +83,7 @@ public class PersonServiceImpl implements PersonService {
             //Check dubplicate phone
             person = personRepository.findByPhone(personDTO.getPhone());
             if(person != null) {
-                if(!personDTO.getId().equals(person.getId()))
+                if(!personDTO.getId().equals(person.getId()) && person.getUser().getId().equals(user.getId()))
                 throw new Exception("Số điện thoại đã tồn tại.");
             }
             //Set up update entity

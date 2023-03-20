@@ -6,14 +6,7 @@
     <div class="modal-dialog" role="document" style="max-width: 90%">
         <div class="modal-content">
             <div class="modal-header">
-                <div class='row'>
-                    <div class="col-6 d-flex justify-content-start">
-                        <h5 class="modal-title" id="modal-list-tickets-title" />
-                    </div>
-                    <div class="col-6 d-flex justify-content-end">
-                        <h5 class="modal-title" id="modal-list-tickets-title" />
-                    </div>
-                </div>
+                <h5 class="modal-title" id="modal-list-tickets-title" />
             </div>
             <div class="modal-body" id="modal-body-ticket-list">
 

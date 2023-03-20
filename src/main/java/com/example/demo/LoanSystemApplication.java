@@ -87,16 +87,16 @@ public class LoanSystemApplication implements CommandLineRunner {
 		person1.setAddress("ahihi");
 		person1.setPhone("0159357456");
 		person1.setEmail("snack@gmail.com");
-		person1.setTotalAmount(40000L);
+		person1.setTotalAmount(-40000L);
 		person1.setUser(userEntity);
 		person1.setCreatedDate(Instant.now().minus(5, ChronoUnit.DAYS));
 		person1.setLastModifiedDate(Instant.now());
 		personRepository.save(person1);
 
 		TicketEntity ticket10 = new TicketEntity();
-		ticket10.setAmount(100000L);
-		ticket10.setIsPlus(true);
-		ticket10.setNote("Vay 100k");
+		ticket10.setAmount(-100000L);
+		ticket10.setIsPlus(false);
+		ticket10.setNote("Cho vay 100k");
 		ticket10.setDateOfTrans(Instant.now().minus(1,ChronoUnit.DAYS));
 		ticket10.setLastModifiedDate(Instant.now().minus(1,ChronoUnit.DAYS));
 		ticket10.setPerson(person1);
@@ -104,8 +104,8 @@ public class LoanSystemApplication implements CommandLineRunner {
 
 		TicketEntity ticket11 = new TicketEntity();
 		ticket11.setAmount(60000L);
-		ticket11.setIsPlus(false);
-		ticket11.setNote("Trả nợ 60k");
+		ticket11.setIsPlus(true);
+		ticket11.setNote("Đòi nợ 60k");
 		ticket11.setDateOfTrans(Instant.now());
 		ticket11.setLastModifiedDate(Instant.now());
 		ticket11.setPerson(person1);
