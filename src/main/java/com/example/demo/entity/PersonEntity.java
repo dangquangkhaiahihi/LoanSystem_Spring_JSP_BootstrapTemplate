@@ -1,10 +1,10 @@
 package com.example.demo.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.*;
+import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.annotation.Transient;
 
 import javax.persistence.*;
 import java.time.Instant;
@@ -12,10 +12,6 @@ import java.time.Instant;
 @Entity
 @Data
 @Table(name = "PERSON")
-@NoArgsConstructor
-@AllArgsConstructor
-@Setter
-@Getter
 public class PersonEntity {
     @Id
     @Column(name = "ID")
@@ -42,19 +38,11 @@ public class PersonEntity {
     @JoinColumn(name = "USER_ID")
     private UserEntity user;
 
-    @Column(name = "CREATED_BY", updatable = false)
-    private String createdBy;
-
     @CreatedDate
     @Column(name = "CREATED_DATE", updatable = false)
-    private Instant createdDate = Instant.now();
-
-    @LastModifiedBy
-    @Column(name = "LAST_MODIFIED_BY")
-    private String lastModifiedBy;
+    private Instant createdDate;
 
     @LastModifiedDate
     @Column(name = "LAST_MODIFIED_DATE")
-    private Instant lastModifiedDate = Instant.now();
-
+    private Instant lastModifiedDate;
 }
