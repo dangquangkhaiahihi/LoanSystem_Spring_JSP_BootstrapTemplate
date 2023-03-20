@@ -1,6 +1,10 @@
 package com.example.demo.security;
 
+import com.example.demo.entity.PersonEntity;
+import com.google.gson.Gson;
+
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -18,16 +22,28 @@ public class test {
 //        System.out.println(validateEmail("2142r32434321dsfv"));
 //        System.out.println(validateEmail("danguqngakhair@gmail.com"));
 
-        String a = "2023-03-10T20:00:00Z";
-        String b = "2023-04-22T20:00";
-        String c = "2023-04-02T20:01";
-        String d = "2023-03-06T20:01";
+//        String a = "2023-03-10T20:00:00Z";
+//        String b = "2023-04-22T20:00";
+//        String c = "2023-04-02T20:01";
+//        String d = "2023-03-06T20:01";
+//
+//        try {
+//            System.out.println(Instant.parse(a));
+//        }catch (Exception ex){
+//            System.out.println(ex);
+//        }
 
-        try {
-            System.out.println(Instant.parse(a));
-        }catch (Exception ex){
-            System.out.println(ex);
-        }
+        PersonEntity person0 = new PersonEntity();
+        person0.setName("ahihi");
+        person0.setAddress("ahihi");
+        person0.setPhone("0123456789");
+        person0.setEmail("0123456789@gmail.com");
+        person0.setTotalAmount(1000000L);
+        person0.setCreatedDate(Instant.now().minus(7, ChronoUnit.DAYS));
+        person0.setLastModifiedDate(Instant.now());
+
+        Gson gson = new Gson();
+        String a = gson.toJson(person0);
     }
 
     public static boolean validateEmail(String email) {

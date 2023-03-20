@@ -30,7 +30,7 @@ public interface PersonRepository extends JpaRepository<PersonEntity, Long> {
               @Param("createdDate") Instant createdDate,
               @Param("lastModifiedDate") Instant lastModifiedDate);
 
-    @Query(value = "update person set name = :name, last_modified_date= :lastModifiedDate" +
+    @Query(value = "update person set name = :name, last_modified_date= :lastModifiedDate," +
             "address = :address, email = :email, phone = :phone " +
             "where id = :id",
             nativeQuery = true)

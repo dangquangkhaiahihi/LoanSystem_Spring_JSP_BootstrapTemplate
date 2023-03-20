@@ -46,26 +46,27 @@ public class PersonServiceImpl implements PersonService {
     @Transactional
     public void createUpdate(PersonDTO personDTO) throws Exception{
         //Check dubplicate phone
-        PersonEntity person = personRepository.findByPhone(personDTO.getPhone());
+        PersonEntity person = new PersonEntity();
         UserEntity user = userRepository.findByUsername(Utils.getCurrentUser().getName());
 
-        if (person != null) {
-            //Update
-            if (!(Objects.nonNull(personDTO.getId()) && personDTO.getId().equals(person.getId()))) {
+        if (Objects.isNull(personDTO.getId())) {
+            //Validate null input
+            try {
+                personDTO.validateRequestAdd();
+            }catch (Exception ex){
+                throw ex;
+            }
+            //Check dubplicate phone
+            person = personRepository.findByPhone(personDTO.getPhone());
+            if(person != null) {
                 throw new Exception("Số điện thoại đã tồn tại.");
             }
-            BeanUtils.copyProperties(personDTO,person);
-            person.setLastModifiedDate(Instant.now());
-        }else {
-            //Create
+            //Set up entity
             person = new PersonEntity();
             BeanUtils.copyProperties(personDTO,person);
             person.setUser(user);
             person.setCreatedDate(Instant.now());
             person.setLastModifiedDate(Instant.now());
-        }
-
-        if (Objects.isNull(person.getId())) {
             //Database insert
             personRepository.save(person.getName(), person.getAddress(),
                     person.getPhone(), person.getEmail(),
@@ -73,6 +74,22 @@ public class PersonServiceImpl implements PersonService {
                     person.getCreatedDate(),
                     person.getLastModifiedDate());
         } else {
+            //Validate null input
+            try {
+                personDTO.validateRequestEdit();
+            }catch (Exception ex){
+                throw ex;
+            }
+            //Check dubplicate phone
+            person = personRepository.findByPhone(personDTO.getPhone());
+            if(person != null) {
+                if(!personDTO.getId().equals(person.getId()))
+                throw new Exception("Số điện thoại đã tồn tại.");
+            }
+            //Set up update entity
+            person = new PersonEntity();
+            BeanUtils.copyProperties(personDTO,person);
+            person.setLastModifiedDate(Instant.now());
             //Database update
             personRepository.updatePersonInfo(person.getId(), person.getName(),
                     person.getAddress(), person.getEmail(), person.getPhone(),person.getLastModifiedDate());

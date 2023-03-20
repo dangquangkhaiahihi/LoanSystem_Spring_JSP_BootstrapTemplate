@@ -1,5 +1,7 @@
 <%@ page import="java.util.List" %>
-<%@ page import="com.example.demo.entity.PersonEntity" %>
+<%@ page import="com.example.demo.common.Utils" %>
+<%@ page import="com.google.gson.Gson" %>
+<%@ page import="com.example.demo.model.PersonDTO" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <!DOCTYPE html>
@@ -190,8 +192,10 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <%List<PersonEntity> resultLst = (List<PersonEntity>) request.getAttribute("resultLst");%>
-                                    <% for (PersonEntity person : resultLst) { %>
+                                    <%Gson gson = Utils.getGson();%>
+                                    <%List<PersonDTO> resultDtos = (List<PersonDTO>) request.getAttribute("resultDtos");%>
+                                    <% for (PersonDTO person : resultDtos) { %>
+                                        <% String personJson = gson.toJson(person); %>
                                         <tr>
                                             <td><%= person.getId() %></td>
                                             <td><%= person.getName() %></td>
@@ -201,7 +205,19 @@
                                             <td><%= person.getTotalAmount() %></td>
                                             <td><%= person.getCreatedDateStr() %></td>
                                             <td><%= person.getLastModifiedDateStr() %></td>
-                                            <td>String</td>
+                                            <td>
+                                                <div style="display: flex">
+                                                    <div>
+                                                        <button class="btn btn-transaprent btn-icon btn-sm"
+                                                                data-tooltip="tooltip" title="Chỉnh sửa"
+                                                                data-toggle="modal" data-target="#modal-edit-person"
+                                                                onclick='captrueSelectedEdit(<%=personJson%>)'>
+                                                            <img src="../../img/icon/24x24-edit.svg" alt=""
+                                                                 class="btn-icon"/>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </td>
                                         </tr>
                                     <% } %>
                                 </tbody>
@@ -245,18 +261,19 @@
 <%--Import add modal--%>
 <%@ include file="../../modal/person/modal-add.jsp" %>
 
-<%--=======================================================================================--%>
-<%--CAPTURE CURRENT RECORD ID--%>
-<script>
-    var currentId;
+<%--Import edit modal--%>
+<%@ include file="../../modal/person/modal-edit.jsp" %>
 
-    function captrueCurrentId(loanId) {
-        currentId = loanId
+<script>
+    function captrueSelectedEdit(json) {
+        console.log('asdasdasd ',json);
+        document.getElementById("id-person-edit").value = json.id;
+        document.getElementById("name-person-edit").value = json.name;
+        document.getElementById("address-person-edit").value = json.address;
+        document.getElementById("phone-person-edit").value = json.phone;
+        document.getElementById("email-person-edit").value = json.email;
     }
 </script>
-<%--END CAPTURE CURRENT RECORD ID--%>
-<%--=======================================================================================--%>
-<%--LOAN LOCK/UNLOCK SCRIPT--%>
 
 <script>
     //Make these field con only input number

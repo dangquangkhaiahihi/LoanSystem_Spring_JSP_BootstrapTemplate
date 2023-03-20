@@ -1,44 +1,41 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
-<!-- Person Add Modal -->
-<div class="modal fade" id="modal-add-person" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+<!-- Person Edit Modal -->
+<div class="modal fade" id="modal-edit-person" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
      aria-hidden="true">
     <div class="modal-dialog" role="document" style="max-width: 70%">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Tạo người nợ</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Sửa thông tin người nợ</h5>
                 <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
                 <div class="modal-body">
-                    <form id="form-add-person">
+                    <form id="form-edit-person">
+                    <input id="id-person-edit" name="id" type="text" class="form-control" hidden/>
                         <div style="display: flex; flex-direction: row">
                             <div style="display: flex;flex: 1;flex-direction: column;max-width: 50%;">
                                 <div style="display: flex;flex: 1;flex-direction: column;max-width: 70%;margin-bottom: 1rem;">
-                                    <label for="name-person-add">Họ và tên (*)</label>
-                                    <input id="name-person-add" name="namePersonAdd" type="text" class="form-control"
-                                           value=""
+                                    <label for="name-person-edit">Họ và tên (*)</label>
+                                    <input id="name-person-edit" name="namePersonEdit" type="text" class="form-control"
                                            placeholder="Nhập tên"/>
                                 </div>
                                 <div style="display: flex;flex: 1;flex-direction: column;max-width: 70%;margin-bottom: 1rem;">
-                                    <label for="address-person-add">Địa chỉ</label>
-                                    <input id="address-person-add" name="addressPersonAdd" type="text" class="form-control"
-                                           value=""
+                                    <label for="address-person-edit">Địa chỉ</label>
+                                    <input id="address-person-edit" name="addressPersonEdit" type="text" class="form-control"
                                            placeholder="Nhập địa chỉ"/>
                                 </div>
                             </div>
                             <div style="display: flex;flex: 1;flex-direction: column;max-width: 50%">
                                 <div style="display: flex;flex: 1;flex-direction: column;max-width: 70%;margin-bottom: 1rem;">
-                                    <label for="phone-person-add">Số điện thoại (*)</label>
-                                    <input id="phone-person-add" name="phonePersonAdd" type="text" class="form-control"
-                                           value=""
-                                           placeholder="Nhập sđt̉"/>
+                                    <label for="phone-person-edit">Số điện thoại (*)</label>
+                                    <input id="phone-person-edit" name="phonePersonEdit" type="text" class="form-control"
+                                           placeholder="Nhập địa chỉ"/>
                                 </div>
                                 <div style="display: flex;flex: 1;flex-direction: column;max-width: 70%;margin-bottom: 1rem;">
-                                    <label for="email-person-add">Email</label>
-                                    <input id="email-person-add" name="emailPersonAdd" type="text" class="form-control"
-                                           value=""
+                                    <label for="email-person-edit">Email</label>
+                                    <input id="email-person-edit" name="emailPersonEdit" type="text" class="form-control"
                                            placeholder="Nhập email"/>
                                 </div>
                             </div>
@@ -46,23 +43,23 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button id="button-close-add-person" class="btn btn-secondary" type="button" data-dismiss="modal">Đóng</button>
-                    <input id="button-add-person" class="btn btn-primary" value="Xác nhận"/>
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Đóng</button>
+                    <input id="button-edit-person" class="btn btn-primary" value="Xác nhận"/>
                 </div>
         </div>
     </div>
 </div>
 
 <script>
-    function sendRequestAdd(url) {
+    function sendRequestEdit(url) {
         $.ajax({
             url: url,
             method: "POST",
-            data: $('#form-add-person').serialize(),
+            data: $('#form-edit-person').serialize(),
             success: function (response) {
                 // Extract data from the model map
                 var data = response;
-                setSuccessMessage('Thêm người nợ thành công');
+                setSuccessMessage('Chỉnh sửa thông tin người nợ thành công');
                 $('#modal-success-message').modal('show');
             },
             error: function (response) {
@@ -73,27 +70,20 @@
         });
     }
 
-    document.getElementById("button-add-person").addEventListener("click", function () {
-        console.log("add call");
-        sendRequestAdd('/person/add-update');
-    });
-
-    document.getElementById("button-close-add-person").addEventListener("click", function () {
-        document.getElementById("name-person-add").value = "q";
-        document.getElementById("address-person-add").value = "q";
-        document.getElementById("phone-person-add").value = "q";
-        document.getElementById("email-person-add").value = "q";
-    });
+    document.getElementById("button-edit-person").addEventListener("click", function () {
+            console.log("edit call");
+            sendRequestEdit('/person/add-update');
+        });
 </script>
 
 <script>
     //Make these field con only input number
-    const phoneAdd = document.getElementById("phone-person-add");
+    const phoneEdit = document.getElementById("phone-person-edit");
 
-    const lstAdd = [];
-    lstAdd.push(phoneAdd);
+    const lstEdit = [];
+    lstEdit.push(phoneEdit);
 
-    lstAdd.forEach(function(element) {
+    lstEdit.forEach(function(element) {
         element.addEventListener("input", function(event) {
             const numberPattern = /^[0-9]*$/;
 

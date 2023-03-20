@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
-<!-- User Detail Modal -->
+<!-- Message Error Modal -->
 <div class="modal fade" id="modal-error-message" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-     aria-hidden="true" style="z-index: 9999;">
+     aria-hidden="true" style="z-index: 9999;" data-backdrop="static">
     <div class="modal-dialog" role="document" style="max-width: 70%">
         <div class="modal-content">
             <div class="modal-header">
