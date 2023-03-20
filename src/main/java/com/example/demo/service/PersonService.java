@@ -1,7 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.entity.PersonEntity;
-import org.springframework.data.domain.Pageable;
+import com.example.demo.model.PersonDTO;
 
 import java.time.Instant;
 import java.util.List;
@@ -11,4 +11,6 @@ public interface PersonService {
                                 Long userId, Long fromId, Long toId, Long fromTotal, Long toTotal,
                                 Instant fromCreatedDate, Instant toCreatedDate,
                                 Instant fromLastModifiedDate, Instant toLastModifiedDate);
+
+    void createUpdate(PersonDTO personDTO) throws Exception;
 }

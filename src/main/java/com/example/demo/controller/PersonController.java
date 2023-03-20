@@ -2,15 +2,12 @@ package com.example.demo.controller;
 
 import com.example.demo.common.Utils;
 import com.example.demo.entity.PersonEntity;
+import com.example.demo.model.PersonDTO;
 import com.example.demo.model.PersonFilterRequest;
 import com.example.demo.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -42,5 +39,16 @@ public class PersonController {
         mv.setViewName("/person/list");
         mv.addObject("resultLst", resultLst);
         return mv;
+    }
+
+    @RequestMapping(value = "/add-update", method = RequestMethod.POST)
+    @ResponseBody
+    public void createUpdate(@ModelAttribute PersonDTO personDTO) throws Exception{
+        try{
+            personDTO.validateRequest();
+            personService.createUpdate(personDTO);
+        }catch (Exception ex){
+            throw ex;
+        }
     }
 }

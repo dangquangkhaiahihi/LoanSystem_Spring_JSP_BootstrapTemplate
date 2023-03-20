@@ -40,11 +40,11 @@ public class PersonEntity {
 
     @CreatedDate
     @Column(name = "CREATED_DATE", updatable = false)
-    private Instant createdDate = Instant.now();
+    private Instant createdDate;
 
     @LastModifiedDate
     @Column(name = "LAST_MODIFIED_DATE")
-    private Instant lastModifiedDate = Instant.now();
+    private Instant lastModifiedDate;
 
     @Transient
     private String createdDateStr;

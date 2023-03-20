@@ -4,6 +4,7 @@ import com.example.demo.entity.PersonEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -17,7 +18,27 @@ public interface PersonRepository extends JpaRepository<PersonEntity, Long> {
     @Query(value = "select p.* " +
             "from person p " +
             "where p.phone=:phone", nativeQuery = true)
-    Optional<PersonEntity> findByPhone(String phone);
+    PersonEntity findByPhone(String phone);
+
+    @Query(value = "insert into person (address, created_date, email, last_modified_date, name, phone, total_amount, user_id) " +
+                                "values (:address, :createdDate, :email, :lastModifiedDate, :name, :phone, :totalAmount, :userId)",
+            nativeQuery = true)
+    @Modifying
+    void save(@Param("name") String name, @Param("address") String address,
+              @Param("phone") String phone, @Param("email") String email,
+              @Param("totalAmount") Long totalAmount, @Param("userId") Long userId,
+              @Param("createdDate") Instant createdDate,
+              @Param("lastModifiedDate") Instant lastModifiedDate);
+
+    @Query(value = "update person set name = :name, last_modified_date= :lastModifiedDate" +
+            "address = :address, email = :email, phone = :phone " +
+            "where id = :id",
+            nativeQuery = true)
+    @Modifying
+    void updatePersonInfo(@Param("id") Long id, @Param("name") String name,
+                          @Param("address") String address, @Param("email") String email,
+                          @Param("phone") String phone,
+                          @Param("lastModifiedDate") Instant lastModifiedDate);
 
     @Query(value = "SELECT p.* FROM person p " +
             "WHERE (:address IS NULL OR upper(p.address) LIKE :address) " +

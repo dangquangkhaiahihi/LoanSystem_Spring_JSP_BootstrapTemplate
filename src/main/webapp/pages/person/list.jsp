@@ -163,7 +163,7 @@
                                 <input class="btn btn-primary" type="submit" value="Tìm kiếm"/>
                                 <a href="#" class="btn btn-primary" data-toggle="modal"
                                    style="background-color: orange; border-color: orange"
-                                   data-target="#loan-modal-add">
+                                   data-target="#modal-add-person">
                                     <span class="text">Thêm người nợ</span>
                                 </a>
                             </div>
@@ -242,6 +242,9 @@
 <!-- Page level custom scripts -->
 <script src="../../js/demo/datatables-demo.js"></script>
 
+<%--Import add modal--%>
+<%@ include file="../../modal/person/modal-add.jsp" %>
+
 <%--=======================================================================================--%>
 <%--CAPTURE CURRENT RECORD ID--%>
 <script>
@@ -256,6 +259,7 @@
 <%--LOAN LOCK/UNLOCK SCRIPT--%>
 
 <script>
+    //Make these field con only input number
     const fromId = document.getElementById("fromId");
     const toId = document.getElementById("toId");
     const fromTotal = document.getElementById("fromTotal");
@@ -282,6 +286,7 @@
 </script>
 
 <script>
+    //Clear filter button
     const button = document.getElementById("button-clear-filter");
     button.addEventListener("click",function(event) {
         document.getElementById("name").value = "";

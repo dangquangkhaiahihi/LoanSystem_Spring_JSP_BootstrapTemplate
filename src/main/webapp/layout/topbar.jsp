@@ -91,9 +91,6 @@
 <%-- Import Success Modal--%>
 <%@ include file="../modal/modal-success.jsp" %>
 
-<%-- Import Add Balance Modal--%>
-<%@ include file="../modal/modal-add-balance.jsp" %>
-
 <script>
     function setErrorMessage(errorMessage){
         console.log(errorMessage);

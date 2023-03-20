@@ -26,7 +26,7 @@ public class UserController {
 
     @RequestMapping(value = "/update-profile", method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseBody
-    public String updateProfile(@ModelAttribute  UserDto userDto, HttpServletRequest request) throws Exception{
+    public String updateProfile(@ModelAttribute UserDto userDto, HttpServletRequest request) throws Exception{
         try {
             userDto.validateInput();
             UserDto userDto1 = userService.updateProfile(userDto);
