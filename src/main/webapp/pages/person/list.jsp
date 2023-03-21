@@ -50,144 +50,174 @@
                 <!-- Page Heading -->
                 <h1 class="h3 mb-2 text-gray-800">Danh sách người nợ</h1>
 
+                <!-- DataTales -->
                 <div class="card shadow mb-4">
                     <div class="card-body">
-                        <%-- Form Search --%>
                         <form method="GET" action="/person" modelAttribute="personFilterRequest">
-                            <div style="display: flex;">
-                                <div style="display: flex;flex:1;flex-direction: column;margin-right: 2rem">
-
-                                    <div style="display: flex;flex: 1;flex-direction: column;max-width: 100%;margin-bottom: 1rem;">
-                                        <% String fromId = request.getParameter("fromId"); %>
-                                        <label for="fromId">Từ ID</label>
-                                        <input id="fromId" name="fromId" type="text"
-                                               class="form-control"
-                                               value="<%=fromId != null ? fromId : "" %>"
-                                               placeholder="Từ ID"/>
-                                    </div>
-                                    <div style="display: flex;flex: 1;flex-direction: column;max-width: 100%;margin-bottom: 1rem;">
-                                        <% String fromTotal = request.getParameter("fromTotal"); %>
-                                        <label for="fromTotal">Từ tổng nợ</label>
-                                        <input id="fromTotal" name="fromTotal" type="text"
-                                               class="form-control"
-                                               value="<%=fromTotal != null ? fromTotal : "" %>"
-                                               placeholder="Từ tổng nợ"/>
-                                    </div>
-                                    <div style="display: flex;flex: 1;flex-direction: column;max-width: 100%;margin-bottom: 1rem;">
-                                        <% String fromCreatedDateStr = request.getParameter("fromCreatedDateStr"); %>
-                                        <label for="fromCreatedDateStr">Từ ngày tạo</label>
-                                        <input id="fromCreatedDateStr" name="fromCreatedDateStr" type="datetime-local"
-                                               class="form-control"
-                                               value="<%=fromCreatedDateStr != null ? fromCreatedDateStr : "" %>"
-                                               placeholder="Từ ngày tạo"/>
-                                    </div>
-                                    <div style="display: flex;flex: 1;flex-direction: column;max-width: 100%;margin-bottom: 1rem;">
-                                        <% String fromLastModifiedDateStr = request.getParameter("fromLastModifiedDateStr"); %>
-                                        <label for="fromLastModifiedDateStr">Từ ngày cập nhật</label>
-                                        <input id="fromLastModifiedDateStr" name="fromLastModifiedDateStr" type="datetime-local"
-                                               class="form-control"
-                                               value="<%=fromLastModifiedDateStr != null ? fromLastModifiedDateStr : "" %>"
-                                               placeholder="Từ ngày cập nhật"/>
-                                    </div>
-                                    <div style="display: flex;flex: 1;flex-direction: column;max-width: 100%;margin-bottom: 1rem;">
-                                        <% String name = request.getParameter("name"); %>
-                                        <label for="name">Tên</label>
-                                        <input id="name" name="name" type="text"
-                                               class="form-control"
-                                               value="<%=name != null ? name : "" %>"
-                                               placeholder="Tên"/>
-                                    </div>
-                                    <div style="display: flex;flex: 1;flex-direction: column;max-width: 100%;margin-bottom: 1rem;">
-                                        <% String phone = request.getParameter("phone"); %>
-                                        <label for="phone">Số điện thoại</label>
-                                        <input id="phone" name="phone" type="text"
-                                               class="form-control"
-                                               value="<%=phone != null ? phone : "" %>"
-                                               placeholder="Số điện thoại"/>
-                                    </div>
-                                </div>
-                                <div style="display: flex;flex:1;flex-direction: column;">
-                                    <div style="display: flex;flex: 1;flex-direction: column;max-width: 100%;margin-bottom: 1rem;">
-                                        <% String toId = request.getParameter("toId"); %>
-                                        <label for="toId">Đến ID</label>
-                                        <input id="toId" name="toId" type="text"
-                                               class="form-control"
-                                               value="<%=toId != null ? toId : "" %>"
-                                               placeholder="Đến ID"/>
-                                    </div>
-                                    <div style="display: flex;flex: 1;flex-direction: column;max-width: 100%;margin-bottom: 1rem;">
-                                        <% String toTotal = request.getParameter("toTotal"); %>
-                                        <label for="toTotal">Đến tổng nợ</label>
-                                        <input id="toTotal" name="toTotal" type="text"
-                                               class="form-control"
-                                               value="<%=toTotal != null ? toTotal : "" %>"
-                                               placeholder="Đến tổng nợ"/>
-                                    </div>
-                                    <div style="display: flex;flex: 1;flex-direction: column;max-width: 100%;margin-bottom: 1rem;">
-                                        <% String toCreatedDateStr = request.getParameter("toCreatedDateStr"); %>
-                                        <label for="toCreatedDateStr">Đến ngày tạo</label>
-                                        <input id="toCreatedDateStr" name="toCreatedDateStr" type="datetime-local"
-                                               class="form-control"
-                                               value="<%=toCreatedDateStr != null ? toCreatedDateStr : "" %>"
-                                               placeholder="Đến ngày tạo"/>
-                                    </div>
-                                    <div style="display: flex;flex: 1;flex-direction: column;max-width: 100%;margin-bottom: 1rem;">
-                                        <% String toLastModifiedDateStr = request.getParameter("toLastModifiedDateStr"); %>
-                                        <label for="toLastModifiedDateStr">Đến ngày cập nhật</label>
-                                        <input id="toLastModifiedDateStr" name="toLastModifiedDateStr" type="datetime-local"
-                                               class="form-control"
-                                               value="<%=toLastModifiedDateStr != null ? toLastModifiedDateStr : "" %>"
-                                               placeholder="Đến ngày cập nhật"/>
-                                    </div>
-                                    <div style="display: flex;flex: 1;flex-direction: column;max-width: 100%;margin-bottom: 1rem;">
-                                        <% String address = request.getParameter("address"); %>
-                                        <label for="address">Địa chỉ</label>
-                                        <input id="address" name="address" type="text"
-                                               class="form-control"
-                                               value="<%=address != null ? address : "" %>"
-                                               placeholder="Địa chỉ"/>
-                                    </div>
-                                    <div style="display: flex;flex: 1;flex-direction: column;max-width: 100%;margin-bottom: 1rem;">
-                                        <% String email = request.getParameter("email"); %>
-                                        <label for="email">Email</label>
-                                        <input id="email" name="email" type="text"
-                                               class="form-control"
-                                               value="<%=email != null ? email : "" %>"
-                                               placeholder="Email"/>
-                                    </div>
-                                </div>
-                            </div>
-                            <div style="text-align: center;">
-                                <a id="button-clear-filter" href="#" class="btn btn-primary" data-toggle="modal"
-                                   style="background-color: gray; border-color: gray">
-                                    <span class="text">Xóa bộ lọc</span>
-                                </a>
-                                <input class="btn btn-primary" type="submit" value="Tìm kiếm"/>
-                                <a href="#" class="btn btn-primary" data-toggle="modal"
-                                   style="background-color: orange; border-color: orange"
-                                   data-target="#modal-add-person">
-                                    <span class="text">Thêm người nợ</span>
-                                </a>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-
-                <!-- DataTales Example -->
-                <div class="card shadow mb-4">
-                    <div class="card-body">
+                        <div style="text-align: center;">
+                            <a id="button-clear-filter" href="#" class="btn btn-primary" data-toggle="modal"
+                               style="background-color: gray; border-color: gray">
+                                <span class="text">Xóa bộ lọc</span>
+                            </a>
+                            <input class="btn btn-primary" type="submit" value="Tìm kiếm"/>
+                            <a href="#" class="btn btn-primary" data-toggle="modal"
+                               style="background-color: orange; border-color: orange"
+                               data-target="#modal-add-person">
+                                <span class="text">Thêm người nợ</span>
+                            </a>
+                        </div>
                         <div class="table-responsive">
                             <table class="table table-bordered" id="dataTable" style="width: 100%;mso-cellspacing: 0">
                                 <thead>
                                     <tr>
-                                        <th>Id</th>
-                                        <th>Tên</th>
-                                        <th>Địa chỉ</th>
-                                        <th>SĐT</th>
-                                        <th>Email</th>
-                                        <th>Tổng nợ</th>
-                                        <th>Ngày tạo</th>
-                                        <th>Ngày cập nhật</th>
+                                        <th>
+                                            <% String fromId = request.getParameter("fromId"); %>
+                                            <% String toId = request.getParameter("toId"); %>
+                                            <div style="text-align: center;" onClick="divStopPropagation(event)" onClick="divStopPropagation(event)">
+                                                ID
+                                                <div class="row">
+                                                    <div class="col-6">
+                                                        <label>Từ</label>
+                                                        <input id="fromId" name="fromId" type="text"
+                                                              class="form-control"
+                                                              value="<%=fromId != null ? fromId : "" %>"
+                                                              placeholder="Từ ID"/>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <label>Đến</label>
+                                                        <input id="toId" name="toId" type="text"
+                                                               class="form-control"
+                                                               value="<%=toId != null ? toId : "" %>"
+                                                               placeholder="Đến ID"/>
+                                                   </div>
+                                                </div>
+                                            </div>
+                                        </th>
+                                        <th>
+                                            <% String name = request.getParameter("name"); %>
+                                            <div style="text-align: center;" onClick="divStopPropagation(event)">
+                                                Tên
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                       <input id="name" name="name" type="text"
+                                                              class="form-control"
+                                                              value="<%=name != null ? name : "" %>"
+                                                              placeholder="Tên"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </th>
+                                        <th>
+                                            <% String address = request.getParameter("address"); %>
+                                            <div style="text-align: center;" onClick="divStopPropagation(event)">
+                                                Địa chỉ
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                       <input id="address" name="address" type="text"
+                                                          class="form-control"
+                                                          value="<%=address != null ? address : "" %>"
+                                                          placeholder="Địa chỉ"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </th>
+                                        <th>
+                                            <% String phone = request.getParameter("phone"); %>
+                                            <div style="text-align: center;" onClick="divStopPropagation(event)">
+                                                SĐT
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <input id="phone" name="phone" type="text"
+                                                           class="form-control"
+                                                           value="<%=phone != null ? phone : "" %>"
+                                                           placeholder="Sđt"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </th>
+                                        <th>
+                                            <% String email = request.getParameter("email"); %>
+                                            <div style="text-align: center;" onClick="divStopPropagation(event)">
+                                                Email
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                       <input id="email" name="email" type="text"
+                                                          class="form-control"
+                                                          value="<%=email != null ? email : "" %>"
+                                                          placeholder="Email"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </th>
+                                        <th>
+                                            <% String fromTotal = request.getParameter("fromTotal"); %>
+                                            <% String toTotal = request.getParameter("toTotal"); %>
+                                            <div style="text-align: center;" onClick="divStopPropagation(event)">
+                                                Tổng nợ
+                                                <div class="row">
+                                                    <div class="col-6">
+                                                        <label>Từ</label>
+                                                        <input id="fromTotal" name="fromTotal" type="text"
+                                                           class="form-control"
+                                                           value="<%=fromTotal != null ? fromTotal : "" %>"
+                                                           placeholder="Từ tổng nợ"/>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <label>Đến</label>
+                                                        <input id="toTotal" name="toTotal" type="text"
+                                                           class="form-control"
+                                                           value="<%=toTotal != null ? toTotal : "" %>"
+                                                           placeholder="Đến tổng nợ"/>
+                                                   </div>
+                                                </div>
+                                            </div>
+                                        </th>
+                                        <th>
+                                            <% String toCreatedDateStr = request.getParameter("toCreatedDateStr"); %>
+                                            <% String fromCreatedDateStr = request.getParameter("fromCreatedDateStr"); %>
+                                            <div style="text-align: center;" onClick="divStopPropagation(event)">
+                                                Ngày tạo
+                                                <div class="row">
+                                                    <div class="col-6">
+                                                        <label>Từ</label>
+                                                        <input id="toCreatedDateStr" name="toCreatedDateStr" type="datetime-local"
+                                                           class="form-control"
+                                                           value="<%=toCreatedDateStr != null ? toCreatedDateStr : "" %>"
+                                                           placeholder="Đến ngày tạo"/>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <label>Đến</label>
+                                                        <input id="fromCreatedDateStr" name="fromCreatedDateStr" type="datetime-local"
+                                                           class="form-control"
+                                                           value="<%=fromCreatedDateStr != null ? fromCreatedDateStr : "" %>"
+                                                           placeholder="Từ ngày tạo"/>
+                                                   </div>
+                                                </div>
+                                            </div>
+                                        </th>
+                                        <th>
+                                            <% String toLastModifiedDateStr = request.getParameter("toLastModifiedDateStr"); %>
+                                            <% String fromLastModifiedDateStr = request.getParameter("fromLastModifiedDateStr"); %>
+                                            <div style="text-align: center;" onClick="divStopPropagation(event)">
+                                                Ngày cập nhật
+                                                <div class="row">
+                                                    <div class="col-6">
+                                                        <label>Từ</label>
+                                                        <input id="fromLastModifiedDateStr" name="fromLastModifiedDateStr" type="datetime-local"
+                                                           class="form-control"
+                                                           value="<%=fromLastModifiedDateStr != null ? fromLastModifiedDateStr : "" %>"
+                                                           placeholder="Từ ngày cập nhật"/>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <label>Đến</label>
+                                                        <input id="toLastModifiedDateStr" name="toLastModifiedDateStr" type="datetime-local"
+                                                           class="form-control"
+                                                           value="<%=toLastModifiedDateStr != null ? toLastModifiedDateStr : "" %>"
+                                                           placeholder="Đến ngày cập nhật"/>
+                                                   </div>
+                                                </div>
+                                            </div>
+                                        </th>
                                         <th>Hành động</th>
                                     </tr>
                                 </thead>
@@ -216,7 +246,7 @@
                                                                 class="btn btn-transaprent btn-icon btn-sm"
                                                                 data-tooltip="tooltip" title="Xem chi tiết"
                                                                 data-toggle="modal" data-target="#modal-list-ticket"
-                                                                onclick='captruePersonId(<%= person.getId() %>, "<%= person.getName() %>")'>
+                                                                onclick='event.preventDefault();captruePersonId(<%= person.getId() %>, "<%= person.getName() %>")'>
                                                             <img src="../../img/icon/24x24-information-circle.svg" alt=""
                                                                  class="btn-icon"/>
                                                         </button>
@@ -225,7 +255,7 @@
                                                         <button class="btn btn-transaprent btn-icon btn-sm"
                                                                 data-tooltip="tooltip" title="Chỉnh sửa"
                                                                 data-toggle="modal" data-target="#modal-edit-person"
-                                                                onclick='captrueSelectedEdit(<%=personJson%>)'>
+                                                                onclick='event.preventDefault();captrueSelectedEdit(<%=personJson%>)'>
                                                             <img src="../../img/icon/24x24-edit.svg" alt=""
                                                                  class="btn-icon"/>
                                                         </button>
@@ -234,7 +264,7 @@
                                                         <button class="btn btn-transaprent btn-icon btn-sm"
                                                                 data-tooltip="tooltip" title="Thêm phiếu nợ"
                                                                 data-toggle="modal" data-target="#modal-add-ticket"
-                                                                onclick='captrueSelectedEdit(<%=personJson%>)'>
+                                                                onclick='event.preventDefault();'>
                                                             <img src="../../img/icon/24x24-plus-circle.svg" alt=""
                                                                  class="btn-icon"/>
                                                         </button>
@@ -246,16 +276,16 @@
                                 </tbody>
                             </table>
                         </div>
+                    </form>
                     </div>
                 </div>
 
             </div>
-            <!-- /.container-fluid -->
 
         </div>
         <!-- End of Main Content -->
 
-        <%-- Import top bar--%>
+        <%-- Import footer--%>
         <%@ include file="../../layout/footer.jsp" %>
 
     </div>
@@ -290,6 +320,9 @@
 
 <%--Import list tickets modal--%>
 <%@ include file="../../modal/ticket/modal-list.jsp" %>
+
+<%--Import add tickets modal--%>
+<%@ include file="../../modal/ticket/modal-add.jsp" %>
 
 <script>
     function captrueSelectedEdit(json) {
@@ -384,6 +417,9 @@
         }
     });
 
+    function divStopPropagation(event) {
+        event.stopPropagation(); // Stops the event from bubbling up to the parent element
+    }
 </script>
 
 </body>
