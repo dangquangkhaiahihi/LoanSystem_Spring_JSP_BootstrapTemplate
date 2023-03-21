@@ -73,7 +73,7 @@
                                         <th>
                                             <% String fromId = request.getParameter("fromId"); %>
                                             <% String toId = request.getParameter("toId"); %>
-                                            <div style="text-align: center;" onClick="divStopPropagation(event)" onClick="divStopPropagation(event)">
+                                            <div style="text-align: center;" onClick="divStopPropagation(event)">
                                                 ID
                                                 <div class="row">
                                                     <div class="col-6">
