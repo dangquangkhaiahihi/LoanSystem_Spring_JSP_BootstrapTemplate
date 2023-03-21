@@ -2,10 +2,13 @@ package com.example.demo.controller;
 
 import com.example.demo.common.Utils;
 import com.example.demo.entity.TicketEntity;
+import com.example.demo.model.PersonDTO;
+import com.example.demo.model.TicketDTO;
 import com.example.demo.model.TicketFilterRequest;
 import com.example.demo.service.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -31,11 +34,17 @@ public class TicketController {
                 ticketFilterRequest.getFromDateOfTrans(), ticketFilterRequest.getToDateOfTrans(),
                 ticketFilterRequest.getFromLastModifiedDate(), ticketFilterRequest.getToLastModifiedDate());
 
-        for (TicketEntity ticket : result){
-            ticket.setDateOfTransStr(Utils.instantToString(ticket.getDateOfTrans()));
-            ticket.setLastModifiedDateStr(Utils.instantToString(ticket.getLastModifiedDate()));
-        }
-
         return result;
+    }
+
+    @RequestMapping(value = "/add-update", method = RequestMethod.POST)
+    @ResponseBody
+    @Transactional(rollbackFor = {Exception.class, Throwable.class})
+    public List<TicketEntity> createUpdate(@ModelAttribute TicketDTO ticketDTO) throws Exception{
+        try{
+            return ticketService.createUpdate(ticketDTO);
+        }catch (Exception ex){
+            throw ex;
+        }
     }
 }

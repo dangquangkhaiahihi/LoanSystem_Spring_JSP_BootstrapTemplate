@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.entity.TicketEntity;
+import com.example.demo.model.TicketDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -13,4 +14,6 @@ public interface TicketService {
                                 Long fromAmount, Long toAmount,
                                 Instant fromDateOfTrans, Instant toDateOfTrans,
                                 Instant fromLastModifiedDate, Instant toLastModifiedDate);
+
+    List<TicketEntity> createUpdate(TicketDTO ticketDTO) throws Exception;
 }

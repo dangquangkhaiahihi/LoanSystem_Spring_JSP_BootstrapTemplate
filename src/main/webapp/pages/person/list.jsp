@@ -264,7 +264,7 @@
                                                         <button class="btn btn-transaprent btn-icon btn-sm"
                                                                 data-tooltip="tooltip" title="Thêm phiếu nợ"
                                                                 data-toggle="modal" data-target="#modal-add-ticket"
-                                                                onclick='event.preventDefault();'>
+                                                                onclick='event.preventDefault();captruePersonIdTicketAdd(<%= person.getId() %>)'>
                                                             <img src="../../img/icon/24x24-plus-circle.svg" alt=""
                                                                  class="btn-icon"/>
                                                         </button>
@@ -324,6 +324,9 @@
 <%--Import add tickets modal--%>
 <%@ include file="../../modal/ticket/modal-add.jsp" %>
 
+<%--Import add tickets modal in modal--%>
+<%@ include file="../../modal/ticket/modal-add-ticket-inModal.jsp" %>
+
 <script>
     function captrueSelectedEdit(json) {
         document.getElementById("id-person-edit").value = json.id;
@@ -331,6 +334,13 @@
         document.getElementById("address-person-edit").value = json.address;
         document.getElementById("phone-person-edit").value = json.phone;
         document.getElementById("email-person-edit").value = json.email;
+    }
+</script>
+
+<script>
+    function captruePersonIdTicketAdd(personId) {
+        console.log('ticket add', personId);
+        document.getElementById("person-id-ticket-add").value = personId;
     }
 </script>
 

@@ -46,7 +46,7 @@ function setUpTableTickets (ticketArr, personName, personId, ticketFilterRequest
         addTicketButton.href = '#';
         addTicketButton.className = 'btn btn-primary';
         addTicketButton.setAttribute("data-toggle", "modal");
-        addTicketButton.setAttribute("data-target", "#modal-add-ticket");
+        addTicketButton.setAttribute("data-target", "#modal-add-ticket-inModal");
         addTicketButton.style.cssText = 'background-color: orange; border-color: orange;margin-left: 10px;';
 
         var addTicketSpan = document.createElement('span');
@@ -56,6 +56,10 @@ function setUpTableTickets (ticketArr, personName, personId, ticketFilterRequest
 
         addTicketSpan.appendChild(contentAddTicketSpan);
         addTicketButton.appendChild(addTicketSpan);
+        addTicketButton.addEventListener("click", function () {
+            console.log("Tạo phiếu nợ trong modal",personId);
+            document.getElementById("person-id-ticket-add-inModal").value = personId;
+        });
 
     buttonWrapper.appendChild(clearTicketFilterButton);
     buttonWrapper.appendChild(filterTicketButton);
@@ -482,14 +486,14 @@ function generateTicketDataTable (ticketArr,personId, ticketFilterRequest) {
 function generateIconButtonListTickets (isPlus){
     return '<div style="display: flex">' +
        '<div>' +
-           '<button class="btn btn-transaprent btn-icon btn-sm"' +
+           '<button class="btn btn-transaprent btn-icon btn-sm" onclick="event.preventDefault();"' +
                    '>' +
                '<img src="../../img/icon/24x24-information-circle.svg" alt=""' +
                     'class="btn-icon"/>' +
            '</button>' +
        '</div>' +
        '<div>' +
-           '<button class="btn btn-transaprent btn-icon btn-sm"' +
+           '<button class="btn btn-transaprent btn-icon btn-sm" onclick="event.preventDefault();"' +
                     generateStyleMinus(isPlus) +
                    '>' +
                '<img src="../../img/icon/24x24-minus-circle-color.svg" alt=""' +
@@ -497,7 +501,7 @@ function generateIconButtonListTickets (isPlus){
            '</button>' +
        '</div>' +
        '<div>' +
-           '<button class="btn btn-transaprent btn-icon btn-sm"' +
+           '<button class="btn btn-transaprent btn-icon btn-sm" onclick="event.preventDefault();"' +
                     generateStylePlus(isPlus) +
                    '>' +
                '<img src="../../img/icon/24x24-plus-circle-color.svg" alt=""' +
@@ -519,96 +523,6 @@ function generateStylePlus(isPlus){
         return ' style="opacity: 0.65;cursor: not-allowed;"'
     }
     return '';
-}
-
-//Generate Form Search Ticket
-function generateFormSearchTicket (personId, ticketFilterRequest, ticketArr, h1, h2, h3, h4, h5, h6) {
-    // Create a new form element
-    var form = document.createElement('form');
-    form.id = 'form-filter-ticket';
-
-    // Create a new div wrapper element
-    var formWrapper = document.createElement('div');
-    formWrapper.style.cssText = 'display: flex;';
-
-    // Create a new div left column element
-    var divLeftColumn = document.createElement('div');
-    divLeftColumn.style.cssText = 'display: flex;flex:1;flex-direction: column;margin-right: 2rem';
-
-    // Create a new div right column element
-    var divRightColumn = document.createElement('div');
-    divRightColumn.style.cssText = 'display: flex;flex:1;flex-direction: column;margin-right: 2rem';
-
-
-    // Create a new button wrapper element
-    var buttonWrapper = document.createElement('div');
-    buttonWrapper.style.cssText = 'text-align: center;';
-
-    // Create a new CLEAR FILTER button element
-        var clearTicketFilterButton = document.createElement('a');
-        clearTicketFilterButton.id = 'button-clear-ticket-filter';
-        clearTicketFilterButton.href = '#';
-        clearTicketFilterButton.className = 'btn btn-primary';
-        clearTicketFilterButton.style.cssText = 'background-color: gray; border-color: gray;margin-right: 10px;';
-        clearTicketFilterButton.addEventListener("click", function () {
-            while (modalBodyTicketList.firstChild) {
-              modalBodyTicketList.removeChild(modalBodyTicketList.firstChild);
-            }
-            setUpTableTickets(ticketArr, null, personId, null);
-        });
-
-        var clearTicketFilterSpan = document.createElement('span');
-        clearTicketFilterSpan.className = 'text';
-
-        var contentClearTicketFilterSpan = document.createTextNode("Xóa bộ lọc");
-
-        clearTicketFilterSpan.appendChild(contentClearTicketFilterSpan);
-        clearTicketFilterButton.appendChild(clearTicketFilterSpan);
-
-    // Create a new FILTER TICKET button element
-        var filterTicketButton = document.createElement('input');
-        filterTicketButton.id = 'button-filter-ticket';
-        filterTicketButton.className = 'btn btn-primary';
-        filterTicketButton.value = 'Tìm kiếm';
-        filterTicketButton.addEventListener("click", function () {
-            console.log("add call");
-            sendRequestFilterTicket('/ticket');
-        });
-
-    // Create a new ADD TICKET button element
-        var addTicketButton = document.createElement('a');
-        addTicketButton.href = '#';
-        addTicketButton.className = 'btn btn-primary';
-        addTicketButton.setAttribute("data-toggle", "modal");
-        addTicketButton.setAttribute("data-target", "#modal-add-ticket");
-        addTicketButton.style.cssText = 'background-color: orange; border-color: orange;margin-left: 10px;';
-
-        var addTicketSpan = document.createElement('span');
-        addTicketSpan.className = 'text';
-
-        var contentAddTicketSpan = document.createTextNode("Tạo phiếu nợ");
-
-        addTicketSpan.appendChild(contentAddTicketSpan);
-        addTicketButton.appendChild(addTicketSpan);
-
-    buttonWrapper.appendChild(clearTicketFilterButton);
-    buttonWrapper.appendChild(filterTicketButton);
-    buttonWrapper.appendChild(addTicketButton);
-
-    formWrapper.appendChild(divLeftColumn);
-    formWrapper.appendChild(divRightColumn);
-    form.appendChild(formWrapper);
-    form.appendChild(buttonWrapper);
-
-    var hiddenPersonIdInput = document.createElement('input');
-    hiddenPersonIdInput.id = 'personIdTicket';
-    hiddenPersonIdInput.name = 'personIdTicket';
-    hiddenPersonIdInput.type = 'text';
-    hiddenPersonIdInput.value = personId;
-    hiddenPersonIdInput.hidden = true;
-
-    form.appendChild(hiddenPersonIdInput);
-    modalBodyTicketList.appendChild(form);
 }
 
 function sendRequestFilterTicket(url) {
