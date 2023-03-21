@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
     @Query(value = "SELECT * FROM USER WHERE USERNAME = :username", nativeQuery = true)
@@ -37,4 +39,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
             nativeQuery = true)
     @Modifying
     void updateAmount(Long id, Long amount);
+
+    @Query(value = "SELECT * FROM USER WHERE id = :id", nativeQuery = true)
+    Optional<UserEntity> findById(@Param("id") Long id);
 }
