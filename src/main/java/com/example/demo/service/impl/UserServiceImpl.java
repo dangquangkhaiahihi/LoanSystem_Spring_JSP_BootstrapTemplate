@@ -41,8 +41,8 @@ public class UserServiceImpl implements UserService {
         } else {
             userEntity.setName(userDto.getName());
             userEntity.setEmail(userDto.getEmail());
-            UserEntity userEntity1 = userRepository.save(userEntity);
-            BeanUtils.copyProperties(userEntity1, userDto);
+            userRepository.updateProfile(userEntity.getName(), userEntity.getEmail(), userEntity.getId());
+            BeanUtils.copyProperties(userEntity, userDto);
             return userDto;
         }
     }
@@ -65,7 +65,7 @@ public class UserServiceImpl implements UserService {
         }
 
         userEntity.setPassword(passwordEncoderUserService().encode(changePassDto.getNewPass()));
-        userRepository.save(userEntity);
+        userRepository.updatePassword(userEntity.getPassword(), userEntity.getId());
     }
 
     @Override
@@ -73,10 +73,10 @@ public class UserServiceImpl implements UserService {
         UserEntity checkUsername = userRepository.findByUsername(userDto.getUsername());
         UserEntity checkEmail = userRepository.findByEmail(userDto.getEmail());
 
-        if(checkUsername != null){
+        if (checkUsername != null) {
             throw new Exception("Tên đăng nhập đã tồn tại.");
         }
-        if(checkEmail != null){
+        if (checkEmail != null) {
             throw new Exception("Email đã tồn tại.");
         }
 
@@ -86,6 +86,7 @@ public class UserServiceImpl implements UserService {
 
         userEntity.setUsername(userDto.getUsername());
         userEntity.setPassword(passwordEncoderUserService().encode(userDto.getPassword()));
-        userRepository.save(userEntity);
+        userRepository.save(userEntity.getName(), userEntity.getEmail(),
+                userEntity.getUsername(), userEntity.getPassword(), 0L);
     }
 }

@@ -14,11 +14,12 @@ import java.util.List;
 public interface PersonRepository extends JpaRepository<PersonEntity, Long> {
     @Query(value = "select p.* " +
             "from person p " +
-            "where p.phone=:phone", nativeQuery = true)
-    PersonEntity findByPhone(String phone);
+            "where p.phone=:phone " +
+            "and p.user_id = :id", nativeQuery = true)
+    PersonEntity findByPhoneAndUserId(@Param("phone") String phone, @Param("id") Long id);
 
     @Query(value = "insert into person (address, created_date, email, last_modified_date, name, phone, total_amount, user_id) " +
-                                "values (:address, :createdDate, :email, :lastModifiedDate, :name, :phone, :totalAmount, :userId)",
+            "values (:address, :createdDate, :email, :lastModifiedDate, :name, :phone, :totalAmount, :userId)",
             nativeQuery = true)
     @Modifying
     void save(@Param("name") String name, @Param("address") String address,

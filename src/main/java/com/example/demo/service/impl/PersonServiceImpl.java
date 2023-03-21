@@ -16,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 @Service
 public class PersonServiceImpl implements PersonService {
@@ -44,7 +43,7 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     @Transactional
-    public void createUpdate(PersonDTO personDTO) throws Exception{
+    public void createUpdate(PersonDTO personDTO) throws Exception {
         //Check dubplicate phone
         PersonEntity person = new PersonEntity();
         UserEntity user = userRepository.findByUsername(Utils.getCurrentUser().getName());
@@ -53,17 +52,17 @@ public class PersonServiceImpl implements PersonService {
             //Validate null input
             try {
                 personDTO.validateRequestAdd();
-            }catch (Exception ex){
+            } catch (Exception ex) {
                 throw ex;
             }
             //Check dubplicate phone
-            person = personRepository.findByPhone(personDTO.getPhone());
-            if(person != null) {
+            person = personRepository.findByPhoneAndUserId(personDTO.getPhone(), user.getId());
+            if (person != null) {
                 throw new Exception("Số điện thoại đã tồn tại.");
             }
             //Set up entity
             person = new PersonEntity();
-            BeanUtils.copyProperties(personDTO,person);
+            BeanUtils.copyProperties(personDTO, person);
             person.setUser(user);
             person.setCreatedDate(Instant.now());
             person.setLastModifiedDate(Instant.now());
@@ -77,22 +76,22 @@ public class PersonServiceImpl implements PersonService {
             //Validate null input
             try {
                 personDTO.validateRequestEdit();
-            }catch (Exception ex){
+            } catch (Exception ex) {
                 throw ex;
             }
             //Check dubplicate phone
-            person = personRepository.findByPhone(personDTO.getPhone());
-            if(person != null) {
-                if(!personDTO.getId().equals(person.getId()) && person.getUser().getId().equals(user.getId()))
-                throw new Exception("Số điện thoại đã tồn tại.");
+            person = personRepository.findByPhoneAndUserId(personDTO.getPhone(), user.getId());
+            if (person != null) {
+                if (!personDTO.getId().equals(person.getId()) && person.getUser().getId().equals(user.getId()))
+                    throw new Exception("Số điện thoại đã tồn tại.");
             }
             //Set up update entity
             person = new PersonEntity();
-            BeanUtils.copyProperties(personDTO,person);
+            BeanUtils.copyProperties(personDTO, person);
             person.setLastModifiedDate(Instant.now());
             //Database update
             personRepository.updatePersonInfo(person.getId(), person.getName(),
-                    person.getAddress(), person.getEmail(), person.getPhone(),person.getLastModifiedDate());
+                    person.getAddress(), person.getEmail(), person.getPhone(), person.getLastModifiedDate());
         }
     }
 }
