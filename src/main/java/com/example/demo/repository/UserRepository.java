@@ -32,4 +32,9 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
             nativeQuery = true)
     @Modifying
     void updateProfile(@Param("name") String name, @Param("email") String email, @Param("id") Long id);
+
+    @Query(value = "update user set AMOUNT = :amount where id = :id",
+            nativeQuery = true)
+    @Modifying
+    void updateAmount(Long id, Long amount);
 }
